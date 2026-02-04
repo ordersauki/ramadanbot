@@ -1,7 +1,3 @@
-<div align="center">
-<img width="1200" height="475" alt="Ramadan Bot Banner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
-
 # 🌙 Ramadan Bot - Daily Spiritual Flyer Generator
 
 <div align="center">
@@ -162,7 +158,6 @@ Distributed under the MIT License. See `LICENSE` for more information.
 **Abdallah Nangere**
 - 📧 Email: abdallahnangere@gmail.com
 - 📱 Phone: +234 816 413 5836
-- 🌐 Portfolio: [Your Website]
 
 ## 🔮 Future Enhancements
 
