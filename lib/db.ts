@@ -1,34 +1,24 @@
-import { neon } from '@neondatabase/serverless';
+import { Pool } from 'pg';
 
-const sql = neon(process.env.DATABASE_URL!);
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false // Required for Neon in some environments
+  }
+});
 
-export default sql;
+export default pool;
 
-// User table
-export interface User {
-  id: string;
-  email: string;
-  name: string;
-  isPremium: boolean;
-  createdAt: Date;
-  lastActivity: Date;
-  flyerCount: number;
-}
-
-// Payment table
-export interface Payment {
-  id: string;
-  userId: string;
-  amount: number;
-  currency: string;
-  status: string;
-  flutterwaveRef: string;
-  createdAt: Date;
-}
-
-// Admin settings
-export interface AdminSettings {
-  id: string;
-  premiumPrice: number;
-  updatedAt: Date;
-}
+// Helper to sanitize User object for client
+export const safeUser = (row: any) => ({
+  id: row.id,
+  name: row.name,
+  role: row.role,
+  streak: row.streak,
+  generation_count: row.generation_count,
+  last_login: row.last_login?.toISOString(),
+  last_generation_date: row.last_generation_date?.toISOString() || null,
+  rate_limit_override: row.rate_limit_override,
+  is_banned: row.is_banned,
+  created_at: row.created_at?.toISOString(),
+});

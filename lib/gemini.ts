@@ -1,48 +1,43 @@
+'use server';
+
 import { GoogleGenAI } from "@google/genai";
 import { GenerateResponse } from "../types";
 
-// Note: In a production Next.js app, this would be server-side.
-// For this SPA implementation, we call it client-side but use the proper SDK pattern.
-
 export const generateMessage = async (
-  userName: string,
   topic: string,
   day: number,
   hint?: string
 ): Promise<GenerateResponse> => {
   try {
-    const apiKey = process.env.API_KEY;
+    // Check for GEMINI_API_KEY (as requested) or fallback to API_KEY
+    const apiKey = process.env.GEMINI_API_KEY || process.env.API_KEY;
+    
     if (!apiKey) {
-      return { success: false, error: "API Key is missing." };
+      console.error("API Key missing. Please set GEMINI_API_KEY in your environment variables.");
+      return { success: false, error: "Configuration Error: API Key missing." };
     }
 
     const ai = new GoogleGenAI({ apiKey });
 
+    // Updated Prompt Strategy as requested
     const prompt = `
-You are a Ramadan spiritual guide. Generate an inspiring, concise message for ${userName}.
+Generate a conscious islamic based reflective moderate English reminder text using the topic: "${topic}".
 
-Topic: ${topic}
-Day of Ramadan: ${day}
-${hint ? `Special Request: ${hint}` : ""}
+Context:
+- Ramadan Day: ${day}
+- ${hint ? `Specific Request: ${hint}` : "Focus on spiritual growth and mindfulness."}
 
-Requirements:
-- Write exactly 2-3 sentences
-- Maximum 250 characters total
-- Warm, reflective, spiritually uplifting tone
-- If specific ayah/hadith mentioned in hint, include it naturally
-- Use beautiful, poetic language
-- Focus on personal spiritual growth
-
-Output only the message text, no extra formatting or preamble.
+Constraints:
+- Keep it under 250 characters.
+- Tone: Elegant, moderate, reflective, and spiritually uplifting.
+- No emojis in the response text (they will be added by the design).
+- Output ONLY the message text.
 `;
 
-    // Using gemini-3-flash-preview as per system instructions for best text performance
+    // Using gemini-2.5-flash-lite as requested
     const response = await ai.models.generateContent({
-      model: "gemini-3-flash-preview",
+      model: "gemini-2.5-flash-lite",
       contents: prompt,
-      config: {
-        thinkingConfig: { thinkingBudget: 0 }, // Disable thinking for speed/basic text
-      }
     });
 
     const text = response.text?.trim();
@@ -51,7 +46,7 @@ Output only the message text, no extra formatting or preamble.
       return { success: false, error: "Empty response from AI." };
     }
 
-    // Basic truncation safeguard if AI hallucinates a novel
+    // Basic truncation safeguard
     const cleanText = text.length > 300 ? text.substring(0, 297) + "..." : text;
 
     return { success: true, text: cleanText };
@@ -60,7 +55,7 @@ Output only the message text, no extra formatting or preamble.
     console.error("Gemini Generation Error:", error);
     return {
       success: false,
-      error: error.message || "Failed to generate message. Please try again.",
+      error: "Failed to generate message. Please try again.",
     };
   }
 };

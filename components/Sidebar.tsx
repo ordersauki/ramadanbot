@@ -1,0 +1,93 @@
+import React from 'react';
+import { X, Settings, LogOut, Shield, Heart, UserCircle } from 'lucide-react';
+import { User } from '../types';
+
+interface SidebarProps {
+  isOpen: boolean;
+  onClose: () => void;
+  user: User;
+  onLogout: () => void;
+  onAdmin: () => void;
+  onSettings: () => void;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, user, onLogout, onAdmin, onSettings }) => {
+  return (
+    <>
+      {/* Backdrop */}
+      <div 
+        className={`absolute inset-0 bg-black/30 backdrop-blur-sm z-40 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+        onClick={onClose}
+      />
+
+      {/* Sidebar Panel */}
+      <div className={`absolute top-0 left-0 bottom-0 w-[280px] bg-ios-bg dark:bg-[#1C1C1E] z-50 transform transition-transform duration-300 shadow-2xl ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        
+        {/* Header */}
+        <div className="p-6 pt-12 bg-white dark:bg-[#1C1C1E] border-b border-gray-200 dark:border-zinc-800 transition-colors">
+          <div className="flex items-center gap-3 mb-2">
+             <div className="w-12 h-12 rounded-full bg-ios-teal flex items-center justify-center text-white text-xl font-bold shadow-md">
+                {user.name.charAt(0).toUpperCase()}
+             </div>
+             <div>
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white leading-tight">{user.name}</h2>
+                <p className="text-xs text-gray-500 dark:text-gray-400 font-medium tracking-wide uppercase">{user.role}</p>
+             </div>
+          </div>
+          <div className="mt-4 flex items-center gap-2 px-3 py-1.5 bg-ios-lightGray dark:bg-zinc-800 rounded-lg w-fit transition-colors">
+             <span className="text-xs font-semibold text-gray-500 dark:text-gray-400">🔥 Streak:</span>
+             <span className="text-sm font-bold text-ios-teal">{user.streak} Days</span>
+          </div>
+        </div>
+
+        {/* Menu Items */}
+        <div className="p-4 space-y-6">
+          
+          <div className="space-y-1">
+            <h3 className="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">App</h3>
+            
+            {user.role === 'admin' && (
+              <button onClick={() => { onAdmin(); onClose(); }} className="w-full flex items-center gap-3 px-3 py-3 bg-white dark:bg-black/20 rounded-xl text-ios-blue hover:bg-gray-50 dark:hover:bg-white/5 transition-colors shadow-sm mb-2">
+                <Shield size={20} />
+                <span className="font-medium">Admin Dashboard</span>
+              </button>
+            )}
+
+            <button onClick={() => { onSettings(); onClose(); }} className="w-full flex items-center gap-3 px-3 py-3 bg-white dark:bg-black/20 rounded-xl text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors shadow-sm">
+              <Settings size={20} />
+              <span className="font-medium">Settings</span>
+            </button>
+          </div>
+
+          <div className="space-y-1">
+            <h3 className="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">About</h3>
+             <div className="px-3 py-4 bg-white dark:bg-black/20 rounded-xl shadow-sm text-center transition-colors">
+                <div className="text-2xl mb-1">🌙</div>
+                <h4 className="font-bold text-gray-900 dark:text-white">Ramadan Bot</h4>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">v2.1.0 (iOS Edition)</p>
+                <div className="text-xs text-gray-400">
+                    Built with ❤️ by<br/>
+                    <span className="text-ios-teal font-semibold">Abdallah Nangere</span>
+                </div>
+             </div>
+          </div>
+
+        </div>
+
+        {/* Footer */}
+        <div className="absolute bottom-0 left-0 right-0 p-6 bg-white dark:bg-[#1C1C1E] border-t border-gray-200 dark:border-zinc-800 transition-colors">
+          <button 
+            onClick={onLogout}
+            className="w-full flex items-center justify-center gap-2 text-ios-red font-semibold py-2 bg-ios-red/10 rounded-lg hover:bg-ios-red/20 transition-colors"
+          >
+            <LogOut size={18} />
+            Sign Out
+          </button>
+        </div>
+
+      </div>
+    </>
+  );
+};
+
+export default Sidebar;

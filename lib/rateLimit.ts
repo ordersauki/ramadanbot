@@ -6,18 +6,6 @@ interface RateLimitData {
   lastGeneration: string;
   generationCount: number;
   resetDate: string;
-  flyerData?: {
-    dataUrl: string;
-    fileName: string;
-    formData: FormData;
-  };
-}
-
-interface FormData {
-  userName: string;
-  topic: string;
-  day: number;
-  hint?: string;
 }
 
 export const canGenerate = (): boolean => {
@@ -44,7 +32,7 @@ export const canGenerate = (): boolean => {
   }
 };
 
-export const recordGeneration = (flyerData?: { dataUrl: string; fileName: string; formData: FormData }): void => {
+export const recordGeneration = (): void => {
   if (typeof window === 'undefined') return;
 
   const now = new Date();
@@ -54,7 +42,6 @@ export const recordGeneration = (flyerData?: { dataUrl: string; fileName: string
     lastGeneration: now.toISOString(),
     generationCount: 1,
     resetDate: resetDate.toISOString(),
-    flyerData,
   };
 
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
@@ -94,18 +81,6 @@ export const getResetTime = (): string => {
          return startOfTomorrow().toISOString();
      }
 }
-
-export const getStoredFlyer = (): { dataUrl: string; fileName: string; formData: FormData } | null => {
-  if (typeof window === 'undefined') return null;
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (!stored) return null;
-    const data: RateLimitData = JSON.parse(stored);
-    return data.flyerData || null;
-  } catch (e) {
-    return null;
-  }
-};
 
 export const resetRateLimit = (): void => {
   if (typeof window === 'undefined') return;

@@ -1,50 +1,27 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { FormData, GenerateResponse } from '../types';
+import { FormData } from '../types';
 import LoadingSpinner from './LoadingSpinner';
-import { generateMessage } from '../lib/gemini';
-import { Send, Calendar, Lightbulb, User, Target, ChevronDown, Check } from 'lucide-react';
-
-const suggestedTopics = [
-  'Ihsan',
-  'Patience (Sabr)',
-  'Mercy & Compassion',
-  'Repentance (Tawbah)',
-  'Trust in Allah (Tawakkul)',
-  'Honesty & Integrity',
-  'Justice & Fairness',
-  'Humility & Modesty',
-  'Charity (Zakat)',
-  'Self-Discipline',
-  'Gratitude (Shukr)',
-  'Courage & Strength',
-  'Hope (Amal)',
-  'Knowledge & Wisdom',
-  'Family Bonds',
-  'Community Service',
-  'Forgiveness',
-  'Truthfulness',
-];
+import { checkLimitAndGenerate } from '../app/actions'; // Use Server Action
+import { Send, Target, ChevronDown, Check, Info, Lightbulb } from 'lucide-react';
 
 interface RamadanFormProps {
   onSuccess: (data: { text: string; formData: FormData }) => void;
   disabled?: boolean;
+  initialName: string;
+  userId: string; // Needed for tracking
 }
 
-const RamadanForm: React.FC<RamadanFormProps> = ({ onSuccess, disabled }) => {
+const RamadanForm: React.FC<RamadanFormProps> = ({ onSuccess, disabled, initialName, userId }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
   const [isDayOpen, setIsDayOpen] = useState(false);
-  const [showSuggestions, setShowSuggestions] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   
   const [formData, setFormData] = useState<FormData>({
-    userName: '',
     topic: '',
     day: 1,
     hint: '',
   });
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -55,35 +32,15 @@ const RamadanForm: React.FC<RamadanFormProps> = ({ onSuccess, disabled }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const validate = (): boolean => {
-    const newErrors: Partial<Record<keyof FormData, string>> = {};
-    
-    if (formData.userName.length < 2 || formData.userName.length > 50) {
-      newErrors.userName = "Name must be between 2 and 50 characters";
-    }
-    if (formData.topic.length < 2 || formData.topic.length > 50) {
-      newErrors.topic = "Topic must be between 2 and 50 characters";
-    }
-    if (formData.day < 1 || formData.day > 30) {
-      newErrors.day = "Please select a valid day (1-30)";
-    }
-    if (formData.hint && formData.hint.length > 300) {
-      newErrors.hint = "Hint cannot exceed 300 characters";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validate()) return;
-    if (disabled) return;
-
+    if (!formData.topic) return;
+    
     setIsLoading(true);
 
     try {
-      const response: GenerateResponse = await generateMessage(
+      const response = await checkLimitAndGenerate(
+        userId,
         formData.topic,
         formData.day,
         formData.hint
@@ -92,10 +49,10 @@ const RamadanForm: React.FC<RamadanFormProps> = ({ onSuccess, disabled }) => {
       if (response.success && response.text) {
         onSuccess({ text: response.text, formData });
       } else {
-        alert(response.error || "Something went wrong. Please try again.");
+        alert(response.error);
       }
     } catch (error) {
-      alert("Network error. Please check your connection.");
+      alert("Network error.");
     } finally {
       setIsLoading(false);
     }
@@ -103,99 +60,66 @@ const RamadanForm: React.FC<RamadanFormProps> = ({ onSuccess, disabled }) => {
 
   const handleChange = (field: keyof FormData, value: string | number) => {
     setFormData(prev => ({ ...prev, [field]: value }));
-    if (errors[field]) {
-      setErrors(prev => ({ ...prev, [field]: undefined }));
-    }
   };
 
   return (
-    <div className="w-full">
-      <form onSubmit={handleSubmit} className="space-y-6">
-        
-        {/* Name Input */}
-        <div className="space-y-2">
-          <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-            <User size={16} className="text-teal-600" />
-            Your Name <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            value={formData.userName}
-            onChange={(e) => handleChange('userName', e.target.value)}
-            className={`w-full p-4 rounded-2xl border bg-gray-50 focus:bg-white text-gray-900 placeholder-gray-400 text-base font-medium transition-all outline-none ring-teal-200 focus:ring-2 ${errors.userName ? 'border-red-500' : 'border-gray-200 focus:border-teal-500'}`}
-            placeholder="e.g. Abdallah"
-            disabled={isLoading}
-          />
-          {errors.userName && <p className="text-[10px] text-red-500 ml-1">{errors.userName}</p>}
+    <div className="w-full bg-white dark:bg-[#1C1C1E] rounded-3xl shadow-ios border border-gray-100 dark:border-zinc-800 p-6 relative z-10 transition-colors">
+      
+      {/* Guide & Limits */}
+      <div className="mb-6 space-y-3">
+        <div className="flex items-start gap-3 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border border-blue-100 dark:border-blue-900/50">
+            <Info className="w-5 h-5 text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
+            <div className="text-xs text-blue-800 dark:text-blue-200 leading-relaxed">
+                <span className="font-bold block mb-1">Quick Guide</span>
+                Enter a spiritual topic (e.g., 'Patience') and the current Ramadan day. Our AI will craft a personalized reflection flyer for you.
+            </div>
         </div>
+      </div>
 
+      <form onSubmit={handleSubmit} className="space-y-5">
+        
         {/* Row for Topic and Day */}
         <div className="flex gap-3 relative z-20">
-          {/* Topic Input - Grows */}
-          <div className="space-y-1 flex-grow">
-            <div className="flex justify-between items-center">
-              <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                <Target size={16} className="text-teal-600" />
-                Topic <span className="text-red-500">*</span>
-              </label>
-              <button
-                type="button"
-                onClick={() => {
-                  const randomTopic = suggestedTopics[Math.floor(Math.random() * suggestedTopics.length)];
-                  handleChange('topic', randomTopic);
-                  setShowSuggestions(false);
-                }}
-                className="text-[10px] font-semibold text-teal-600 hover:text-teal-700 transition-colors px-2 py-1 hover:bg-teal-50 rounded"
-              >
-                💡 Suggest
-              </button>
+          <div className="space-y-1.5 flex-grow">
+            <label className="text-[10px] font-bold text-gray-400 uppercase ml-1 tracking-wider">Topic</label>
+            <div className="relative">
+                <Target size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+                <input
+                type="text"
+                maxLength={50}
+                value={formData.topic}
+                onChange={(e) => handleChange('topic', e.target.value)}
+                className="w-full pl-10 pr-4 py-4 rounded-2xl bg-ios-lightGray dark:bg-zinc-800 dark:text-white text-sm font-medium outline-none focus:bg-white dark:focus:bg-[#2C2C2E] focus:ring-2 ring-ios-teal transition-all placeholder:text-gray-400"
+                placeholder="e.g. Ihsan"
+                disabled={isLoading}
+                required
+                />
             </div>
-            <input
-              type="text"
-              maxLength={50}
-              value={formData.topic}
-              onChange={(e) => handleChange('topic', e.target.value)}
-              className={`w-full p-4 rounded-2xl border bg-gray-50 focus:bg-white text-gray-900 placeholder-gray-400 text-base font-medium transition-all outline-none ring-teal-200 focus:ring-2 ${errors.topic ? 'border-red-500' : 'border-gray-200 focus:border-teal-500'}`}
-              placeholder="e.g. Ihsan"
-              disabled={isLoading}
-            />
-            {errors.topic && <p className="text-[10px] text-red-500 ml-1">{errors.topic}</p>}
           </div>
 
-          {/* Custom iOS Style Day Select */}
-          <div className="space-y-1 w-28 flex-shrink-0" ref={dropdownRef}>
-            <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-              <Calendar size={16} className="text-teal-600" />
-              Day <span className="text-red-500">*</span>
-            </label>
+          <div className="space-y-1.5 w-32 flex-shrink-0" ref={dropdownRef}>
+            <label className="text-[10px] font-bold text-gray-400 uppercase ml-1 tracking-wider">Day</label>
             <div className="relative">
               <button
                 type="button"
-                className={`w-full p-4 rounded-2xl border bg-gray-50 text-base flex items-center justify-between transition-all outline-none ring-teal-200 focus:ring-2 ${isDayOpen ? 'ring-2 border-teal-500 bg-white' : 'border-gray-200 hover:bg-white'}`}
-                disabled={isLoading}
+                onClick={() => !isLoading && setIsDayOpen(!isDayOpen)}
+                className="w-full py-4 px-4 rounded-2xl bg-ios-lightGray dark:bg-zinc-800 dark:text-white text-sm font-medium flex items-center justify-between outline-none focus:ring-2 ring-ios-teal transition-all"
               >
-                <span className="text-gray-900 font-medium">Day {formData.day}</span>
-                <ChevronDown size={14} className={`text-gray-400 transition-transform duration-200 ${isDayOpen ? 'rotate-180' : ''}`} />
+                <span>Day {formData.day}</span>
+                <ChevronDown size={14} className="text-gray-400" />
               </button>
               
-              {/* Dropdown Menu */}
               {isDayOpen && (
-                <div className="absolute top-full right-0 mt-2 w-48 bg-white rounded-2xl shadow-xl border border-gray-100 max-h-64 overflow-y-auto z-50 animate-in fade-in zoom-in-95 duration-200">
-                  <div className="py-1 sticky top-0 bg-white border-b border-gray-50 px-3 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">
-                    Select Day
-                  </div>
+                <div className="absolute top-full right-0 mt-2 w-48 bg-white/95 dark:bg-[#1C1C1E]/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-100 dark:border-zinc-800 max-h-60 overflow-y-auto z-50">
                   {Array.from({ length: 30 }, (_, i) => i + 1).map((day) => (
                     <button
                       key={day}
                       type="button"
-                      onClick={() => {
-                        handleChange('day', day);
-                        setIsDayOpen(false);
-                      }}
-                      className={`w-full text-left px-4 py-3 text-sm flex items-center justify-between hover:bg-gray-50 transition-colors ${formData.day === day ? 'bg-primary-50 text-primary-700 font-semibold' : 'text-gray-700'}`}
+                      onClick={() => { handleChange('day', day); setIsDayOpen(false); }}
+                      className={`w-full text-left px-4 py-3 text-sm flex items-center justify-between border-b border-gray-50 dark:border-zinc-800 last:border-0 ${formData.day === day ? 'bg-ios-teal/10 text-ios-teal font-bold' : 'text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-zinc-800'}`}
                     >
                       <span>Day {day}</span>
-                      {formData.day === day && <Check size={14} className="text-primary-600" />}
+                      {formData.day === day && <Check size={14} />}
                     </button>
                   ))}
                 </div>
@@ -204,44 +128,37 @@ const RamadanForm: React.FC<RamadanFormProps> = ({ onSuccess, disabled }) => {
           </div>
         </div>
 
-        {/* Hint Textarea */}
-        <div className="space-y-1 relative z-0">
-          <div className="flex justify-between items-center">
-            <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-              <Lightbulb size={16} className="text-amber-600" />
-              Hint
-            </label>
-            <span className="text-[10px] text-gray-400">{formData.hint?.length || 0}/300</span>
-          </div>
-          <textarea
-            maxLength={300}
-            rows={2}
-            value={formData.hint}
-            onChange={(e) => handleChange('hint', e.target.value)}
-            className="w-full p-4 rounded-2xl border border-gray-200 bg-gray-50 focus:bg-white focus:border-teal-500 text-gray-900 placeholder-gray-400 text-base font-medium outline-none ring-teal-200 focus:ring-2 resize-none"
-            placeholder="Specific Ayah, Hadith, or theme..."
-            disabled={isLoading}
-          />
+        {/* Hint */}
+        <div className="space-y-1.5">
+             <label className="text-[10px] font-bold text-gray-400 uppercase ml-1 flex items-center justify-between tracking-wider">
+                <span>Hint <span className="text-[9px] font-normal opacity-70 normal-case">(Optional specific request)</span></span>
+                <span>{formData.hint?.length || 0}/300</span>
+             </label>
+            <div className="relative">
+                <Lightbulb size={16} className="absolute left-4 top-4 text-gray-400" />
+                <textarea
+                    maxLength={300}
+                    rows={2}
+                    value={formData.hint}
+                    onChange={(e) => handleChange('hint', e.target.value)}
+                    className="w-full pl-10 pr-4 py-3.5 rounded-2xl bg-ios-lightGray dark:bg-zinc-800 dark:text-white text-sm outline-none focus:bg-white dark:focus:bg-[#2C2C2E] focus:ring-2 ring-ios-teal transition-all resize-none placeholder:text-gray-400"
+                    placeholder="Specific Ayah, Hadith, or theme..."
+                    disabled={isLoading}
+                />
+            </div>
         </div>
 
-        {/* Submit Button */}
         <button
           type="submit"
           disabled={isLoading || disabled}
-          className="w-full bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700 text-white font-semibold py-4 px-6 rounded-2xl shadow-lg hover:shadow-xl transform active:scale-[0.98] transition-all duration-150 disabled:opacity-70 disabled:cursor-not-allowed mt-2"
-          onTouchStart={() => {
-            // Simulate haptic feedback
-            if (navigator.vibrate) {
-              navigator.vibrate(50);
-            }
-          }}
+          className="w-full bg-gradient-to-r from-ios-teal to-cyan-600 hover:from-cyan-500 hover:to-ios-teal text-white font-bold py-4 rounded-2xl shadow-lg shadow-cyan-500/25 transform active:scale-[0.98] transition-all flex items-center justify-center gap-2 mt-4"
         >
           {isLoading ? (
-            <LoadingSpinner size="sm" color="text-white" label="Generating..." />
+            <LoadingSpinner size="sm" color="text-white" />
           ) : (
             <>
-              <span className="text-sm">Generate Flyer</span>
-              <Send size={16} />
+              <span className="text-base">Start Generation</span>
+              <Send size={18} fill="currentColor" />
             </>
           )}
         </button>

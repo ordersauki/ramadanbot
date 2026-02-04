@@ -1,224 +1,183 @@
 import html2canvas from 'html2canvas';
 import { FlyerConfig } from '../types';
 
+const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
-  // Create a container for the flyer
+  // Create a container that is fixed but visible to the engine
   const container = document.createElement('div');
   container.id = 'flyer-generator-container';
   
-  // Style it to be off-screen but visible to html2canvas
+  // High Resolution
+  const width = 1080;
+  const height = 1080;
+
+  // Position it off-screen but effectively "visible" for the renderer
+  // We place it at 0,0 but behind everything with z-index.
   Object.assign(container.style, {
     position: 'fixed',
-    top: '-10000px',
-    left: '-10000px',
-    width: '1080px',
-    height: '1080px',
-    zIndex: '-1',
-    overflow: 'hidden',
+    top: '0',
+    left: '0',
+    width: `${width}px`,
+    height: `${height}px`,
+    zIndex: '-1000', // Behind UI
     visibility: 'visible',
-    display: 'block',
+    overflow: 'hidden',
+    backgroundColor: '#0A4D3C' // Base color
   });
 
   document.body.appendChild(container);
 
-  // Construct the HTML content
-  // Note: Using inline styles strictly to ensure html2canvas captures everything correctly without external CSS dependency issues
-  const premiumBadge = config.isPremium ? `
-    <div style="
-      position: absolute;
-      top: 40px;
-      right: 40px;
-      background: linear-gradient(45deg, #ffd700, #ffed4e);
-      color: #000;
-      padding: 10px 20px;
-      border-radius: 20px;
-      font-size: 18px;
-      font-weight: bold;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-      z-index: 20;
-    ">⭐ PREMIUM</div>
-  ` : '';
-
+  // We use inline styles heavily to ensure html2canvas picks them up without delay
   container.innerHTML = `
+    <!-- Load Fonts explicitly inside the container -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Cormorant+Garamond:wght@600&display=swap" rel="stylesheet">
+    
     <div style="
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      font-family: -apple-system, 'Segoe UI', Arial, sans-serif;
-      box-sizing: border-box;
-      overflow: hidden;
+        width: 1080px; 
+        height: 1080px; 
+        position: relative; 
+        background: linear-gradient(135deg, #0A4D3C 0%, #0F766E 100%);
+        font-family: 'Cormorant Garamond', serif;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
     ">
-      <!-- Geometric Pattern Background -->
-      <svg style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none;" viewBox="0 0 1080 1080" preserveAspectRatio="none">
-        <defs>
-          <pattern id="geometric" patternUnits="userSpaceOnUse" width="60" height="60">
-            <polygon points="30,5 55,30 30,55 5,30" fill="rgba(255,255,255,0.05)" />
-            <circle cx="30" cy="30" r="2" fill="rgba(255,255,255,0.1)" />
-          </pattern>
-        </defs>
-        <rect width="1080" height="1080" fill="url(#geometric)" />
-      </svg>
-
-      <!-- Minaret Silhouettes -->
-      <svg style="position: absolute; bottom: 0; left: 0; width: 100%; height: 200px; z-index: 2; pointer-events: none;" viewBox="0 0 1080 200" preserveAspectRatio="none">
-        <path d="M50,200 L50,100 L60,90 L70,100 L70,200 Z" fill="rgba(0,0,0,0.2)" />
-        <path d="M80,200 L80,80 L90,70 L100,80 L100,200 Z" fill="rgba(0,0,0,0.2)" />
-        <path d="M1000,200 L1000,120 L1010,110 L1020,120 L1020,200 Z" fill="rgba(0,0,0,0.2)" />
-        <path d="M1030,200 L1030,90 L1040,80 L1050,90 L1050,200 Z" fill="rgba(0,0,0,0.2)" />
-      </svg>
-
-      ${premiumBadge}
-
-      <!-- Main Content Container -->
-      <div style="
-        z-index: 10;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        width: 95%;
-        max-width: 950px;
-        height: 95%;
-        max-height: 950px;
-        gap: 40px;
-        position: relative;
-      ">
         
-        <!-- Day Badge with Calligraphy -->
+        <!-- Background Pattern -->
         <div style="
-          background: linear-gradient(90deg, #f59e0b, #fbbf24);
-          padding: 15px 50px;
-          border-radius: 50px;
-          box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-          position: relative;
-        ">
-          <h1 style="
-            margin: 0;
-            color: #ffffff;
-            font-size: 44px;
-            font-weight: 800;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            font-family: Arial, sans-serif;
-            text-shadow: 0 2px 3px rgba(0,0,0,0.1);
-          ">🌙 DAY ${config.day} 🌙</h1>
-        </div>
-
-        <!-- Topic with Islamic Calligraphy Style -->
-        <div style="
-            font-size: 28px;
-            color: #ffffff;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-shadow: 0 3px 6px rgba(0,0,0,0.3);
-            font-family: Arial, sans-serif;
-            margin-top: -10px;
-            text-align: center;
-        ">${config.topic}</div>
-
-        <!-- Message Card -->
-        <div style="
-          background-color: #ffffff;
-          border-radius: 30px;
-          padding: 50px 45px;
-          width: 100%;
-          border: 3px solid #fbbf24;
-          box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-          position: relative;
-          flex-grow: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          min-height: 350px;
-        ">
-           <!-- Decorative Quote Marks -->
-           <div style="position: absolute; top: 20px; left: 20px; font-size: 80px; color: #14b8a6; line-height: 0.8; opacity: 0.3;">"</div>
-           
-           <p style="
-            margin: 0;
-            color: #115e59;
-            font-size: 32px;
-            font-weight: 500;
-            line-height: 1.7;
-            text-align: center;
-            font-family: Arial, sans-serif;
-            position: relative;
+            position: absolute; 
+            inset: 0; 
+            opacity: 0.1; 
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGw0MCA0MEwwIDQweiIgZmlsbD0iI2ZmZiIgZmlsbC1ydWxlPSJldmVub2RkIi8+PC9zdmc+');
             z-index: 1;
-          ">
-            ${config.message}
-          </p>
-          
-          <div style="position: absolute; bottom: 20px; right: 20px; font-size: 80px; color: #14b8a6; line-height: 0.8; opacity: 0.3;">"</div>
+        "></div>
+
+        <!-- Top Gold Border -->
+        <div style="
+            position: absolute; top: 0; left: 0; right: 0; height: 8px; 
+            background: linear-gradient(90deg, #D4AF37, #F4D03F, #D4AF37);
+            z-index: 10;
+        "></div>
+
+        <!-- Content Wrapper -->
+        <div style="
+            position: relative; 
+            z-index: 20; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            width: 100%; 
+            height: 100%; 
+            padding-top: 80px;
+        ">
+
+            <!-- Day Badge -->
+            <div style="
+                background: linear-gradient(to right, #D4AF37, #F4D03F);
+                padding: 15px 60px;
+                border-radius: 50px;
+                margin-bottom: 40px;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+                color: #0A4D3C;
+                text-align: center;
+            ">
+                <div style="font-family: 'Cinzel', serif; font-size: 56px; font-weight: 700; line-height: 1;">DAY ${config.day}</div>
+                <div style="font-family: 'Cinzel', serif; font-size: 18px; letter-spacing: 4px; font-weight: 700;">RAMADAN</div>
+            </div>
+
+            <!-- Lantern/Moon Graphic (Simplified for Canvas) -->
+            <div style="font-size: 80px; margin-bottom: 30px; filter: drop-shadow(0 0 15px rgba(244, 208, 63, 0.5));">
+                🌙
+            </div>
+
+            <!-- Message Box -->
+            <div style="
+                background: rgba(255, 255, 255, 0.95);
+                border: 4px solid rgba(212, 175, 55, 0.5);
+                border-radius: 40px;
+                padding: 50px;
+                width: 800px;
+                min-height: 300px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 50px;
+                box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            ">
+                <p style="
+                    font-family: 'Cormorant Garamond', serif;
+                    font-size: 42px;
+                    color: #0F766E;
+                    text-align: center;
+                    font-weight: 600;
+                    line-height: 1.3;
+                    margin: 0;
+                ">
+                    "${config.message}"
+                </p>
+            </div>
+
+            <!-- User Name -->
+            <div style="text-align: center;">
+                <div style="color: #F4D03F; font-size: 30px; margin-bottom: 10px;">✦ &nbsp; REFLECTION BY &nbsp; ✦</div>
+                <div style="
+                    font-family: 'Cinzel', serif;
+                    font-size: 48px;
+                    color: white;
+                    font-weight: 700;
+                    text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+                ">${config.userName}</div>
+            </div>
+
         </div>
 
-        <!-- User Name -->
-        <div style="text-align: center; margin-top: 10px;">
-          <p style="
-            margin: 0;
-            color: #ffffff;
-            font-size: 38px;
-            font-weight: 600;
-            text-shadow: 0 3px 5px rgba(0,0,0,0.2);
-            font-family: Arial, sans-serif;
-          ">— ${config.userName} —</p>
+        <!-- Footer -->
+        <div style="
+            position: absolute; 
+            bottom: 0; 
+            left: 0; 
+            right: 0; 
+            height: 80px; 
+            background: rgba(0,0,0,0.4); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            z-index: 20;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        ">
+            <span style="font-family: 'Cormorant Garamond', serif; font-size: 28px; color: #ddd;">
+                Designed with ❤️ for the Ummah
+            </span>
         </div>
-
-        <!-- Islamic Icon -->
-        <div style="font-size: 70px; filter: drop-shadow(0 3px 5px rgba(0,0,0,0.2));">
-          ☪️
-        </div>
-
-      </div>
-
-      <!-- Footer -->
-      <div style="
-        position: absolute;
-        bottom: 35px;
-        left: 0;
-        right: 0;
-        z-index: 10;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 5px;
-      ">
-        <span style="color: rgba(255,255,255,0.85); font-size: 18px; font-family: Arial, sans-serif;">Powered by</span>
-        <span style="color: #ffffff; font-size: 22px; font-weight: 700; font-family: Arial, sans-serif;">Ramadan Bot 🇳🇬❤️</span>
-      </div>
 
     </div>
   `;
 
   try {
-    // Add a small delay to ensure DOM is fully painted
-    await new Promise(resolve => setTimeout(resolve, 100));
+    // Wait for DOM to digest and fonts to load
+    await document.fonts.ready;
+    await wait(800);
 
-    // Generate the canvas with better settings for content capture
-    const canvas = await html2canvas(container.firstElementChild as HTMLElement, {
-      scale: 2, // High res for mobile
+    const canvas = await html2canvas(container, {
+      scale: 2, // High res
       useCORS: true,
-      backgroundColor: '#0f766e',
-      allowTaint: true,
+      backgroundColor: '#0A4D3C',
       logging: false,
-      imageTimeout: 2000,
+      width: 1080,
+      height: 1080,
+      windowWidth: 1080,
+      windowHeight: 1080,
     });
 
     const dataUrl = canvas.toDataURL('image/png');
-    
-    // Cleanup
     document.body.removeChild(container);
-    
     return dataUrl;
   } catch (error) {
-    console.error('Flyer generation error:', error);
-    document.body.removeChild(container);
+    console.error("Flyer Gen Error", error);
+    if(document.getElementById('flyer-generator-container')) {
+        document.body.removeChild(container);
+    }
     throw error;
   }
 };
@@ -232,6 +191,4 @@ export const downloadFlyer = (dataUrl: string, fileName: string) => {
   document.body.removeChild(link);
 };
 
-export const slugify = (text: string) => {
-  return text.toLowerCase().replace(/[^\w ]+/g, '').replace(/ +/g, '-');
-};
+export const slugify = (text: string) => text.toLowerCase().replace(/[^\w]+/g, '-');
