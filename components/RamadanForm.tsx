@@ -4,6 +4,27 @@ import LoadingSpinner from './LoadingSpinner';
 import { generateMessage } from '../lib/gemini';
 import { Send, Calendar, Lightbulb, User, Target, ChevronDown, Check } from 'lucide-react';
 
+const suggestedTopics = [
+  'Ihsan',
+  'Patience (Sabr)',
+  'Mercy & Compassion',
+  'Repentance (Tawbah)',
+  'Trust in Allah (Tawakkul)',
+  'Honesty & Integrity',
+  'Justice & Fairness',
+  'Humility & Modesty',
+  'Charity (Zakat)',
+  'Self-Discipline',
+  'Gratitude (Shukr)',
+  'Courage & Strength',
+  'Hope (Amal)',
+  'Knowledge & Wisdom',
+  'Family Bonds',
+  'Community Service',
+  'Forgiveness',
+  'Truthfulness',
+];
+
 interface RamadanFormProps {
   onSuccess: (data: { text: string; formData: FormData }) => void;
   disabled?: boolean;
@@ -13,6 +34,7 @@ const RamadanForm: React.FC<RamadanFormProps> = ({ onSuccess, disabled }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
   const [isDayOpen, setIsDayOpen] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   
   const [formData, setFormData] = useState<FormData>({
@@ -100,7 +122,7 @@ const RamadanForm: React.FC<RamadanFormProps> = ({ onSuccess, disabled }) => {
             type="text"
             value={formData.userName}
             onChange={(e) => handleChange('userName', e.target.value)}
-            className={`w-full p-4 rounded-2xl border bg-gray-50 focus:bg-white text-base transition-all outline-none ring-teal-200 focus:ring-2 ${errors.userName ? 'border-red-500' : 'border-gray-200 focus:border-teal-500'}`}
+            className={`w-full p-4 rounded-2xl border bg-gray-50 focus:bg-white text-gray-900 placeholder-gray-400 text-base font-medium transition-all outline-none ring-teal-200 focus:ring-2 ${errors.userName ? 'border-red-500' : 'border-gray-200 focus:border-teal-500'}`}
             placeholder="e.g. Abdallah"
             disabled={isLoading}
           />
@@ -116,13 +138,24 @@ const RamadanForm: React.FC<RamadanFormProps> = ({ onSuccess, disabled }) => {
                 <Target size={16} className="text-teal-600" />
                 Topic <span className="text-red-500">*</span>
               </label>
+              <button
+                type="button"
+                onClick={() => {
+                  const randomTopic = suggestedTopics[Math.floor(Math.random() * suggestedTopics.length)];
+                  handleChange('topic', randomTopic);
+                  setShowSuggestions(false);
+                }}
+                className="text-[10px] font-semibold text-teal-600 hover:text-teal-700 transition-colors px-2 py-1 hover:bg-teal-50 rounded"
+              >
+                💡 Suggest
+              </button>
             </div>
             <input
               type="text"
               maxLength={50}
               value={formData.topic}
               onChange={(e) => handleChange('topic', e.target.value)}
-              className={`w-full p-4 rounded-2xl border bg-gray-50 focus:bg-white text-base transition-all outline-none ring-teal-200 focus:ring-2 ${errors.topic ? 'border-red-500' : 'border-gray-200 focus:border-teal-500'}`}
+              className={`w-full p-4 rounded-2xl border bg-gray-50 focus:bg-white text-gray-900 placeholder-gray-400 text-base font-medium transition-all outline-none ring-teal-200 focus:ring-2 ${errors.topic ? 'border-red-500' : 'border-gray-200 focus:border-teal-500'}`}
               placeholder="e.g. Ihsan"
               disabled={isLoading}
             />
@@ -185,7 +218,7 @@ const RamadanForm: React.FC<RamadanFormProps> = ({ onSuccess, disabled }) => {
             rows={2}
             value={formData.hint}
             onChange={(e) => handleChange('hint', e.target.value)}
-            className="w-full p-4 rounded-2xl border border-gray-200 bg-gray-50 focus:bg-white focus:border-teal-500 text-base outline-none ring-teal-200 focus:ring-2 resize-none"
+            className="w-full p-4 rounded-2xl border border-gray-200 bg-gray-50 focus:bg-white text-gray-900 placeholder-gray-400 text-base font-medium outline-none ring-teal-200 focus:ring-2 focus:border-teal-500 resize-none"
             placeholder="Specific Ayah, Hadith, or theme..."
             disabled={isLoading}
           />
