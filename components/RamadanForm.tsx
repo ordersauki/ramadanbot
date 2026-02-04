@@ -196,7 +196,13 @@ const RamadanForm: React.FC<RamadanFormProps> = ({ onSuccess, disabled }) => {
         <button
           type="submit"
           disabled={isLoading || disabled}
-          className="w-full bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white font-bold py-3.5 px-6 rounded-xl shadow-md hover:shadow-lg transform active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed mt-2"
+          className="w-full bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white font-bold py-3.5 px-6 rounded-xl shadow-md hover:shadow-lg transform active:scale-[0.98] transition-all duration-150 disabled:opacity-70 disabled:cursor-not-allowed mt-2"
+          onTouchStart={() => {
+            // Simulate haptic feedback
+            if (navigator.vibrate) {
+              navigator.vibrate(50);
+            }
+          }}
         >
           {isLoading ? (
             <LoadingSpinner size="sm" color="text-white" label="Generating..." />

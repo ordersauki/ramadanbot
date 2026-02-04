@@ -8,9 +8,10 @@ interface FlyerPreviewProps {
   message: string;
   formData: FormData;
   onReset: () => void;
+  onFlyerGenerated?: (dataUrl: string, fileName: string) => void;
 }
 
-const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset }) => {
+const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset, onFlyerGenerated }) => {
   const [flyerUrl, setFlyerUrl] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(true);
 
@@ -21,7 +22,7 @@ const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset 
       try {
         const url = await generateFlyer({
           width: 1080,
-          height: 1920,
+          height: 1080,
           backgroundColor: '#0f766e',
           textColor: '#ffffff',
           userName: formData.userName,
@@ -33,6 +34,8 @@ const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset 
         if (mounted) {
           setFlyerUrl(url);
           setIsGenerating(false);
+          const fileName = `ramadan-day-${formData.day}-${slugify(formData.topic)}.png`;
+          onFlyerGenerated?.(url, fileName);
         }
       } catch (error) {
         console.error("Flyer generation failed", error);
@@ -43,7 +46,7 @@ const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset 
     createFlyer();
 
     return () => { mounted = false; };
-  }, [message, formData]);
+  }, [message, formData, onFlyerGenerated]);
 
   const handleDownload = () => {
     if (flyerUrl) {
@@ -87,7 +90,12 @@ const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset 
         
         <button
           onClick={handleDownload}
-          className="flex-[2] bg-gradient-to-r from-secondary-500 to-secondary-600 hover:from-secondary-600 hover:to-secondary-700 text-white font-bold py-3 rounded-xl shadow-md flex items-center justify-center gap-2 transition-transform active:scale-[0.98] text-sm"
+          className="flex-[2] bg-gradient-to-r from-secondary-500 to-secondary-600 hover:from-secondary-600 hover:to-secondary-700 text-white font-bold py-3 rounded-xl shadow-md flex items-center justify-center gap-2 transition-all duration-150 active:scale-[0.98]"
+          onTouchStart={() => {
+            if (navigator.vibrate) {
+              navigator.vibrate(50);
+            }
+          }}
         >
           <Download size={18} />
           Download

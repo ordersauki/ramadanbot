@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { canGenerate, recordGeneration, getResetTime } from './lib/rateLimit';
+import { canGenerate, recordGeneration, getResetTime, getStoredFlyer } from './lib/rateLimit';
 import { GeneratedData } from './types';
 import RamadanForm from './components/RamadanForm';
 import FlyerPreview from './components/FlyerPreview';
@@ -28,7 +28,15 @@ const App: React.FC = () => {
 
   const handleSuccess = (data: GeneratedData) => {
     setGeneratedData(data);
-    recordGeneration();
+    // recordGeneration will be called when flyer is generated
+  };
+
+  const handleFlyerGenerated = (dataUrl: string, fileName: string) => {
+    recordGeneration({
+      dataUrl,
+      fileName,
+      formData: generatedData!.formData
+    });
     setCanGen(false);
     setResetTime(getResetTime());
   };
@@ -67,13 +75,16 @@ const App: React.FC = () => {
               message={generatedData.text}
               formData={generatedData.formData}
               onReset={handleReset}
+              onFlyerGenerated={handleFlyerGenerated}
             />
           ) : canGen ? (
             <div className="w-full animate-fade-in-up">
               <RamadanForm onSuccess={handleSuccess} />
             </div>
           ) : (
-            <RateLimitMessage resetTime={resetTime} />
+            <div className="w-full animate-fade-in-up">
+              <RateLimitMessage resetTime={resetTime} />
+            </div>
           )}
         </main>
 

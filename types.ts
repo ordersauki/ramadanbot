@@ -9,6 +9,11 @@ export interface RateLimitData {
   lastGeneration: string; // ISO date
   generationCount: number;
   resetDate: string; // ISO date
+  flyerData?: {
+    dataUrl: string;
+    fileName: string;
+    formData: FormData;
+  };
 }
 
 export interface FlyerConfig {

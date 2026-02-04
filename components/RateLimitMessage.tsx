@@ -1,12 +1,39 @@
 import React, { useEffect, useState } from 'react';
-import { getRemainingTime } from '../lib/rateLimit';
+import { getRemainingTime, getStoredFlyer } from '../lib/rateLimit';
+import { downloadFlyer } from '../lib/flyerGenerator';
+import { Download } from 'lucide-react';
 
 interface RateLimitMessageProps {
   resetTime?: string;
 }
 
+const verses = [
+  {
+    text: "And whoever fears Allah - He will make for him a way out and will provide for him from where he does not expect.",
+    reference: "Quran 65:2-3"
+  },
+  {
+    text: "Indeed, with hardship [will be] ease. Indeed, with hardship [will be] ease.",
+    reference: "Quran 94:5-6"
+  },
+  {
+    text: "And We have certainly made the Quran easy for remembrance, so is there any who will remember?",
+    reference: "Quran 54:17"
+  },
+  {
+    text: "And seek help through patience and prayer, and indeed, it is difficult except for the humbly submissive.",
+    reference: "Quran 2:153"
+  },
+  {
+    text: "Indeed, Allah is with the patient.",
+    reference: "Quran 2:153"
+  }
+];
+
 const RateLimitMessage: React.FC<RateLimitMessageProps> = () => {
   const [timeLeft, setTimeLeft] = useState<string>('');
+  const [currentVerseIndex, setCurrentVerseIndex] = useState(0);
+  const storedFlyer = getStoredFlyer();
 
   useEffect(() => {
     setTimeLeft(getRemainingTime());
@@ -14,8 +41,24 @@ const RateLimitMessage: React.FC<RateLimitMessageProps> = () => {
       setTimeLeft(getRemainingTime());
     }, 60000);
 
-    return () => clearInterval(interval);
+    // Cycle verses every 10 seconds
+    const verseInterval = setInterval(() => {
+      setCurrentVerseIndex((prev) => (prev + 1) % verses.length);
+    }, 10000);
+
+    return () => {
+      clearInterval(interval);
+      clearInterval(verseInterval);
+    };
   }, []);
+
+  const handleDownloadStored = () => {
+    if (storedFlyer) {
+      downloadFlyer(storedFlyer.dataUrl, storedFlyer.fileName);
+    }
+  };
+
+  const currentVerse = verses[currentVerseIndex];
 
   return (
     <div className="w-full max-w-md mx-auto animate-fade-in p-6">
@@ -38,9 +81,27 @@ const RateLimitMessage: React.FC<RateLimitMessageProps> = () => {
             </p>
           </div>
 
-          <blockquote className="bg-secondary-50 p-4 rounded-xl border-l-4 border-secondary-400 italic text-gray-700 text-sm">
-            "And whoever fears Allah - He will make for him a way out and will provide for him from where he does not expect."
-            <footer className="text-secondary-700 font-bold mt-2 not-italic text-xs">— Quran 65:2-3</footer>
+          {storedFlyer && (
+            <div className="bg-primary-50 p-4 rounded-xl border border-primary-200">
+              <p className="text-primary-800 font-medium mb-3">Your today's flyer is ready to download again!</p>
+              <button
+                onClick={handleDownloadStored}
+                className="bg-primary-600 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded-lg transition-all duration-150 active:scale-[0.98] flex items-center gap-2 mx-auto"
+                onTouchStart={() => {
+                  if (navigator.vibrate) {
+                    navigator.vibrate(50);
+                  }
+                }}
+              >
+                <Download size={16} />
+                Download Again
+              </button>
+            </div>
+          )}
+
+          <blockquote className="bg-secondary-50 p-4 rounded-xl border-l-4 border-secondary-400 italic text-gray-700 text-sm transition-all duration-500">
+            "{currentVerse.text}"
+            <footer className="text-secondary-700 font-bold mt-2 not-italic text-xs">— {currentVerse.reference}</footer>
           </blockquote>
 
           <div className="pt-2">

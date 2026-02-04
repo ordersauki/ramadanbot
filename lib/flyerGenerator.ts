@@ -12,7 +12,7 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
     top: '-10000px',
     left: '-10000px',
     width: '1080px',
-    height: '1920px',
+    height: '1080px',
     zIndex: '-1',
     overflow: 'hidden',
   });
@@ -24,15 +24,15 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
   container.innerHTML = `
     <div style="
       width: 1080px; 
-      height: 1920px; 
+      height: 1080px; 
       background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
       position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
       font-family: 'Inter', sans-serif;
-      padding: 120px 80px;
+      padding: 60px;
       box-sizing: border-box;
     ">
       <!-- Background Pattern Overlay -->
@@ -134,17 +134,18 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
 
       <!-- Footer -->
       <div style="
+        position: absolute;
+        bottom: 40px;
+        left: 0;
+        right: 0;
         z-index: 10;
-        width: 100%;
-        border-top: 2px solid rgba(255,255,255,0.3);
-        padding-top: 40px;
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 10px;
       ">
-        <span style="color: rgba(255,255,255,0.9); font-size: 28px;">Sponsored by</span>
-        <span style="color: #ffffff; font-size: 36px; font-weight: 700;">Abdallah Nangere 🇳🇬❤️</span>
+        <span style="color: rgba(255,255,255,0.9); font-size: 24px;">Sponsored by</span>
+        <span style="color: #ffffff; font-size: 28px; font-weight: 700;">Abdallah Nangere 🇳🇬❤️</span>
       </div>
 
     </div>
