@@ -3,6 +3,18 @@ import { FlyerConfig } from '../types';
 
 const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
+// Helper function to escape HTML
+const escapeHtml = (text: string): string => {
+  const map: Record<string, string> = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+  return text.replace(/[&<>"']/g, m => map[m]);
+};
+
 export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
   const container = document.createElement('div');
   container.id = 'flyer-generator-container';
@@ -23,194 +35,118 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
 
   document.body.appendChild(container);
 
+  // Background image URL
+  const backgroundImageUrl = '/ramadan-background.png';
+
   container.innerHTML = `
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Cormorant+Garamond:wght@400;600;700&family=Amiri:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
     
     <div id="flyer-canvas" style="
         width: 1080px; 
         height: 1080px; 
         position: relative; 
-        background: linear-gradient(135deg, #0A4D3C 0%, #0F766E 30%, #14B8A6 60%, #0D9488 100%);
+        background-image: url('${backgroundImageUrl}');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
         font-family: 'Cormorant Garamond', serif;
         overflow: hidden;
     ">
         
-        <!-- Geometric Pattern Overlay -->
+        <!-- Content Overlay -->
         <div style="
-            position: absolute; 
-            inset: 0; 
-            opacity: 0.12;
-            background-image: url('data:image/svg+xml,%3Csvg width=%2780%27 height=%2780%27 xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cg fill=%27none%27 fill-rule=%27evenodd%27%3E%3Cpath d=%27M40 0L80 40L40 80L0 40z%27 stroke=%27%23FFF%27 stroke-width=%271%27/%3E%3Cpath d=%27M40 20L60 40L40 60L20 40z%27 stroke=%27%23FFF%27 stroke-width=%271%27/%3E%3Ccircle cx=%2740%27 cy=%2740%27 r=%278%27 stroke=%27%23FFF%27 stroke-width=%271%27/%3E%3C/g%3E%3C/svg%3E');
-            z-index: 1;
-        "></div>
-
-        <!-- Top Gold Border -->
-        <div style="
-            position: absolute; 
-            top: 0; 
-            left: 0; 
-            right: 0; 
-            height: 4px; 
-            background: linear-gradient(90deg, transparent 0%, #D4AF37 10%, #F4D03F 50%, #D4AF37 90%, transparent 100%);
-            z-index: 5;
-        "></div>
-
-        <!-- Islamic Lantern SVG (Top Right) -->
-        <svg style="
-            position: absolute; 
-            top: 40px; 
-            right: 50px; 
-            width: 100px; 
-            height: 140px; 
-            z-index: 3; 
-            opacity: 0.85;
-            filter: drop-shadow(0 4px 15px rgba(244, 208, 63, 0.4));
-        " viewBox="0 0 100 140" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-                <linearGradient id="lanternGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" style="stop-color:#F4D03F"/>
-                    <stop offset="50%" style="stop-color:#D4AF37"/>
-                    <stop offset="100%" style="stop-color:#F4D03F"/>
-                </linearGradient>
-            </defs>
-            <line x1="50" y1="0" x2="50" y2="20" stroke="#D4AF37" stroke-width="2"/>
-            <circle cx="50" cy="20" r="3" fill="#D4AF37"/>
-            <path d="M 35 20 L 50 15 L 65 20 L 60 30 L 40 30 Z" fill="url(#lanternGrad)" stroke="#B8860B" stroke-width="1.5"/>
-            <ellipse cx="50" cy="35" rx="18" ry="8" fill="url(#lanternGrad)" opacity="0.8"/>
-            <rect x="32" y="35" width="36" height="50" fill="url(#lanternGrad)" stroke="#B8860B" stroke-width="2"/>
-            <line x1="32" y1="45" x2="68" y2="45" stroke="#B8860B" stroke-width="1" opacity="0.6"/>
-            <line x1="32" y1="60" x2="68" y2="60" stroke="#B8860B" stroke-width="1" opacity="0.6"/>
-            <line x1="32" y1="75" x2="68" y2="75" stroke="#B8860B" stroke-width="1" opacity="0.6"/>
-            <ellipse cx="50" cy="60" rx="12" ry="20" fill="rgba(255, 249, 230, 0.5)"/>
-            <ellipse cx="50" cy="60" rx="8" ry="15" fill="#FFF9E6" opacity="0.7"/>
-            <path d="M 32 85 L 40 95 L 60 95 L 68 85 Z" fill="url(#lanternGrad)" stroke="#B8860B" stroke-width="1.5"/>
-            <circle cx="50" cy="98" r="4" fill="#D4AF37"/>
-            <path d="M 50 102 L 45 115 L 50 110 L 55 115 Z" fill="#D4AF37"/>
-        </svg>
-
-        <!-- Content Wrapper -->
-        <div style="
-            position: relative; 
-            z-index: 2; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            padding: 60px 50px 30px;
+            position: relative;
+            width: 100%;
             height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 50px 40px 100px;
+            z-index: 10;
         ">
 
-            <!-- Day Badge -->
+            <!-- Day Badge (Top Left) -->
             <div style="
-                position: relative;
-                background: linear-gradient(135deg, #D4AF37 0%, #F4D03F 50%, #D4AF37 100%);
-                padding: 18px 55px;
-                border-radius: 50px;
-                margin-bottom: 30px;
-                box-shadow: 0 10px 40px rgba(212, 175, 55, 0.4);
+                position: absolute;
+                top: 50px;
+                left: 50px;
+                background: linear-gradient(135deg, rgba(212, 175, 55, 0.95) 0%, rgba(244, 208, 63, 0.95) 100%);
+                padding: 20px 35px;
+                border-radius: 20px;
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
                 text-align: center;
+                border: 2px solid rgba(255, 255, 255, 0.3);
             ">
                 <div style="
-                    position: absolute;
-                    left: 15px;
-                    top: 50%;
-                    transform: translateY(-50%);
-                    color: rgba(255,255,255,0.8);
-                    font-size: 20px;
-                ">◆</div>
-                <div style="
-                    position: absolute;
-                    right: 15px;
-                    top: 50%;
-                    transform: translateY(-50%);
-                    color: rgba(255,255,255,0.8);
-                    font-size: 20px;
-                ">◆</div>
-                <div style="
-                    font-family: 'Cinzel', serif; 
-                    font-size: 52px; 
-                    font-weight: 700; 
-                    color: #0A4D3C; 
-                    letter-spacing: 4px;
-                    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                    font-family: 'Cinzel', serif;
+                    font-size: 68px;
+                    font-weight: 800;
+                    color: #0A4D3C;
                     line-height: 1;
-                ">DAY ${config.day}</div>
+                    letter-spacing: 2px;
+                    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+                ">${config.day}</div>
                 <div style="
-                    font-family: 'Cinzel', serif; 
-                    font-size: 16px; 
-                    font-weight: 600; 
-                    color: #0A4D3C; 
-                    letter-spacing: 3px; 
+                    font-family: 'Cinzel', serif;
+                    font-size: 16px;
+                    font-weight: 700;
+                    color: #0A4D3C;
+                    letter-spacing: 4px;
                     text-transform: uppercase;
-                    margin-top: 3px;
-                ">RAMADAN</div>
+                    margin-top: 5px;
+                ">DAY</div>
             </div>
 
-            <!-- Moon Crescent SVG -->
-            <svg style="
-                width: 70px; 
-                height: 70px; 
-                margin-bottom: 25px; 
-                opacity: 0.9;
-            " viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <linearGradient id="moonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#F4D03F"/>
-                        <stop offset="100%" style="stop-color:#D4AF37"/>
-                    </linearGradient>
-                </defs>
-                <path d="M50 10 A 40 40 0 1 1 50 90 A 30 30 0 1 0 50 10" 
-                      fill="url(#moonGrad)" 
-                      stroke="#F4D03F" 
-                      stroke-width="2"
-                      style="filter: drop-shadow(0 4px 10px rgba(244, 208, 63, 0.4))"/>
-                <circle cx="70" cy="25" r="3" fill="#F4D03F" opacity="0.8"/>
-            </svg>
+            <!-- Spacer to push content to center -->
+            <div style="flex: 0.3;"></div>
 
-            <!-- Message Card -->
+            <!-- Message Card (Center) -->
             <div style="
-                background: rgba(255, 255, 255, 0.98);
-                border-radius: 30px;
-                padding: 50px 45px;
-                margin: 20px 0;
-                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-                border: 3px solid rgba(212, 175, 55, 0.3);
-                position: relative;
-                width: 900px;
-                min-height: 280px;
-                max-height: 450px;
+                background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.95) 100%);
+                border-radius: 35px;
+                padding: 55px 50px;
+                width: 880px;
+                max-width: 90%;
+                min-height: 320px;
+                max-height: 480px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+                border: 3px solid rgba(212, 175, 55, 0.4);
+                position: relative;
+                margin: 0 auto;
             ">
                 <!-- Corner Decorations -->
                 <div style="
                     position: absolute;
-                    top: -2px;
-                    left: -2px;
-                    width: 50px;
-                    height: 50px;
-                    border-left: 2px solid #D4AF37;
-                    border-top: 2px solid #D4AF37;
-                    border-top-left-radius: 30px;
+                    top: -3px;
+                    left: -3px;
+                    width: 60px;
+                    height: 60px;
+                    border-left: 3px solid #D4AF37;
+                    border-top: 3px solid #D4AF37;
+                    border-top-left-radius: 35px;
                 "></div>
                 <div style="
                     position: absolute;
-                    bottom: -2px;
-                    right: -2px;
-                    width: 50px;
-                    height: 50px;
-                    border-right: 2px solid #D4AF37;
-                    border-bottom: 2px solid #D4AF37;
-                    border-bottom-right-radius: 30px;
+                    bottom: -3px;
+                    right: -3px;
+                    width: 60px;
+                    height: 60px;
+                    border-right: 3px solid #D4AF37;
+                    border-bottom: 3px solid #D4AF37;
+                    border-bottom-right-radius: 35px;
                 "></div>
                 
                 <p style="
                     font-family: 'Cormorant Garamond', serif;
-                    font-size: 34px;
-                    line-height: 1.6;
+                    font-size: 38px;
+                    line-height: 1.65;
                     color: #0F766E;
                     text-align: center;
-                    font-weight: 400;
+                    font-weight: 600;
                     letter-spacing: 0.3px;
                     margin: 0;
                     overflow-wrap: break-word;
@@ -218,131 +154,73 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
                 ">${escapeHtml(config.message)}</p>
             </div>
 
+            <!-- Spacer -->
+            <div style="flex: 0.15;"></div>
+
             <!-- User Name Section -->
-            <div style="text-align: center; margin: 25px 0 20px;">
+            <div style="
+                text-align: center;
+                margin-top: 35px;
+            ">
                 <!-- Decorative Line -->
                 <div style="
-                    display: flex; 
-                    align-items: center; 
-                    justify-content: center; 
-                    gap: 15px; 
-                    margin-bottom: 12px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 18px;
+                    margin-bottom: 15px;
                 ">
                     <div style="
-                        width: 90px; 
-                        height: 2px; 
-                        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+                        width: 100px;
+                        height: 2px;
+                        background: linear-gradient(90deg, transparent, rgba(244, 208, 63, 0.8), transparent);
                     "></div>
                     <span style="
-                        color: #F4D03F; 
-                        font-size: 18px;
-                        filter: drop-shadow(0 0 10px rgba(244, 208, 63, 0.5));
+                        color: #F4D03F;
+                        font-size: 22px;
+                        filter: drop-shadow(0 2px 8px rgba(244, 208, 63, 0.6));
                     ">✦</span>
                     <div style="
-                        width: 90px; 
-                        height: 2px; 
-                        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+                        width: 100px;
+                        height: 2px;
+                        background: linear-gradient(90deg, transparent, rgba(244, 208, 63, 0.8), transparent);
                     "></div>
                 </div>
                 
                 <h2 style="
                     font-family: 'Cinzel', serif;
-                    font-size: 42px;
-                    font-weight: 600;
+                    font-size: 48px;
+                    font-weight: 700;
                     color: #FFFFFF;
-                    letter-spacing: 1.5px;
-                    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+                    letter-spacing: 2px;
+                    text-shadow: 
+                        0 4px 12px rgba(0, 0, 0, 0.6),
+                        0 2px 4px rgba(0, 0, 0, 0.4);
                     margin: 0;
+                    line-height: 1.2;
                 ">${escapeHtml(config.userName)}</h2>
             </div>
 
         </div>
 
-        <!-- Mosque Silhouette SVG (Bottom) -->
-        <svg style="
-            position: absolute; 
-            bottom: 90px; 
-            left: 0; 
-            right: 0; 
-            height: 120px; 
-            z-index: 1; 
-            opacity: 0.25;
-        " viewBox="0 0 800 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet">
-            <defs>
-                <linearGradient id="mosqueGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" style="stop-color:#000000;stop-opacity:0.4"/>
-                    <stop offset="100%" style="stop-color:#000000;stop-opacity:0.7"/>
-                </linearGradient>
-            </defs>
-            <rect x="100" y="40" width="20" height="80" fill="url(#mosqueGrad)"/>
-            <ellipse cx="110" cy="40" rx="15" ry="8" fill="url(#mosqueGrad)"/>
-            <path d="M 105 35 L 110 20 L 115 35" fill="url(#mosqueGrad)"/>
-            <circle cx="110" cy="18" r="4" fill="url(#mosqueGrad)"/>
-            <rect x="680" y="40" width="20" height="80" fill="url(#mosqueGrad)"/>
-            <ellipse cx="690" cy="40" rx="15" ry="8" fill="url(#mosqueGrad)"/>
-            <path d="M 685 35 L 690 20 L 695 35" fill="url(#mosqueGrad)"/>
-            <circle cx="690" cy="18" r="4" fill="url(#mosqueGrad)"/>
-            <ellipse cx="400" cy="60" rx="120" ry="60" fill="url(#mosqueGrad)"/>
-            <circle cx="400" cy="25" r="8" fill="url(#mosqueGrad)"/>
-            <path d="M 395 20 L 400 5 L 405 20" fill="url(#mosqueGrad)"/>
-            <ellipse cx="260" cy="80" rx="60" ry="40" fill="url(#mosqueGrad)"/>
-            <circle cx="260" cy="50" r="5" fill="url(#mosqueGrad)"/>
-            <ellipse cx="540" cy="80" rx="60" ry="40" fill="url(#mosqueGrad)"/>
-            <circle cx="540" cy="50" r="5" fill="url(#mosqueGrad)"/>
-            <rect x="200" y="90" width="400" height="30" fill="url(#mosqueGrad)"/>
-            <path d="M 280 95 Q 280 85 290 85 Q 300 85 300 95 Z" fill="rgba(244, 208, 63, 0.2)"/>
-            <path d="M 390 95 Q 390 85 400 85 Q 410 85 410 95 Z" fill="rgba(244, 208, 63, 0.2)"/>
-            <path d="M 500 95 Q 500 85 510 85 Q 520 85 520 95 Z" fill="rgba(244, 208, 63, 0.2)"/>
-        </svg>
-
-        <!-- Footer -->
-        <div style="
-            position: absolute; 
-            bottom: 0; 
-            left: 0; 
-            right: 0; 
-            background: rgba(0, 0, 0, 0.15); 
-            backdrop-filter: blur(10px);
-            padding: 20px 30px; 
-            text-align: center; 
-            z-index: 3;
-        ">
-            <p style="
-                font-family: 'Cormorant Garamond', serif;
-                font-size: 24px;
-                color: #FFFFFF;
-                letter-spacing: 0.5px;
-                line-height: 1.4;
-                text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-                margin: 0;
-            ">
-                With <span style="color: #FF6B6B; font-size: 26px;">❤️</span> for the Ummah, 
-                <span style="
-                    font-weight: 700;
-                    color: #F4D03F;
-                    font-family: 'Cinzel', serif;
-                    font-size: 26px;
-                ">Abdallah Nangere</span> 🇳🇬
-            </p>
-        </div>
-
-        <!-- Bottom Gold Border -->
-        <div style="
-            position: absolute; 
-            bottom: 0; 
-            left: 0; 
-            right: 0; 
-            height: 4px; 
-            background: linear-gradient(90deg, transparent 0%, #D4AF37 10%, #F4D03F 50%, #D4AF37 90%, transparent 100%);
-            z-index: 5;
-        "></div>
-
     </div>
   `;
 
   try {
+    // Wait for fonts to load
     await document.fonts.ready;
-    await wait(1000); // Give more time for complex SVGs
+    
+    // Wait for background image to load
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    await new Promise((resolve, reject) => {
+      img.onload = resolve;
+      img.onerror = reject;
+      img.src = backgroundImageUrl;
+    });
+
+    // Additional wait for rendering
+    await wait(1200);
 
     const flyerElement = document.getElementById('flyer-canvas');
     if (!flyerElement) throw new Error('Flyer element not found');
@@ -351,7 +229,7 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
       scale: 2,
       useCORS: true,
       allowTaint: true,
-      backgroundColor: '#0A4D3C',
+      backgroundColor: null,
       logging: false,
       width: 1080,
       height: 1080,
@@ -371,18 +249,6 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
     throw error;
   }
 };
-
-// Helper to escape HTML and prevent XSS
-function escapeHtml(text: string): string {
-  const map: Record<string, string> = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#039;'
-  };
-  return text.replace(/[&<>"']/g, m => map[m]);
-}
 
 export const downloadFlyer = (dataUrl: string, fileName: string) => {
   const link = document.createElement('a');
