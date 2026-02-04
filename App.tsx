@@ -49,59 +49,68 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="h-[100dvh] flex flex-col bg-gradient-to-br from-[#fefce8] via-[#f0fdfa] to-[#fffbeb] text-gray-800 font-sans overflow-hidden">
-      
-      {/* Scrollable Container */}
-      <div className="flex-1 flex flex-col overflow-y-auto w-full max-w-lg mx-auto px-4">
-        
-        {/* Compact Header */}
-        <header className="pt-6 pb-2 text-center flex-shrink-0">
-          <h1 className="text-3xl font-bold text-primary-800 tracking-tight drop-shadow-sm">
-            🌙 Ramadan Bot
-          </h1>
-          <p className="text-sm text-gray-600 font-medium">
-            Daily Spiritual Flyer Generator
-          </p>
-        </header>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex flex-col">
+      {/* iOS Style Header */}
+      <header className="pt-safe-area-inset-top bg-white/80 backdrop-blur-xl border-b border-gray-200/50 shadow-sm">
+        <div className="px-6 py-4 flex items-center justify-center">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-gradient-to-br from-teal-500 to-cyan-600 rounded-2xl flex items-center justify-center shadow-lg">
+              <span className="text-white text-xl">🌙</span>
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Ramadan Bot</h1>
+              <p className="text-sm text-gray-600">Daily Spiritual Flyer Generator</p>
+            </div>
+          </div>
+        </div>
+      </header>
 
-        {/* Main Content - Centers vertically if space allows */}
-        <main className="flex-1 flex flex-col justify-center py-2">
-          {isChecking ? (
-             <div className="flex flex-col items-center justify-center">
-                <LoadingSpinner size="lg" label="Checking availability..." />
-             </div>
-          ) : generatedData ? (
+      {/* Main Content */}
+      <main className="flex-1 flex flex-col px-6 py-6 pb-safe-area-inset-bottom">
+        {isChecking ? (
+          <div className="flex-1 flex items-center justify-center">
+            <div className="bg-white/70 backdrop-blur-sm rounded-3xl p-8 shadow-xl">
+              <LoadingSpinner size="lg" label="Checking availability..." />
+            </div>
+          </div>
+        ) : generatedData ? (
+          <div className="flex-1">
             <FlyerPreview 
               message={generatedData.text}
               formData={generatedData.formData}
               onReset={handleReset}
               onFlyerGenerated={handleFlyerGenerated}
             />
-          ) : canGen ? (
-            <div className="w-full animate-fade-in-up">
+          </div>
+        ) : canGen ? (
+          <div className="flex-1 flex items-center justify-center">
+            <div className="w-full max-w-md bg-white/70 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-gray-200/50">
               <RamadanForm onSuccess={handleSuccess} />
             </div>
-          ) : (
-            <div className="w-full animate-fade-in-up">
+          </div>
+        ) : (
+          <div className="flex-1 flex items-center justify-center">
+            <div className="w-full max-w-md bg-white/70 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-gray-200/50">
               <RateLimitMessage resetTime={resetTime} />
             </div>
-          )}
-        </main>
-
-        {/* Compact Footer */}
-        <footer className="py-4 flex-shrink-0 text-center border-t border-gray-200/50 mt-2">
-          <div className="flex flex-col gap-1 items-center">
-             <div className="flex items-center gap-2 text-xs text-gray-500">
-                <span>Sponsored by <span className="font-bold text-primary-700">Abdallah Nangere 🇳🇬❤️</span></span>
-             </div>
-             <div className="flex gap-3 text-[10px] text-gray-400">
-               <a href="tel:+2348164135836" className="hover:text-primary-600">📞 +234 816 413 5836</a>
-               <span>•</span>
-               <a href="mailto:abdallahnangere@gmail.com" className="hover:text-primary-600">📧 Email</a>
-             </div>
           </div>
-        </footer>
-      </div>
+        )}
+      </main>
+
+      {/* iOS Style Footer */}
+      <footer className="bg-white/80 backdrop-blur-xl border-t border-gray-200/50 px-6 py-4">
+        <div className="flex flex-col items-center gap-2">
+          <div className="flex items-center gap-2 text-sm text-gray-600">
+            <span>Powered by</span>
+            <span className="font-semibold text-teal-600">Abdallah Nangere 🇳🇬❤️</span>
+          </div>
+          <div className="flex gap-4 text-xs text-gray-500">
+            <a href="tel:+2348164135836" className="hover:text-teal-600 transition-colors">📞 Call</a>
+            <span>•</span>
+            <a href="mailto:abdallahnangere@gmail.com" className="hover:text-teal-600 transition-colors">📧 Email</a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };

@@ -5,6 +5,7 @@ import { GenerateResponse } from "../types";
 // For this SPA implementation, we call it client-side but use the proper SDK pattern.
 
 export const generateMessage = async (
+  userName: string,
   topic: string,
   day: number,
   hint?: string
@@ -18,7 +19,7 @@ export const generateMessage = async (
     const ai = new GoogleGenAI({ apiKey });
 
     const prompt = `
-You are a Ramadan spiritual guide. Generate an inspiring, concise message.
+You are a Ramadan spiritual guide. Generate an inspiring, concise message for ${userName}.
 
 Topic: ${topic}
 Day of Ramadan: ${day}

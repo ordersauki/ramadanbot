@@ -21,6 +21,22 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
 
   // Construct the HTML content
   // Note: Using inline styles strictly to ensure html2canvas captures everything correctly without external CSS dependency issues
+  const premiumBadge = config.isPremium ? `
+    <div style="
+      position: absolute;
+      top: 40px;
+      right: 40px;
+      background: linear-gradient(45deg, #ffd700, #ffed4e);
+      color: #000;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      z-index: 20;
+    ">⭐ PREMIUM</div>
+  ` : '';
+
   container.innerHTML = `
     <div style="
       width: 1080px; 
@@ -34,19 +50,28 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
       font-family: 'Inter', sans-serif;
       padding: 60px;
       box-sizing: border-box;
+      overflow: hidden;
     ">
-      <!-- Background Pattern Overlay -->
-      <div style="
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        opacity: 0.1;
-        background-image: radial-gradient(circle at 50% 50%, white 2px, transparent 2.5px);
-        background-size: 48px 48px;
-        z-index: 0;
-      "></div>
+      <!-- Geometric Pattern Background -->
+      <svg style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;" viewBox="0 0 1080 1080">
+        <defs>
+          <pattern id="geometric" patternUnits="userSpaceOnUse" width="60" height="60">
+            <polygon points="30,5 55,30 30,55 5,30" fill="rgba(255,255,255,0.05)" />
+            <circle cx="30" cy="30" r="2" fill="rgba(255,255,255,0.1)" />
+          </pattern>
+        </defs>
+        <rect width="1080" height="1080" fill="url(#geometric)" />
+      </svg>
+
+      <!-- Minaret Silhouettes -->
+      <svg style="position: absolute; bottom: 0; left: 0; width: 100%; height: 200px; z-index: 2;" viewBox="0 0 1080 200">
+        <path d="M50,200 L50,100 L60,90 L70,100 L70,200 Z" fill="rgba(0,0,0,0.2)" />
+        <path d="M80,200 L80,80 L90,70 L100,80 L100,200 Z" fill="rgba(0,0,0,0.2)" />
+        <path d="M1000,200 L1000,120 L1010,110 L1020,120 L1020,200 Z" fill="rgba(0,0,0,0.2)" />
+        <path d="M1030,200 L1030,90 L1040,80 L1050,90 L1050,200 Z" fill="rgba(0,0,0,0.2)" />
+      </svg>
+
+      ${premiumBadge}
 
       <!-- Main Content Container -->
       <div style="
@@ -60,13 +85,17 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
         justify-content: center;
       ">
         
-        <!-- Day Badge -->
+        <!-- Day Badge with Calligraphy -->
         <div style="
           background: linear-gradient(90deg, #f59e0b, #fbbf24);
           padding: 20px 60px;
           border-radius: 9999px;
           box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+          position: relative;
         ">
+          <svg style="position: absolute; top: -10px; left: -10px; width: 40px; height: 40px;" viewBox="0 0 40 40">
+            <path d="M10,10 Q20,5 30,10 Q35,15 30,20 Q20,25 10,20 Q5,15 10,10" fill="rgba(255,255,255,0.3)" />
+          </svg>
           <h1 style="
             margin: 0;
             color: white;
@@ -74,10 +103,11 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
             font-weight: 800;
             letter-spacing: 4px;
             text-transform: uppercase;
+            font-family: 'serif';
           ">🌙 DAY ${config.day} 🌙</h1>
         </div>
 
-        <!-- Topic (Optional addition for context) -->
+        <!-- Topic with Islamic Calligraphy Style -->
         <div style="
             font-size: 32px;
             color: rgba(255,255,255,0.9);
@@ -85,6 +115,8 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
             margin-top: -20px;
             text-transform: uppercase;
             letter-spacing: 2px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            font-family: 'serif';
         ">${config.topic}</div>
 
         <!-- Message Card -->

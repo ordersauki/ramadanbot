@@ -1,4 +1,12 @@
+<<<<<<< HEAD
 # 🌙 Ramadan Bot - Daily Spiritual Flyer Generator
+=======
+<div align="center">
+<img width="1200" height="475" alt="Ramadan Bot Banner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+</div>
+
+# 🌙 Ramadan Bot - Premium Spiritual Flyer Generator
+>>>>>>> f040f7d (Complete premium Ramadan Bot: iOS UI, database, payments, admin panel)
 
 <div align="center">
 
@@ -8,7 +16,7 @@
 [![React](https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB)](https://reactjs.org/)
 [![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
 
-*Generate beautiful, personalized Ramadan reflection flyers powered by AI*
+*Generate beautiful, personalized Ramadan reflection flyers powered by AI - Premium Edition*
 
 [Live Demo](https://ramadanbot.vercel.app) • [Report Bug](https://github.com/Abdallahnangere/ramadanbot/issues) • [Request Feature](https://github.com/Abdallahnangere/ramadanbot/issues)
 
@@ -19,10 +27,13 @@
 ## ✨ Features
 
 - 🤖 **AI-Powered Content**: Generate personalized spiritual messages using Google's Gemini AI
-- 🎨 **Beautiful Flyers**: High-quality, mobile-optimized PNG flyers with Islamic design elements
-- 📱 **iOS-Grade Experience**: Smooth animations, haptic feedback, and native-like interactions
-- ⏰ **Daily Limit**: One flyer per day to encourage meaningful reflection
-- 💾 **Persistent Storage**: Download your flyer again anytime during the day
+- 🎨 **Premium Flyers**: High-quality PNG flyers with Islamic calligraphy, geometric patterns, and minaret silhouettes
+- 👑 **Premium Users**: Generate up to 5 flyers per day with exclusive badge and enhanced design
+- 💳 **Flutterwave Payments**: Secure bank transfer payments for premium upgrades
+- 👨‍💼 **Admin Panel**: Complete user management, analytics, and pricing control
+- 📱 **iOS-Grade Experience**: Smooth animations, glassmorphism, and native-like interactions
+- ⏰ **Smart Rate Limiting**: User-based limits (1/day free, 5/day premium)
+- 💾 **Persistent Storage**: Download flyers anytime with database tracking
 - 📖 **Inspiring Verses**: Rotating Quranic verses for daily inspiration
 - 🌙 **Ramadan-Themed**: Crescent moons, Islamic patterns, and spiritual color palette
 - 📥 **Easy Sharing**: Download and share your reflections on social media
@@ -33,6 +44,9 @@
 - Node.js 18+
 - npm or yarn
 - Google Gemini API key
+- Neon Database account
+- Flutterwave account
+- Vercel account (for deployment)
 
 ### Installation
 
@@ -52,80 +66,109 @@
    cp .env.example .env.local
    ```
 
-   Add your Gemini API key:
+   Configure your environment:
    ```env
-   GEMINI_API_KEY=your_api_key_here
+   GEMINI_API_KEY=your_gemini_api_key
+   DATABASE_URL=your_neon_database_url
+   JWT_SECRET=your_jwt_secret
+   FLUTTERWAVE_PUBLIC_KEY=your_flutterwave_public_key
+   FLUTTERWAVE_SECRET_KEY=your_flutterwave_secret_key
+   ADMIN_USER=your_admin_username
+   ADMIN_PASSWORD=your_admin_password
    ```
 
-4. **Run the development server**
+4. **Initialize the database**
+   ```bash
+   npm run setup-db
+   ```
+
+5. **Run the development server**
    ```bash
    npm run dev
    ```
 
-5. **Open your browser**
+6. **Open your browser**
 
    Navigate to [http://localhost:5173](http://localhost:5173)
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: React 19, TypeScript, Tailwind CSS
-- **Build Tool**: Vite
+- **Frontend**: React 19, TypeScript, Tailwind CSS, React Router
+- **Backend**: Vercel Serverless Functions
+- **Database**: Neon PostgreSQL
+- **Payments**: Flutterwave
 - **AI**: Google Gemini API
 - **Image Generation**: html2canvas
-- **Date Handling**: date-fns
-- **Icons**: Lucide React
+- **Charts**: Recharts
+- **Auth**: JWT
+- **Build Tool**: Vite
 - **Deployment**: Vercel
 
 ## 📱 Usage
 
-1. **Enter Your Details**: Provide your name, choose a topic, select the day of Ramadan
-2. **Add Context**: Optionally include specific Ayah or Hadith references
-3. **Generate**: Click "Generate Flyer" to create your personalized message
-4. **Download**: Save your beautiful flyer as a high-resolution PNG
-5. **Reflect**: Share with family and friends, or keep for personal contemplation
+### For Users
+1. **Register/Login**: Create account with email and name
+2. **Enter Details**: Provide name, choose topic, select Ramadan day
+3. **Add Context**: Optionally include specific Ayah or Hadith
+4. **Generate**: Click "Generate Flyer" (respects daily limits)
+5. **Upgrade to Premium**: Pay via Flutterwave for 5x daily limit and premium badge
+6. **Download**: Save high-resolution PNG flyer
+
+### For Admins
+1. **Access /admin**: Login with admin credentials
+2. **Manage Users**: View, search, upgrade/demote users, adjust limits
+3. **Set Pricing**: Update premium subscription price
+4. **Analytics**: View user stats, payment data, activity charts
 
 ### Rate Limiting
-- One flyer per day per device
-- Resets at midnight local time
-- Your flyer remains downloadable throughout the day
+- **Free Users**: 1 flyer per day
+- **Premium Users**: 5 flyers per day
+- Resets at midnight UTC
+- Database-tracked per user
 
 ## 🎯 Key Components
 
 ### Core Features
 - **RamadanForm**: Input form with validation and custom day selector
-- **FlyerPreview**: Flyer generation and download interface
+- **FlyerPreview**: Premium flyer generation with Islamic elements
 - **RateLimitMessage**: Daily limit screen with rotating verses
-- **LoadingSpinner**: Smooth loading animations
+- **UserAuth**: Registration and login system
+- **PaymentFlow**: Flutterwave integration for premium upgrades
+- **AdminPanel**: Complete admin dashboard with analytics
 
 ### Utilities
-- **flyerGenerator**: Converts HTML to high-res PNG using html2canvas
-- **gemini**: AI integration for message generation
-- **rateLimit**: Client-side rate limiting with localStorage
+- **flyerGenerator**: Premium flyer creation with calligraphy and patterns
+- **gemini**: AI integration for spiritual message generation
+- **db**: Neon database operations
+- **auth**: JWT authentication middleware
 
 ## 🔧 Configuration
 
 ### Environment Variables
 ```env
 GEMINI_API_KEY=your_gemini_api_key
+DATABASE_URL=postgresql://user:password@host/db
+JWT_SECRET=strong_random_secret
+FLUTTERWAVE_PUBLIC_KEY=FLWPUBK_xxx
+FLUTTERWAVE_SECRET_KEY=FLWSECK_xxx
+ADMIN_USER=admin
+ADMIN_PASSWORD=secure_password
 ```
 
+### Database Schema
+Run `database-init.sql` in your Neon console to set up tables.
+
 ### Flyer Customization
-Modify flyer dimensions and styling in `lib/flyerGenerator.ts`:
-```typescript
-const flyerConfig = {
-  width: 1080,
-  height: 1080, // Square format for WhatsApp stories
-  // ... other options
-}
-```
+Modify flyer elements in `lib/flyerGenerator.ts` for premium features.
 
 ## 🌐 Deployment
 
 ### Vercel (Recommended)
-1. Push your code to GitHub
-2. Connect your repository to Vercel
-3. Add `GEMINI_API_KEY` to environment variables
-4. Deploy!
+1. Push code to GitHub
+2. Connect repository to Vercel
+3. Add all environment variables
+4. Run database setup script
+5. Deploy!
 
 ### Manual Deployment
 ```bash
@@ -135,23 +178,17 @@ npm run preview
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+Contributions welcome! Follow standard Git workflow.
 
 ## 📝 License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+MIT License - see `LICENSE` for details.
 
 ## 🙏 Acknowledgments
 
-- **Google Gemini AI** for powering the spiritual message generation
-- **Islamic Design Elements** inspired by traditional Islamic art
-- **Open Source Community** for the amazing tools and libraries
+- **Google Gemini AI** for spiritual content
+- **Islamic Design Elements** from traditional art
+- **Open Source Community** for amazing tools
 
 ## 📞 Contact
 
@@ -161,12 +198,13 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## 🔮 Future Enhancements
 
+- [x] Premium user system
+- [x] Payment integration
+- [x] Admin panel
+- [x] Database backend
 - [ ] Arabic language support
 - [ ] Multiple flyer themes
-- [ ] Social media integration
-- [ ] Flyer history and favorites
 - [ ] PWA offline capabilities
-- [ ] Admin panel for content management
 
 ---
 

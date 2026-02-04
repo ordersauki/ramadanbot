@@ -60,10 +60,9 @@ const RateLimitMessage: React.FC<RateLimitMessageProps> = () => {
 
   const currentVerse = verses[currentVerseIndex];
 
-  return (
     <div className="w-full max-w-md mx-auto animate-fade-in p-6">
-      <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-primary-100">
-        <div className="bg-gradient-to-r from-primary-600 to-primary-700 p-6 text-center relative overflow-hidden">
+      <div className="bg-white/70 backdrop-blur-sm rounded-3xl shadow-xl overflow-hidden border border-gray-200/50">
+        <div className="bg-gradient-to-r from-teal-500 to-cyan-600 p-6 text-center relative overflow-hidden">
             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
             <div className="text-6xl mb-4 relative z-10">🌙</div>
             <h2 className="text-2xl font-bold text-white relative z-10">
@@ -82,35 +81,34 @@ const RateLimitMessage: React.FC<RateLimitMessageProps> = () => {
           </div>
 
           {storedFlyer && (
-            <div className="bg-primary-50 p-4 rounded-xl border border-primary-200">
-              <p className="text-primary-800 font-medium mb-3">Your today's flyer is ready to download again!</p>
+            <div className="bg-teal-50 p-4 rounded-2xl border border-teal-200">
+              <p className="text-teal-800 font-medium mb-3">Your today's flyer is ready to download again!</p>
               <button
                 onClick={handleDownloadStored}
-                className="bg-primary-600 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded-lg transition-all duration-150 active:scale-[0.98] flex items-center gap-2 mx-auto"
+                className="bg-teal-500 hover:bg-teal-600 text-white font-semibold py-3 px-6 rounded-2xl transition-all duration-150 active:scale-[0.98] flex items-center gap-2 mx-auto shadow-lg"
                 onTouchStart={() => {
                   if (navigator.vibrate) {
                     navigator.vibrate(50);
                   }
                 }}
               >
-                <Download size={16} />
+                <Download size={18} />
                 Download Again
               </button>
             </div>
           )}
 
-          <blockquote className="bg-secondary-50 p-4 rounded-xl border-l-4 border-secondary-400 italic text-gray-700 text-sm transition-all duration-500">
+          <blockquote className="bg-amber-50 p-4 rounded-2xl border-l-4 border-amber-400 italic text-gray-700 text-sm transition-all duration-500">
             "{currentVerse.text}"
-            <footer className="text-secondary-700 font-bold mt-2 not-italic text-xs">— {currentVerse.reference}</footer>
+            <footer className="text-amber-700 font-bold mt-2 not-italic text-xs">— {currentVerse.reference}</footer>
           </blockquote>
 
           <div className="pt-2">
-            <p className="text-primary-600 font-medium">See you tomorrow, Insha'Allah! ❤️</p>
+            <p className="text-teal-600 font-medium">See you tomorrow, Insha'Allah! ❤️</p>
           </div>
         </div>
       </div>
     </div>
-  );
 };
 
 export default RateLimitMessage;

@@ -25,6 +25,7 @@ export interface FlyerConfig {
   topic: string;
   day: number;
   message: string;
+  isPremium?: boolean;
 }
 
 export interface GenerateResponse {
