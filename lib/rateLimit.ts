@@ -1,6 +1,7 @@
 import { differenceInHours, differenceInMinutes, startOfTomorrow, isSameDay, parseISO } from 'date-fns';
 
 const STORAGE_KEY = 'ramadanBot_rateLimit';
+const MAX_GENERATIONS_PER_DAY = 3; // Increased from 1 to 3
 
 interface RateLimitData {
   lastGeneration: string;
@@ -19,12 +20,13 @@ export const canGenerate = (): boolean => {
     const lastGenDate = parseISO(data.lastGeneration);
     const now = new Date();
 
-    // If last generation was on a different day, allow
+    // If last generation was on a different day, reset counter
     if (!isSameDay(lastGenDate, now)) {
       return true;
     }
 
-    return false;
+    // If same day and count is less than max, allow
+    return data.generationCount < MAX_GENERATIONS_PER_DAY;
   } catch (e) {
     console.error("Rate limit check error", e);
     // On error, default to allowing generation to avoid blocking valid users
@@ -38,13 +40,30 @@ export const recordGeneration = (): void => {
   const now = new Date();
   const resetDate = startOfTomorrow();
 
-  const data: RateLimitData = {
-    lastGeneration: now.toISOString(),
-    generationCount: 1,
-    resetDate: resetDate.toISOString(),
-  };
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    let count = 1;
 
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    if (stored) {
+      const data: RateLimitData = JSON.parse(stored);
+      const lastGenDate = parseISO(data.lastGeneration);
+
+      // If same day, increment counter
+      if (isSameDay(lastGenDate, now)) {
+        count = Math.min(data.generationCount + 1, MAX_GENERATIONS_PER_DAY);
+      }
+    }
+
+    const data: RateLimitData = {
+      lastGeneration: now.toISOString(),
+      generationCount: count,
+      resetDate: resetDate.toISOString(),
+    };
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  } catch (e) {
+    console.error("Error recording generation", e);
+  }
 };
 
 export const getRemainingTime = (): string => {

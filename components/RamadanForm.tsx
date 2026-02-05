@@ -139,7 +139,7 @@ const RamadanForm: React.FC<RamadanFormProps> = ({ onSuccess, disabled, initialN
                     rows={2}
                     value={formData.hint}
                     onChange={(e) => handleChange('hint', e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 rounded-2xl bg-ios-lightGray dark:bg-zinc-800 dark:text-white text-sm outline-none focus:bg-white dark:focus:bg-[#2C2C2E] focus:ring-2 ring-ios-teal transition-all resize-none placeholder:text-gray-400"
+                    className="w-full pl-10 pr-4 py-3 rounded-2xl bg-ios-lightGray dark:bg-zinc-800 text-gray-900 dark:text-white text-sm font-medium outline-none focus:bg-white dark:focus:bg-[#2C2C2E] focus:ring-2 ring-ios-teal transition-all resize-none placeholder:text-gray-400"
                     placeholder="Specific Ayah, Hadith, or theme..."
                     disabled={isLoading}
                 />
