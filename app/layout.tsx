@@ -16,6 +16,9 @@ export const metadata: Metadata = {
   keywords: ["Ramadan", "Islamic", "Reflection", "AI Flyer", "Ramadan Bot", "Muslim", "Spirituality", "AI Generator", "Ramadan Generator", "Islamic Learning"],
   authors: [{ name: "Ramadan Bot" }],
   creator: "Ramadan Bot",
+  verification: {
+    google: "xe2tz-sYxM82yWmgNE4s_EqQeeTutOdnax8YmhYXRgA",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
