@@ -46,31 +46,31 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
       <div className="w-full flex-1 flex flex-col justify-center max-w-sm z-10">
         
         {/* Header / Logo Area */}
-        <div className="text-center mb-12 space-y-6">
+        <div className="text-center mb-10 space-y-4">
             <div className="relative inline-block">
                 <img 
                     src="/logo.png" 
                     alt="Ramadan Bot Logo" 
-                    className="w-32 h-32 object-contain drop-shadow-lg" 
+                    className="w-28 h-28 object-contain drop-shadow-lg" 
                 />
             </div>
             
-            <div className="space-y-2">
-                <h1 className="text-4xl font-bold text-white tracking-tight">Ramadan Bot</h1>
-                <p className="text-gray-400 text-sm font-medium tracking-wide uppercase">Premium Spiritual Companion</p>
+            <div className="space-y-1">
+                <h1 className="text-3xl font-bold text-white tracking-tight">Ramadan Bot</h1>
+                <p className="text-gray-400 text-xs font-medium tracking-wide uppercase">Spiritual Companion</p>
             </div>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-3">
                 <div className="group relative">
-                    <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1.5 block ml-1">Account Name</label>
+                    <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1 block ml-1">Account Name</label>
                     <input 
                         type="text"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        className="w-full bg-[#1C1C1E] border border-gray-800 text-white px-5 py-4 rounded-2xl text-lg outline-none focus:border-ios-blue focus:ring-1 focus:ring-ios-blue transition-all placeholder:text-gray-600"
+                        className="w-full bg-[#1C1C1E] border border-gray-800 text-white px-4 py-3.5 rounded-2xl text-sm outline-none focus:border-ios-blue focus:ring-1 focus:ring-ios-blue transition-all placeholder:text-gray-600"
                         placeholder="e.g. Abdallah"
                         required
                         style={{ backgroundColor: '#1C1C1E', color: 'white' }}
@@ -78,7 +78,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
                 </div>
                 
                 <div className="group relative">
-                     <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1.5 block ml-1">Secure PIN</label>
+                     <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1 block ml-1">Secure PIN</label>
                     <div className="relative">
                         <input 
                             type="password"
@@ -89,21 +89,21 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
                                 const value = e.target.value.replace(/[^0-9]/g, '').slice(0, 4);
                                 setPin(value);
                             }}
-                            className="w-full bg-[#1C1C1E] border border-gray-800 text-white px-5 py-4 rounded-2xl text-lg outline-none focus:border-ios-blue focus:ring-1 focus:ring-ios-blue transition-all tracking-[0.5em] placeholder:tracking-normal placeholder:text-gray-600 font-mono"
+                            className="w-full bg-[#1C1C1E] border border-gray-800 text-white px-4 py-3.5 rounded-2xl text-sm outline-none focus:border-ios-blue focus:ring-1 focus:ring-ios-blue transition-all tracking-[0.5em] placeholder:tracking-normal placeholder:text-gray-600 font-mono"
                             placeholder="••••"
                             maxLength={4}
                             required
                             style={{ backgroundColor: '#1C1C1E', color: 'white' }}
                         />
                         <div className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500">
-                            <ShieldCheck size={18} />
+                            <ShieldCheck size={16} />
                         </div>
                     </div>
                 </div>
             </div>
 
             {error && (
-                <div className="text-center text-red-400 text-xs font-semibold bg-red-500/10 py-3 rounded-xl border border-red-500/20 animate-fade-in">
+                <div className="text-center text-red-400 text-xs font-semibold bg-red-500/10 py-2.5 rounded-xl border border-red-500/20 animate-fade-in">
                     {error}
                 </div>
             )}
@@ -111,19 +111,19 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
             <button 
                 type="submit"
                 disabled={isLoading || name.length < 2 || pin.length < 4}
-                className="w-full bg-white text-black font-bold text-lg py-4 rounded-2xl shadow-[0_0_20px_rgba(255,255,255,0.15)] flex items-center justify-center gap-2 transition-all active:scale-[0.98] disabled:opacity-50 disabled:shadow-none hover:bg-gray-100"
+                className="w-full bg-white text-black font-bold text-base py-3.5 rounded-2xl shadow-[0_0_20px_rgba(255,255,255,0.15)] flex items-center justify-center gap-2 transition-all active:scale-[0.98] disabled:opacity-50 disabled:shadow-none hover:bg-gray-100"
                 style={{ backgroundColor: 'white', color: 'black' }}
             >
                 {isLoading ? <LoadingSpinner size="sm" color="text-black" /> : (
                     <>
                         <span>Continue</span>
-                        <ChevronRight size={20} strokeWidth={3} />
+                        <ChevronRight size={18} strokeWidth={3} />
                     </>
                 )}
             </button>
         </form>
 
-        <p className="mt-8 text-center text-xs text-gray-500 leading-relaxed">
+        <p className="mt-6 text-center text-xs text-gray-500 leading-relaxed">
             New here? Enter a name and PIN to 
             <span className="text-white font-semibold"> create an account</span> instantly.
             <br/>Existing users will be logged in.

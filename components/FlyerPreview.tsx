@@ -132,12 +132,12 @@ const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset,
 
   if (isGenerating) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[50vh] animate-fade-in p-6 text-center space-y-6">
+      <div className="flex flex-col items-center justify-center min-h-[50vh] animate-fade-in p-6 text-center space-y-4">
         <LoadingSpinner size="lg" color="text-ios-teal" />
         <div>
-          <h3 className="text-xl font-bold text-gray-900 dark:text-white">Crafting Your Reflection...</h3>
-          <p className="text-gray-500 mt-3 text-sm max-w-xs mx-auto">Loading background image, positioning text, and rendering your flyer. This takes a moment for perfection.</p>
-          <p className="text-gray-400 mt-2 text-xs font-mono">Please wait...</p>
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white">Crafting Your Reflection...</h3>
+          <p className="text-gray-500 mt-2 text-sm max-w-xs mx-auto">Loading and rendering your beautiful flyer.</p>
+          <p className="text-gray-400 mt-1 text-xs font-mono">Please wait...</p>
         </div>
       </div>
     );
@@ -146,30 +146,30 @@ const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset,
   // Show Cooldown Screen After Download
   if (hasDownloaded) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[50vh] animate-fade-in p-6 text-center space-y-6">
-        <div className="w-20 h-20 rounded-full bg-gradient-to-br from-ios-teal to-cyan-500 flex items-center justify-center text-white text-4xl shadow-lg">
+      <div className="flex flex-col items-center justify-center min-h-[50vh] animate-fade-in p-6 text-center space-y-4">
+        <div className="w-16 h-16 rounded-full bg-gradient-to-br from-ios-teal to-cyan-500 flex items-center justify-center text-white text-3xl shadow-lg">
           ✨
         </div>
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Flyer Generated!</h2>
-          <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">You've created your reflection for today. Come back after:</p>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white">Flyer Generated!</h2>
+          <p className="text-gray-600 dark:text-gray-400 text-sm mt-2">Come back after:</p>
         </div>
-        <div className="bg-gradient-to-r from-ios-teal/10 to-cyan-500/10 border border-ios-teal/30 rounded-2xl p-6 w-full">
+        <div className="bg-gradient-to-r from-ios-teal/10 to-cyan-500/10 border border-ios-teal/30 rounded-2xl p-5 w-full">
           <div className="flex items-center justify-center gap-2 mb-2">
-            <Clock size={20} className="text-ios-teal" />
-            <p className="text-xs font-bold text-ios-teal uppercase tracking-wider">Time Until Next Generation</p>
+            <Clock size={18} className="text-ios-teal" />
+            <p className="text-xs font-bold text-ios-teal uppercase tracking-wider">Time Until Next</p>
           </div>
           <p className="text-4xl font-mono font-bold text-gray-900 dark:text-white">{countdown}</p>
-          <p className="text-xs text-gray-500 dark:text-gray-400 mt-3">24-hour daily limit resets automatically</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">24-hour reset</p>
         </div>
-        <p className="text-sm text-gray-600 dark:text-gray-400">In the meantime, share your flyer with others:</p>
+        <p className="text-sm text-gray-600 dark:text-gray-400">Share your flyer with family and friends:</p>
         <div className="space-y-2 w-full">
           <button
             onClick={handleRedownload}
-            className="w-full bg-white dark:bg-[#1C1C1E] text-gray-900 dark:text-white border border-gray-200 dark:border-zinc-700 font-bold py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-gray-50 dark:hover:bg-zinc-800 transition-all"
+            className="w-full bg-white dark:bg-[#1C1C1E] text-gray-900 dark:text-white border border-gray-200 dark:border-zinc-700 font-bold py-2.5 rounded-xl flex items-center justify-center gap-2 hover:bg-gray-50 dark:hover:bg-zinc-800 transition-all text-sm"
           >
-            <Download size={20} />
-            <span>Re-download Flyer</span>
+            <Download size={18} />
+            <span>Re-download</span>
           </button>
           <button
             onClick={() => {
@@ -181,16 +181,16 @@ const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset,
                 }).catch(() => {});
               }
             }}
-            className="w-full bg-gradient-to-r from-blue-500 to-cyan-600 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 hover:shadow-lg transition-all"
+            className="w-full bg-gradient-to-r from-blue-500 to-cyan-600 text-white font-bold py-2.5 rounded-xl flex items-center justify-center gap-2 hover:shadow-lg transition-all text-sm"
           >
-            <Share2 size={20} />
-            <span>Share Message</span>
+            <Share2 size={18} />
+            <span>Share</span>
           </button>
           <button
             onClick={onReset}
-            className="w-full text-ios-teal font-bold py-3 rounded-xl hover:bg-ios-teal/10 transition-all"
+            className="w-full text-ios-teal font-bold py-2 rounded-xl hover:bg-ios-teal/10 transition-all text-sm"
           >
-            Return to Home
+            Return Home
           </button>
         </div>
       </div>
@@ -199,13 +199,13 @@ const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset,
 
   if (error) {
      return (
-        <div className="flex flex-col items-center justify-center min-h-[50vh] p-6 text-center animate-fade-in">
-            <XCircle size={64} className="text-red-500 mb-6" />
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Generation Failed</h3>
-            <p className="text-gray-500 dark:text-gray-400 mb-8">{error}</p>
+        <div className="flex flex-col items-center justify-center min-h-[50vh] p-6 text-center animate-fade-in space-y-4">
+            <XCircle size={56} className="text-red-500" />
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white">Generation Failed</h3>
+            <p className="text-gray-500 dark:text-gray-400 text-sm">{error}</p>
             <button 
                 onClick={onReset}
-                className="bg-gray-900 dark:bg-white text-white dark:text-black px-8 py-3 rounded-xl font-bold"
+                className="bg-gray-900 dark:bg-white text-white dark:text-black px-6 py-2.5 rounded-xl font-bold text-sm"
             >
                 Try Again
             </button>
@@ -217,16 +217,16 @@ const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset,
     <div className="flex flex-col h-full animate-fade-in pb-4">
       
       {/* Header - Compact */}
-      <div className="text-center mb-2">
-        <div className="inline-flex items-center gap-2 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-3 py-1 rounded-full text-xs font-bold mb-1 border border-green-200 dark:border-green-900">
+      <div className="text-center mb-3">
+        <div className="inline-flex items-center gap-1.5 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-3 py-1 rounded-full text-xs font-bold mb-1 border border-green-200 dark:border-green-900">
             <Sparkles size={12} />
             <span>Success</span>
         </div>
-        <h2 className="text-lg font-bold text-gray-900 dark:text-white">Your Daily Reflection</h2>
+        <h2 className="text-base font-bold text-gray-900 dark:text-white">Your Daily Reflection</h2>
       </div>
 
       {/* Preview Card - REDUCED HEIGHT for Visibility */}
-      <div className="flex-1 flex justify-center items-center mb-4 relative px-4 min-h-0">
+      <div className="flex-1 flex justify-center items-center mb-3 relative px-4 min-h-0">
         
         <div className="relative w-full max-w-[280px] aspect-square">
             {flyerUrl ? (
@@ -249,26 +249,26 @@ const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset,
       <div className="space-y-2 px-2 mt-auto">
         <button
           onClick={handleDownload}
-          className="w-full bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-black font-extrabold text-base py-3 rounded-xl shadow-md flex items-center justify-center gap-2 transition-all active:scale-[0.98]"
+          className="w-full bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-black font-extrabold text-base py-2.5 rounded-xl shadow-md flex items-center justify-center gap-2 transition-all active:scale-[0.98]"
         >
-            <Download size={20} strokeWidth={2.5} />
-            <span>Download High-Res</span>
+            <Download size={18} strokeWidth={2.5} />
+            <span>Download</span>
         </button>
 
         <div className="grid grid-cols-2 gap-2">
             <button 
                 onClick={handleShare} 
-                className="bg-white dark:bg-[#2C2C2E] text-gray-900 dark:text-white font-bold py-3 rounded-xl shadow-sm border border-gray-100 dark:border-zinc-700 flex items-center justify-center gap-2 active:scale-[0.98] transition-transform"
+                className="bg-white dark:bg-[#2C2C2E] text-gray-900 dark:text-white font-bold py-2.5 rounded-xl shadow-sm border border-gray-100 dark:border-zinc-700 flex items-center justify-center gap-1.5 active:scale-[0.98] transition-transform text-sm"
             >
-                <Share2 size={18} />
+                <Share2 size={16} />
                 <span>Share</span>
             </button>
             
             <button 
                 onClick={onReset} 
-                className="bg-gray-100 dark:bg-black/40 text-gray-600 dark:text-gray-300 font-bold py-3 rounded-xl flex items-center justify-center gap-2 active:scale-[0.98] transition-transform"
+                className="bg-gray-100 dark:bg-black/40 text-gray-600 dark:text-gray-300 font-bold py-2.5 rounded-xl flex items-center justify-center gap-1.5 active:scale-[0.98] transition-transform text-sm"
             >
-                <RefreshCcw size={18} />
+                <RefreshCcw size={16} />
                 <span>New</span>
             </button>
         </div>

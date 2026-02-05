@@ -63,24 +63,22 @@ const RamadanForm: React.FC<RamadanFormProps> = ({ onSuccess, disabled, initialN
   };
 
   return (
-    <div className="w-full bg-white dark:bg-[#1C1C1E] rounded-3xl shadow-ios border border-gray-100 dark:border-zinc-800 p-6 relative z-10 transition-colors">
+    <div className="w-full bg-white dark:bg-[#1C1C1E] rounded-3xl shadow-ios border border-gray-100 dark:border-zinc-800 p-6 space-y-5 relative z-10 transition-colors">
       
       {/* Guide & Limits */}
-      <div className="mb-6 space-y-3">
-        <div className="flex items-start gap-3 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border border-blue-100 dark:border-blue-900/50">
-            <Info className="w-5 h-5 text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
+      <div className="flex items-start gap-3 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border border-blue-100 dark:border-blue-900/50">
+            <Info className="w-4 h-4 text-blue-600 dark:text-blue-400 mt-1 flex-shrink-0" />
             <div className="text-xs text-blue-800 dark:text-blue-200 leading-relaxed">
-                <span className="font-bold block mb-1">✨ How It Works</span>
-                Share a spiritual theme or Quranic virtue (e.g., "Patience," "Gratitude"). We'll craft a personalized Ramadan reflection flyer with an inspiring message for you to share.
+                <span className="font-bold block mb-1">How It Works</span>
+                Share a spiritual theme like "Patience" or "Gratitude"— we'll craft a personalized Ramadan reflection flyer for you to share.
             </div>
         </div>
-      </div>
 
-      <form onSubmit={handleSubmit} className="space-y-5">
+      <form onSubmit={handleSubmit} className="space-y-4">
         
         {/* Row for Topic and Day */}
         <div className="flex gap-3 relative z-20">
-          <div className="space-y-1.5 flex-grow">
+          <div className="space-y-1 flex-grow">
             <label className="text-[10px] font-bold text-gray-400 uppercase ml-1 tracking-wider">Topic</label>
             <div className="relative">
                 <Target size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -89,7 +87,7 @@ const RamadanForm: React.FC<RamadanFormProps> = ({ onSuccess, disabled, initialN
                 maxLength={50}
                 value={formData.topic}
                 onChange={(e) => handleChange('topic', e.target.value)}
-                className="w-full pl-10 pr-4 py-4 rounded-2xl bg-ios-lightGray dark:bg-zinc-800 text-gray-900 dark:text-white text-sm font-medium outline-none focus:bg-white dark:focus:bg-[#2C2C2E] focus:ring-2 ring-ios-teal transition-all placeholder:text-gray-400 placeholder:dark:text-gray-500"
+                className="w-full pl-10 pr-4 py-3.5 rounded-2xl bg-ios-lightGray dark:bg-zinc-800 text-gray-900 dark:text-white text-sm font-medium outline-none focus:bg-white dark:focus:bg-[#2C2C2E] focus:ring-2 ring-ios-teal transition-all placeholder:text-gray-400 placeholder:dark:text-gray-500"
                 placeholder="e.g. Ihsan"
                 disabled={isLoading}
                 required
@@ -97,13 +95,13 @@ const RamadanForm: React.FC<RamadanFormProps> = ({ onSuccess, disabled, initialN
             </div>
           </div>
 
-          <div className="space-y-1.5 w-32 flex-shrink-0" ref={dropdownRef}>
+          <div className="space-y-1 w-32 flex-shrink-0" ref={dropdownRef}>
             <label className="text-[10px] font-bold text-gray-400 uppercase ml-1 tracking-wider">Day</label>
             <div className="relative">
               <button
                 type="button"
                 onClick={() => !isLoading && setIsDayOpen(!isDayOpen)}
-                className="w-full py-4 px-4 rounded-2xl bg-ios-lightGray dark:bg-zinc-800 dark:text-white text-sm font-medium flex items-center justify-between outline-none focus:ring-2 ring-ios-teal transition-all"
+                className="w-full py-3.5 px-4 rounded-2xl bg-ios-lightGray dark:bg-zinc-800 dark:text-white text-sm font-medium flex items-center justify-between outline-none focus:ring-2 ring-ios-teal transition-all"
               >
                 <span>Day {formData.day}</span>
                 <ChevronDown size={14} className="text-gray-400" />
@@ -129,19 +127,19 @@ const RamadanForm: React.FC<RamadanFormProps> = ({ onSuccess, disabled, initialN
         </div>
 
         {/* Hint */}
-        <div className="space-y-1.5">
+        <div className="space-y-1">
              <label className="text-[10px] font-bold text-gray-400 uppercase ml-1 flex items-center justify-between tracking-wider">
-                <span>Hint <span className="text-[9px] font-normal opacity-70 normal-case">(Optional specific request)</span></span>
-                <span>{formData.hint?.length || 0}/300</span>
+                <span>Hint <span className="text-[9px] font-normal opacity-70 normal-case">(optional)</span></span>
+                <span className="text-[9px] opacity-60">{formData.hint?.length || 0}/300</span>
              </label>
             <div className="relative">
-                <Lightbulb size={16} className="absolute left-4 top-4 text-gray-400" />
+                <Lightbulb size={16} className="absolute left-4 top-3 text-gray-400" />
                 <textarea
                     maxLength={300}
                     rows={2}
                     value={formData.hint}
                     onChange={(e) => handleChange('hint', e.target.value)}
-                    className="w-full pl-10 pr-4 py-3.5 rounded-2xl bg-ios-lightGray dark:bg-zinc-800 dark:text-white text-sm outline-none focus:bg-white dark:focus:bg-[#2C2C2E] focus:ring-2 ring-ios-teal transition-all resize-none placeholder:text-gray-400"
+                    className="w-full pl-10 pr-4 py-3 rounded-2xl bg-ios-lightGray dark:bg-zinc-800 dark:text-white text-sm outline-none focus:bg-white dark:focus:bg-[#2C2C2E] focus:ring-2 ring-ios-teal transition-all resize-none placeholder:text-gray-400"
                     placeholder="Specific Ayah, Hadith, or theme..."
                     disabled={isLoading}
                 />
@@ -151,7 +149,7 @@ const RamadanForm: React.FC<RamadanFormProps> = ({ onSuccess, disabled, initialN
         <button
           type="submit"
           disabled={isLoading || disabled}
-          className="w-full bg-gradient-to-r from-ios-teal to-cyan-600 hover:from-cyan-500 hover:to-ios-teal text-white font-bold py-4 rounded-2xl shadow-lg shadow-cyan-500/25 transform active:scale-[0.98] transition-all flex items-center justify-center gap-2 mt-4"
+          className="w-full bg-gradient-to-r from-ios-teal to-cyan-600 hover:from-cyan-500 hover:to-ios-teal text-white font-bold py-3.5 rounded-2xl shadow-lg shadow-cyan-500/25 transform active:scale-[0.98] transition-all flex items-center justify-center gap-2 mt-3"
         >
           {isLoading ? (
             <LoadingSpinner size="sm" color="text-white" />

@@ -96,7 +96,7 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
         <!-- Day (Top Left - Caligraphic) -->
         <div style="
             position: absolute;
-            top: 50px;
+            top: 90px;
             left: 50px;
             text-align: left;
             z-index: 20;
@@ -181,7 +181,7 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
         <!-- User Name Section (Bottom - Repositioned & Restyled) -->
         <div style="
             position: absolute;
-            bottom: 140px;
+            bottom: 180px;
             left: 0;
             right: 0;
             text-align: center;
@@ -202,7 +202,7 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
             <!-- User Name - Elegant Golden Styling -->
             <h2 style="
                 font-family: 'Amiri', serif;
-                font-size: 56px;
+                font-size: 44px;
                 font-weight: 700;
                 color: rgba(244, 208, 63, 0.9);
                 letter-spacing: 2px;
