@@ -1,8 +1,8 @@
 {
-  "name": "Ramadan Bot: AI POWERED religious flyer generator",
+  "name": "Ramadan Bot: Daily Spiritual Reflections",
   "short_name": "Ramadan Bot",
-  "description": "AI-powered Ramadan flyer generator. Create beautiful, personalized daily Ramadan reflections and shareable Islamic flyers.",
-  "start_url": "/",
+  "description": "Create beautiful, personalized daily Ramadan reflections and shareable Islamic flyers.",
+  "start_url": "https://www.ramadanbot.vercel.app/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",

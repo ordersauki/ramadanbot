@@ -88,7 +88,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, user, onLogout, onAd
                       <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 font-medium">v2.1.0</p>
                     </div>
                     <p className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed text-center">
-                      A sophisticated platform for crafting personalized Ramadan reflections and spiritual flyers using AI-powered Islamic messaging. Designed to deepen your spiritual journey during the holy month.
+                      A sophisticated platform for crafting personalized Ramadan reflections and spiritual flyers grounded in authentic Islamic teachings. Designed to deepen your spiritual journey during the holy month.
                     </p>
                     <div className="pt-2 border-t border-gray-100 dark:border-zinc-700">
                       <p className="text-[10px] text-gray-500 dark:text-gray-400 text-center">

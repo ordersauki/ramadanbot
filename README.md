@@ -1,10 +1,10 @@
-# 🌙 Ramadan Bot - Your AI-Powered Spiritual Companion
+# 🌙 Ramadan Bot - Your Spiritual Companion
 
-Transform your Ramadan journey with **Ramadan Bot**, an intelligent, faith-based platform that generates personalized daily reflections grounded in authentic Islamic teachings. Create beautiful, shareable flyers that inspire your community while building a consistent spiritual practice.
+Transform your Ramadan journey with **Ramadan Bot**, a faith-based platform that generates personalized daily reflections grounded in authentic Islamic teachings. Create beautiful, shareable flyers that inspire your community while building a consistent spiritual practice.
 
 ## ✨ What Makes Ramadan Bot Special?
 
-**Ramadan Bot** is more than just a reflection generator—it's a complete spiritual companion designed to deepen your connection with Islamic wisdom during the holy month. Powered by advanced AI trained on Islamic scholarship, every message you create is:
+**Ramadan Bot** is more than just a reflection generator—it's a complete spiritual companion designed to deepen your connection with Islamic wisdom during the holy month. Every message you create is:
 
 - **Authentically Rooted** in Quranic verses, authentic Hadiths, and the teachings of the righteous predecessors
 - **Grammatically Perfect** with flawless prose that elevates your spiritual message
@@ -13,8 +13,7 @@ Transform your Ramadan journey with **Ramadan Bot**, an intelligent, faith-based
 
 ## 🎯 Core Features
 
-### 🤖 **AI-Powered Islamic Reflections**
-- Advanced Gemini AI trained specifically for Islamic scholarship
+### 📝 **Personalized Islamic Reflections**
 - Generates responses grounded in Quranic verses and authenticated Hadiths
 - Creates meaningful spiritual messages (150-250 characters of pure wisdom)
 - Zero special characters—clean, elegant prose only
@@ -100,10 +99,10 @@ After generating, you'll see a countdown timer showing when the next generation 
 ## 🛠️ Technology Stack
 
 - **Frontend**: Next.js 14, React, TypeScript, Tailwind CSS
-- **AI Engine**: Google Gemini 2.5 Flash Lite with custom Islamic scholarship prompts
-- **Image Generation**: html2canvas with professional rendering
-- **Database**: Secure cloud backend with encryption
-- **Icons**: Modern, up-to-date social media icons
+- **Backend**: Node.js with PostgreSQL database
+- **Image Generation**: Professional rendering engine
+- **Database**: Secure PostgreSQL cloud backend
+- **Hosting**: Vercel (www.ramadanbot.vercel.app)
 - **PWA**: Full offline support with manifest and service workers
 
 ## 📖 Islamic Grounding
@@ -138,11 +137,13 @@ Ramadan Bot is built with deep respect for Islamic tradition and authentic schol
 
 Created by **Abdallah Nangere** 🇳🇬
 
-## 📞 Questions or Feedback?
+## 📞 Contact & Support
 
-Have suggestions? Found a bug? Want to contribute? We'd love to hear from you!
-- Open an issue on [GitHub](https://github.com/Abdallahnangere/ramadanbot)
-- Share your feedback through the app
+Have suggestions? Found a bug? Want to contribute? Get in touch:
+- **Website**: [www.ramadanbot.vercel.app](https://www.ramadanbot.vercel.app)
+- **GitHub**: [github.com/Abdallahnangere/ramadanbot](https://github.com/Abdallahnangere/ramadanbot)
+- **Email**: abdallahnangere@gmail.com
+- **WhatsApp**: [+234 816 413 5836](https://wa.me/2348164135836)
 
 ---
 

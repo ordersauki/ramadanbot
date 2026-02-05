@@ -10,8 +10,8 @@ const cinzel = Cinzel({ subsets: ["latin"], variable: '--font-cinzel' });
 const cormorant = Cormorant_Garamond({ weight: ['300', '400', '600'], subsets: ["latin"], variable: '--font-cormorant' });
 
 export const metadata: Metadata = {
-  title: "Ramadan Bot: AI POWERED religious flyer generator",
-  description: "AI-powered Ramadan flyer generator. Create beautiful, personalized daily Ramadan reflections and shareable Islamic flyers. Generate religious content grounded in authentic Islamic teachings.",
+  title: "Ramadan Bot: Daily Spiritual Reflections",
+  description: "Create beautiful, personalized daily Ramadan reflections and shareable Islamic flyers grounded in authentic Islamic teachings.",
   manifest: "/manifest.json",
   keywords: ["Ramadan", "Islamic", "Reflection", "AI Flyer", "Ramadan Bot", "Muslim", "Spirituality", "AI Generator", "Ramadan Generator", "Islamic Learning"],
   authors: [{ name: "Ramadan Bot" }],
@@ -44,8 +44,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     creator: "@RamadanBot",
-    title: "Ramadan Bot: AI POWERED religious flyer generator",
-    description: "AI-powered Ramadan reflections and beautiful shareable Islamic flyers",
+    title: "Ramadan Bot: Daily Spiritual Reflections",
+    description: "Beautiful shareable Islamic flyers with personalized Ramadan reflections",
     images: ["/icon-512x512.png", "/ramadan-background.png"],
   },
   appleWebApp: {
