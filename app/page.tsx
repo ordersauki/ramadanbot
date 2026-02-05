@@ -8,7 +8,8 @@ import LoginScreen from '../components/LoginScreen';
 import AdminDashboard from '../components/AdminDashboard';
 import Sidebar from '../components/Sidebar';
 import SettingsScreen from '../components/SettingsScreen';
-import { Menu, Sparkles, Download } from 'lucide-react';
+import Toast from '../components/Toast';
+import { Menu, Sparkles, Download, Clock } from 'lucide-react';
 
 export default function Home() {
   const [appState, setAppState] = useState<AppState>({ 
@@ -21,6 +22,7 @@ export default function Home() {
   const [downloadedFlyerUrl, setDownloadedFlyerUrl] = useState<string | null>(null);
   const [hasDownloadedToday, setHasDownloadedToday] = useState(false);
   const [countdownTime, setCountdownTime] = useState<string>('00:00:00');
+  const [toast, setToast] = useState<{ type: 'success' | 'error' | 'warning' | 'info'; message: string } | null>(null);
   
   // Persist login session and Theme
   useEffect(() => {
@@ -107,6 +109,9 @@ export default function Home() {
 
   const handleFlyerDownloaded = async (flyerUrl: string) => {
     setDownloadedFlyerUrl(flyerUrl);
+    
+    // Show success notification
+    setToast({ type: 'success', message: '✓ Flyer downloaded successfully!' });
 
     // Fetch latest user state from server to get accurate remaining limits
     try {
@@ -121,6 +126,7 @@ export default function Home() {
                     const limit = json.user.limit || json.user.rate_limit_override || 3;
                     if (usedToday >= limit && json.user.role !== 'admin') {
                         setHasDownloadedToday(true);
+                        setToast({ type: 'warning', message: `Daily limit reached. Next generation available in 24 hours.` });
                     } else {
                         setHasDownloadedToday(false);
                     }
@@ -128,7 +134,7 @@ export default function Home() {
             }
     } catch (e) {
       console.error('Failed to refresh user after download', e);
-      // fallback: mark as downloaded
+      setToast({ type: 'error', message: 'Failed to check limit status' });
       setHasDownloadedToday(true);
     }
   };
@@ -333,6 +339,16 @@ export default function Home() {
   return (
     // DESKTOP FRAME WRAPPER - Simulates iPhone
     <div className={`relative w-full h-full flex justify-center items-center p-0 md:p-8 ${appState.isDarkMode ? 'dark' : ''}`}>
+      
+      {/* Toast Notifications */}
+      {toast && (
+        <Toast
+          type={toast.type}
+          message={toast.message}
+          duration={4000}
+          onClose={() => setToast(null)}
+        />
+      )}
       
       {/* Phone Chassis */}
       <div className="relative w-full h-full md:max-w-[400px] md:max-h-[850px] bg-white dark:bg-black md:rounded-[45px] md:shadow-[0_0_0_12px_#1f2937,0_35px_60px_-15px_rgba(0,0,0,0.3)] overflow-hidden border-gray-900 transition-colors duration-300 isolate">
