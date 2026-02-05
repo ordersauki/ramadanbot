@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { X, Settings, LogOut, Shield, Heart, UserCircle, Mail, MessageCircle } from 'lucide-react';
+import { X, Settings, LogOut, Shield, Heart, UserCircle, Mail, MessageCircle, History } from 'lucide-react';
 import { User } from '../types';
+import HistoryModal from './HistoryModal';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -13,8 +14,10 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, user, onLogout, onAdmin, onSettings }) => {
   const [infoTab, setInfoTab] = useState<'about' | 'contact'>('about');
+  const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   return (
     <>
+      <HistoryModal isOpen={isHistoryOpen} onClose={() => setIsHistoryOpen(false)} />
       {/* Backdrop */}
       <div 
         className={`absolute inset-0 bg-black/30 backdrop-blur-sm z-40 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
@@ -136,29 +139,13 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, user, onLogout, onAd
               </div>
             </div>
 
-            {/* Generation History (from localStorage) */}
-            <div className="mt-4 p-3">
-              <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Your History</h4>
-              <div className="space-y-2 max-h-40 overflow-y-auto pr-2">
-                {(() => {
-                  try {
-                    const raw = typeof window !== 'undefined' ? localStorage.getItem('generationHistory') : null;
-                    const items = raw ? JSON.parse(raw) : [];
-                    if (!items || items.length === 0) return <p className="text-[11px] text-gray-400">No recent generations yet.</p>;
-                    return items.slice(0,10).map((it:any,idx:number) => (
-                      <div key={idx} className="flex items-center justify-between text-[12px]">
-                        <div className="min-w-0">
-                          <div className="font-semibold truncate">{it.topic}</div>
-                          <div className="text-xs text-gray-400">Day {it.day} • {new Date(it.date).toLocaleDateString()}</div>
-                        </div>
-                      </div>
-                    ));
-                  } catch {
-                    return <p className="text-[11px] text-gray-400">No recent generations yet.</p>;
-                  }
-                })()}
-              </div>
-            </div>
+            <button 
+              onClick={() => setIsHistoryOpen(true)}
+              className="w-full flex items-center gap-3 px-3 py-3 bg-white dark:bg-black/20 rounded-xl text-ios-teal hover:bg-gray-50 dark:hover:bg-white/5 transition-colors shadow-sm mt-2"
+            >
+              <History size={20} />
+              <span className="font-medium">Generation History</span>
+            </button>
           </div>
 
         </div>

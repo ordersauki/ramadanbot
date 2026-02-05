@@ -53,12 +53,11 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
         reader.onerror = reject;
         reader.readAsDataURL(blob);
       });
-      console.log('✓ Background fetched as data URL');
     } else {
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     }
   } catch (err) {
-    console.error('💥 Failed to fetch background:', err);
+    console.error('Failed to fetch background:', err);
     throw new Error(`Background image load failed: ${err instanceof Error ? err.message : 'Unknown error'}`);
   }
 
@@ -191,21 +190,25 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
                 opacity: 0.9;
             ">"</div>
 
-            <!-- User Name Signature: prominent, single-line centered and ellipsized if too long -->
+            <!-- User Name Signature: prominent, styled, full name display -->
             <p style="
-              font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-              font-size: 34px;
-              font-weight: 800;
-              color: #3B2F2B;
+              font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+              font-size: 48px;
+              font-weight: 700;
+              background: linear-gradient(135deg, #8B6F47 0%, #C9A961 100%);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              background-clip: text;
               margin: 0;
-              line-height: 1.1;
-              margin-top: 18px;
-              letter-spacing: 0.2px;
+              line-height: 1.3;
+              margin-top: 24px;
+              letter-spacing: 0.5px;
               text-align: center;
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
+              white-space: normal;
+              word-wrap: break-word;
+              overflow-wrap: break-word;
               max-width: 920px;
+              text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             ">${escapeHtml(config.userName)}</p>
         </div>
 
@@ -219,16 +222,14 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
     
     // Wait for fonts to load
     const fontTimeout = setTimeout(() => {
-      console.warn('⚠️ Fonts taking time, proceeding');
+      console.log('Fonts taking time, proceeding');
     }, 2500);
     
     try {
       await document.fonts.ready;
       clearTimeout(fontTimeout);
-      console.log('✓ Fonts ready');
     } catch {
       clearTimeout(fontTimeout);
-      console.warn('⚠️ Fonts: proceeding with fallback');
     }
     
     // Extended wait for layout and rendering
@@ -239,10 +240,8 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
 
     // Verify the background is applied
     const computedStyle = window.getComputedStyle(flyerElement);
-    console.log('✓ Canvas ready');
 
     try {
-      console.log('🎨 Rendering...');
       const canvas = await html2canvas(flyerElement, {
         scale: 2,
         useCORS: true,
@@ -258,8 +257,6 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
       });
 
       const dataUrl = canvas.toDataURL('image/png', 1.0);
-      const sizeMB = (dataUrl.length / 1024 / 1024).toFixed(2);
-      console.log('✓ Success -', sizeMB, 'MB');
       
       // Clean up
       if (document.body.contains(container)) {
@@ -268,7 +265,7 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
       
       return dataUrl;
     } catch (canvasError) {
-      console.error('💥 Canvas error:', canvasError);
+      console.error('Canvas error:', canvasError);
       throw canvasError;
     }
   } catch (error) {

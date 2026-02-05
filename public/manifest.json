@@ -1,7 +1,10 @@
 {
-  "name": "Ramadan Bot: Daily Spiritual Reflections",
+  "id": "https://www.ramadanbot.vercel.app/",
+  "name": "Ramadan Bot: AI Flyer Generator",
   "short_name": "Ramadan Bot",
-  "description": "Create beautiful, personalized daily Ramadan reflections and shareable Islamic flyers.",
+  "lang": "en",
+  "dir": "ltr",
+  "description": "Create beautiful, personalized Ramadan flyers and Islamic spiritual content.",
   "start_url": "https://www.ramadanbot.vercel.app/",
   "scope": "/",
   "display": "standalone",
@@ -9,6 +12,7 @@
   "theme_color": "#0f766e",
   "background_color": "#ffffff",
   "categories": ["lifestyle", "productivity", "education"],
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
   "icon": "/icon.png",
   "icons": [
     {

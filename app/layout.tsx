@@ -10,22 +10,23 @@ const cinzel = Cinzel({ subsets: ["latin"], variable: '--font-cinzel' });
 const cormorant = Cormorant_Garamond({ weight: ['300', '400', '600'], subsets: ["latin"], variable: '--font-cormorant' });
 
 export const metadata: Metadata = {
-  title: "Ramadan Bot: Daily Spiritual Reflections",
-  description: "Create beautiful, personalized daily Ramadan reflections and shareable Islamic flyers grounded in authentic Islamic teachings.",
+  title: "Ramadan Bot: AI Flyer Generator",
+  description: "Create beautiful, personalized Ramadan flyers and Islamic spiritual content with ease.",
+  metadataBase: new URL("https://www.ramadanbot.vercel.app"),
   manifest: "/manifest.json",
-  keywords: ["Ramadan", "Islamic", "Reflection", "AI Flyer", "Ramadan Bot", "Muslim", "Spirituality", "AI Generator", "Ramadan Generator", "Islamic Learning"],
-  authors: [{ name: "Ramadan Bot" }],
-  creator: "Ramadan Bot",
+  keywords: ["Ramadan", "Islamic", "Flyer Generator", "Ramadan Bot", "Muslim", "Spirituality", "Islamic Design", "Ramadan Creator", "Islamic Content"],
+  authors: [{ name: "Abdallah Nangere" }],
+  creator: "Abdallah Nangere",
   verification: {
     google: "xe2tz-sYxM82yWmgNE4s_EqQeeTutOdnax8YmhYXRgA",
   },
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://ramadanbot.com",
+    url: "https://www.ramadanbot.vercel.app",
     siteName: "Ramadan Bot",
-    title: "Ramadan Bot: AI POWERED religious flyer generator",
-    description: "Generate personalized daily Ramadan reflections with AI. Create beautiful shareable flyers and track your spiritual journey.",
+    title: "Ramadan Bot: AI Flyer Generator",
+    description: "Create beautiful, personalized Ramadan flyers and Islamic spiritual content.",
     images: [
       {
         url: "/icon-512x512.png",
@@ -44,8 +45,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     creator: "@RamadanBot",
-    title: "Ramadan Bot: Daily Spiritual Reflections",
-    description: "Beautiful shareable Islamic flyers with personalized Ramadan reflections",
+    title: "Ramadan Bot: AI Flyer Generator",
+    description: "Create beautiful, personalized Ramadan flyers instantly",
     images: ["/icon-512x512.png", "/ramadan-background.png"],
   },
   appleWebApp: {
@@ -79,11 +80,13 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="Ramadan Bot" />
+        <meta name="application-name" content="Ramadan Bot" />
         <link rel="manifest" href="/manifest.json" />
         <link rel="icon" href="/icon.png" type="image/png" />
         <link rel="apple-touch-icon" href="/icon-192x192.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/icon-192x192.png" />
         <meta name="theme-color" content="#0f766e" />
-        <meta name="description" content="Generate personalized daily Ramadan reflections grounded in authentic Islamic teachings." />
+        <meta name="description" content="Create beautiful, personalized Ramadan flyers and Islamic spiritual content." />
       </head>
       <body 
         className={`${inter.variable} ${amiri.variable} ${cinzel.variable} ${cormorant.variable} antialiased bg-black flex justify-center items-center h-screen w-screen overflow-hidden`}
