@@ -57,7 +57,6 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        background-attachment: fixed;
         font-family: 'Cormorant Garamond', serif;
         overflow: hidden;
         display: flex;
@@ -67,38 +66,31 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
         padding: 60px 40px;
     ">
         
-        <!-- Day Circle (Top) -->
+        <!-- Day (Top Left - Caligraphic) -->
         <div style="
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.9) 0%, rgba(244, 208, 63, 0.9) 100%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 12px 40px rgba(212, 175, 55, 0.5), inset 0 2px 8px rgba(255, 255, 255, 0.4);
-            border: 3px solid rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(10px);
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            text-align: left;
+            z-index: 20;
         ">
             <div style="
-                font-family: 'Cinzel', serif;
-                font-size: 72px;
-                font-weight: 800;
-                color: #0A4D3C;
+                font-family: 'Amiri', serif;
+                font-size: 84px;
+                font-weight: 700;
+                color: rgba(244, 208, 63, 0.95);
                 line-height: 1;
-                letter-spacing: 2px;
-                text-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+                letter-spacing: -2px;
+                text-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
             ">${config.day}</div>
             <div style="
-                font-family: 'Cinzel', serif;
-                font-size: 14px;
-                font-weight: 700;
-                color: #0A4D3C;
+                font-family: 'Playfair Display', serif;
+                font-size: 16px;
+                font-weight: 600;
+                color: rgba(255, 255, 255, 0.8);
                 letter-spacing: 3px;
                 text-transform: uppercase;
-                margin-top: 8px;
-                opacity: 0.9;
+                margin-top: 4px;
             ">RAMADAN</div>
         </div>
 
@@ -109,48 +101,51 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
             align-items: center;
             justify-content: center;
             flex: 1;
-            gap: 20px;
+            gap: 16px;
             position: relative;
+            padding: 0 30px;
         ">
-            <!-- Opening Quote -->
+            <!-- Opening Quote Mark -->
             <div style="
                 font-family: 'Playfair Display', serif;
-                font-size: 80px;
-                color: rgba(244, 208, 63, 0.8);
-                line-height: 0.8;
+                font-size: 72px;
+                color: rgba(244, 208, 63, 0.75);
+                line-height: 0.6;
                 font-weight: 700;
                 margin: 0;
-                text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+                text-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+                opacity: 0.9;
             ">"</div>
             
-            <!-- Message Text -->
+            <!-- Message Text - Perfectly Fitted Quote -->
             <p style="
                 font-family: 'Playfair Display', serif;
-                font-size: 42px;
-                line-height: 1.6;
-                color: rgba(255, 255, 255, 0.95);
+                font-size: 40px;
+                line-height: 1.7;
+                color: rgba(255, 255, 255, 0.98);
                 text-align: center;
-                font-weight: 600;
-                letter-spacing: 0.5px;
-                margin: 0 20px;
-                max-width: 850px;
+                font-weight: 500;
+                letter-spacing: 0.2px;
+                margin: 0;
+                max-width: 900px;
                 text-shadow: 
-                    0 3px 12px rgba(0, 0, 0, 0.5),
-                    0 1px 3px rgba(0, 0, 0, 0.3);
+                    0 3px 14px rgba(0, 0, 0, 0.55),
+                    0 1px 4px rgba(0, 0, 0, 0.3);
                 word-wrap: break-word;
                 overflow-wrap: break-word;
                 white-space: normal;
             ">${escapeHtml(config.message)}</p>
             
-            <!-- Closing Quote -->
+            <!-- Closing Quote Mark -->
             <div style="
                 font-family: 'Playfair Display', serif;
-                font-size: 80px;
-                color: rgba(244, 208, 63, 0.8);
-                line-height: 0.8;
+                font-size: 72px;
+                color: rgba(244, 208, 63, 0.75);
+                line-height: 0.6;
                 font-weight: 700;
                 margin: 0;
-                text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+                text-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+                opacity: 0.9;
                 transform: scaleY(-1);
             ">"</div>
         </div>
@@ -161,27 +156,30 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 12px;
+            gap: 8px;
+            position: relative;
+            z-index: 10;
         ">
-            <!-- Decorative Star -->
-            <span style="
-                color: rgba(244, 208, 63, 0.7);
-                font-size: 24px;
-                text-shadow: 0 2px 6px rgba(244, 208, 63, 0.4);
-            ">✦</span>
+            <!-- Decorative Divider -->
+            <div style="
+                width: 60px;
+                height: 1px;
+                background: linear-gradient(90deg, transparent, rgba(244, 208, 63, 0.6), transparent);
+                margin-bottom: 4px;
+            "></div>
             
-            <!-- User Name with Calligraphy Font -->
+            <!-- User Name - Stylish and Readable -->
             <h2 style="
                 font-family: 'Amiri', serif;
-                font-size: 56px;
+                font-size: 52px;
                 font-weight: 700;
-                color: rgba(244, 208, 63, 0.95);
-                letter-spacing: 1px;
+                color: rgba(255, 255, 255, 0.92);
+                letter-spacing: 1.2px;
                 text-shadow: 
-                    0 4px 12px rgba(0, 0, 0, 0.6),
-                    0 2px 4px rgba(0, 0, 0, 0.4);
+                    0 3px 12px rgba(0, 0, 0, 0.6),
+                    0 1px 3px rgba(0, 0, 0, 0.4);
                 margin: 0;
-                line-height: 1.1;
+                line-height: 1;
             ">${escapeHtml(config.userName)}</h2>
         </div>
 
@@ -235,7 +233,7 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
       const timeout = setTimeout(() => {
         console.warn('⚠️ Fonts: continuing anyway');
         resolve();
-      }, 2000);
+      }, 3500);
       document.fonts.ready.then(() => {
         clearTimeout(timeout);
         console.log('✓ Fonts ready');
@@ -248,8 +246,8 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
     
     await waitForFonts;
 
-    // Quick render wait
-    await wait(600);
+    // Extended render wait to ensure all elements fully render and background loads
+    await wait(1800);
 
     const flyerElement = document.getElementById('flyer-canvas');
     if (!flyerElement) throw new Error('Flyer element not found');

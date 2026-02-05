@@ -40,7 +40,6 @@ PERFORMANCE OF THIS SOFTWARE.
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        background-attachment: fixed;
         font-family: 'Cormorant Garamond', serif;
         overflow: hidden;
         display: flex;
@@ -50,38 +49,31 @@ PERFORMANCE OF THIS SOFTWARE.
         padding: 60px 40px;
     ">
         
-        <!-- Day Circle (Top) -->
+        <!-- Day (Top Left - Caligraphic) -->
         <div style="
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.9) 0%, rgba(244, 208, 63, 0.9) 100%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 12px 40px rgba(212, 175, 55, 0.5), inset 0 2px 8px rgba(255, 255, 255, 0.4);
-            border: 3px solid rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(10px);
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            text-align: left;
+            z-index: 20;
         ">
             <div style="
-                font-family: 'Cinzel', serif;
-                font-size: 72px;
-                font-weight: 800;
-                color: #0A4D3C;
+                font-family: 'Amiri', serif;
+                font-size: 84px;
+                font-weight: 700;
+                color: rgba(244, 208, 63, 0.95);
                 line-height: 1;
-                letter-spacing: 2px;
-                text-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+                letter-spacing: -2px;
+                text-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
             ">${A.day}</div>
             <div style="
-                font-family: 'Cinzel', serif;
-                font-size: 14px;
-                font-weight: 700;
-                color: #0A4D3C;
+                font-family: 'Playfair Display', serif;
+                font-size: 16px;
+                font-weight: 600;
+                color: rgba(255, 255, 255, 0.8);
                 letter-spacing: 3px;
                 text-transform: uppercase;
-                margin-top: 8px;
-                opacity: 0.9;
+                margin-top: 4px;
             ">RAMADAN</div>
         </div>
 
@@ -92,48 +84,51 @@ PERFORMANCE OF THIS SOFTWARE.
             align-items: center;
             justify-content: center;
             flex: 1;
-            gap: 20px;
+            gap: 16px;
             position: relative;
+            padding: 0 30px;
         ">
-            <!-- Opening Quote -->
+            <!-- Opening Quote Mark -->
             <div style="
                 font-family: 'Playfair Display', serif;
-                font-size: 80px;
-                color: rgba(244, 208, 63, 0.8);
-                line-height: 0.8;
+                font-size: 72px;
+                color: rgba(244, 208, 63, 0.75);
+                line-height: 0.6;
                 font-weight: 700;
                 margin: 0;
-                text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+                text-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+                opacity: 0.9;
             ">"</div>
             
-            <!-- Message Text -->
+            <!-- Message Text - Perfectly Fitted Quote -->
             <p style="
                 font-family: 'Playfair Display', serif;
-                font-size: 42px;
-                line-height: 1.6;
-                color: rgba(255, 255, 255, 0.95);
+                font-size: 40px;
+                line-height: 1.7;
+                color: rgba(255, 255, 255, 0.98);
                 text-align: center;
-                font-weight: 600;
-                letter-spacing: 0.5px;
-                margin: 0 20px;
-                max-width: 850px;
+                font-weight: 500;
+                letter-spacing: 0.2px;
+                margin: 0;
+                max-width: 900px;
                 text-shadow: 
-                    0 3px 12px rgba(0, 0, 0, 0.5),
-                    0 1px 3px rgba(0, 0, 0, 0.3);
+                    0 3px 14px rgba(0, 0, 0, 0.55),
+                    0 1px 4px rgba(0, 0, 0, 0.3);
                 word-wrap: break-word;
                 overflow-wrap: break-word;
                 white-space: normal;
             ">${sS(A.message)}</p>
             
-            <!-- Closing Quote -->
+            <!-- Closing Quote Mark -->
             <div style="
                 font-family: 'Playfair Display', serif;
-                font-size: 80px;
-                color: rgba(244, 208, 63, 0.8);
-                line-height: 0.8;
+                font-size: 72px;
+                color: rgba(244, 208, 63, 0.75);
+                line-height: 0.6;
                 font-weight: 700;
                 margin: 0;
-                text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+                text-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+                opacity: 0.9;
                 transform: scaleY(-1);
             ">"</div>
         </div>
@@ -144,36 +139,39 @@ PERFORMANCE OF THIS SOFTWARE.
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 12px;
+            gap: 8px;
+            position: relative;
+            z-index: 10;
         ">
-            <!-- Decorative Star -->
-            <span style="
-                color: rgba(244, 208, 63, 0.7);
-                font-size: 24px;
-                text-shadow: 0 2px 6px rgba(244, 208, 63, 0.4);
-            ">✦</span>
+            <!-- Decorative Divider -->
+            <div style="
+                width: 60px;
+                height: 1px;
+                background: linear-gradient(90deg, transparent, rgba(244, 208, 63, 0.6), transparent);
+                margin-bottom: 4px;
+            "></div>
             
-            <!-- User Name with Calligraphy Font -->
+            <!-- User Name - Stylish and Readable -->
             <h2 style="
                 font-family: 'Amiri', serif;
-                font-size: 56px;
+                font-size: 52px;
                 font-weight: 700;
-                color: rgba(244, 208, 63, 0.95);
-                letter-spacing: 1px;
+                color: rgba(255, 255, 255, 0.92);
+                letter-spacing: 1.2px;
                 text-shadow: 
-                    0 4px 12px rgba(0, 0, 0, 0.6),
-                    0 2px 4px rgba(0, 0, 0, 0.4);
+                    0 3px 12px rgba(0, 0, 0, 0.6),
+                    0 1px 3px rgba(0, 0, 0, 0.4);
                 margin: 0;
-                line-height: 1.1;
+                line-height: 1;
             ">${sS(A.userName)}</h2>
         </div>
 
     </div>
-  `;try{await sM(100),await document.fonts.ready;let A=new Promise((A,e)=>{let r;let n=new Image;n.onload=()=>{clearTimeout(r),console.log("✓ Background image loaded successfully"),A()},n.onerror=()=>{clearTimeout(r),console.error("✗ Background image failed to load from:",t),e(Error(`Failed to load from: ${t}`))},r=setTimeout(()=>{console.error("✗ Background image load timeout"),e(Error("Image load timeout - server may be slow"))},8e3),n.crossOrigin="anonymous",n.src=t});try{await A}catch(A){throw console.error("\uD83D\uDCA5 Image loading error:",A),A}let r=new Promise(A=>{let e=setTimeout(()=>{console.warn("⚠️ Fonts: continuing anyway"),A()},2e3);document.fonts.ready.then(()=>{clearTimeout(e),console.log("✓ Fonts ready"),A()}).catch(()=>{clearTimeout(e),A()})});await r,await sM(600);let n=document.getElementById("flyer-canvas");if(!n)throw Error("Flyer element not found");window.getComputedStyle(n),console.log("✓ Canvas ready");try{console.log("\uD83C\uDFA8 Rendering...");let A=(await function(A,e){var t;return void 0===e&&(e={}),t=e,m(void 0,void 0,void 0,function(){var e,r,n,s,o,B,i,a,c,l,g,w,Q,u,d,h,C,U,F,f,m,b,I,v,K,L,D,k,M,S,N,T,G,O,V,R,P;return y(this,function(y){switch(y.label){case 0:if(!A||"object"!=typeof A)return[2,Promise.reject("Invalid element provided as first argument")];if(!(e=A.ownerDocument))throw Error("Element is not attached to a Document");if(!(r=e.defaultView))throw Error("Document is not attached to a Window");if(n={allowTaint:null!==(m=t.allowTaint)&&void 0!==m&&m,imageTimeout:null!==(b=t.imageTimeout)&&void 0!==b?b:15e3,proxy:t.proxy,useCORS:null!==(I=t.useCORS)&&void 0!==I&&I},B=new sD(p({logging:null===(v=t.logging)||void 0===v||v,cache:t.cache},n),o=new H((s={windowWidth:null!==(K=t.windowWidth)&&void 0!==K?K:r.innerWidth,windowHeight:null!==(L=t.windowHeight)&&void 0!==L?L:r.innerHeight,scrollX:null!==(D=t.scrollX)&&void 0!==D?D:r.pageXOffset,scrollY:null!==(k=t.scrollY)&&void 0!==k?k:r.pageYOffset}).scrollX,s.scrollY,s.windowWidth,s.windowHeight)),i=null!==(M=t.foreignObjectRendering)&&void 0!==M&&M,a={allowTaint:null!==(S=t.allowTaint)&&void 0!==S&&S,onclone:t.onclone,ignoreElements:t.ignoreElements,inlineImages:i,copyStyles:i},B.logger.debug("Starting document clone with size "+o.width+"x"+o.height+" scrolled to "+-o.left+","+-o.top),!(l=(c=new nb(B,A,a)).clonedReferenceElement))return[2,Promise.reject("Unable to find element in cloned iframe")];return[4,c.toIFrame(e,o)];case 1:if(g=y.sent(),Q=(w=nt(l)||"HTML"===l.tagName?E(l.ownerDocument):x(B,l)).width,u=w.height,d=w.left,h=w.top,C=sk(B,l,t.backgroundColor),U={canvas:t.canvas,backgroundColor:C,scale:null!==(T=null!==(N=t.scale)&&void 0!==N?N:r.devicePixelRatio)&&void 0!==T?T:1,x:(null!==(G=t.x)&&void 0!==G?G:0)+d,y:(null!==(O=t.y)&&void 0!==O?O:0)+h,width:null!==(V=t.width)&&void 0!==V?V:Math.ceil(Q),height:null!==(R=t.height)&&void 0!==R?R:Math.ceil(u)},!i)return[3,3];return B.logger.debug("Document cloned, using foreign object rendering"),[4,new sv(B,U).render(l)];case 2:return F=y.sent(),[3,5];case 3:return B.logger.debug("Document cloned, element located at "+d+","+h+" with size "+Q+"x"+u+" using computed rendering"),B.logger.debug("Starting DOM parsing"),f=r1(B,l),C===f.styles.backgroundColor&&(f.styles.backgroundColor=eB.TRANSPARENT),B.logger.debug("Starting renderer for element at "+U.x+","+U.y+" with size "+U.width+"x"+U.height),[4,new sy(B,U).render(f)];case 4:F=y.sent(),y.label=5;case 5:return(null===(P=t.removeContainer)||void 0===P||P)&&!nb.destroy(g)&&B.logger.error("Cannot detach cloned iframe as it is not in the DOM anymore"),B.logger.debug("Finished rendering"),[2,F]}})})}(n,{scale:2,useCORS:!0,allowTaint:!0,logging:!1,width:1080,height:1080,windowWidth:1080,windowHeight:1080,imageTimeout:1e4,backgroundColor:null,foreignObjectRendering:!0})).toDataURL("image/png",1),t=(A.length/1024/1024).toFixed(2);return console.log("✓ Success -",t,"MB"),document.body.contains(e)&&document.body.removeChild(e),A}catch(A){throw console.error("\uD83D\uDCA5 Canvas error:",A),A}}catch(e){console.error("CRITICAL Flyer generation error:",e);let A=document.getElementById("flyer-generator-container");throw A&&document.body.contains(A)&&document.body.removeChild(A),e}},sT=(A,e)=>{let t=document.createElement("a");t.href=A,t.download=e,document.body.appendChild(t),t.click(),document.body.removeChild(t)},sG=A=>A.toLowerCase().replace(/[^\w]+/g,"-"),sO=(0,g.Z)("Clock",[["circle",{cx:"12",cy:"12",r:"10",key:"1mglay"}],["polyline",{points:"12 6 12 12 16 14",key:"68esgv"}]]),sV=(0,g.Z)("Download",[["path",{d:"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4",key:"ih7n3h"}],["polyline",{points:"7 10 12 15 17 10",key:"2ggqvy"}],["line",{x1:"12",x2:"12",y1:"15",y2:"3",key:"1vk2je"}]]),sR=(0,g.Z)("Share2",[["circle",{cx:"18",cy:"5",r:"3",key:"gq8acd"}],["circle",{cx:"6",cy:"12",r:"3",key:"w7nqdw"}],["circle",{cx:"18",cy:"19",r:"3",key:"1xt0gg"}],["line",{x1:"8.59",x2:"15.42",y1:"13.51",y2:"17.49",key:"47mynk"}],["line",{x1:"15.41",x2:"8.59",y1:"6.51",y2:"10.49",key:"1n3mei"}]]),sP=(0,g.Z)("XCircle",[["circle",{cx:"12",cy:"12",r:"10",key:"1mglay"}],["path",{d:"m15 9-6 6",key:"1uzhvr"}],["path",{d:"m9 9 6 6",key:"z0biqf"}]]),sj=(0,g.Z)("Sparkles",[["path",{d:"m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z",key:"17u4zn"}],["path",{d:"M5 3v4",key:"bklmnn"}],["path",{d:"M19 17v4",key:"iiml17"}],["path",{d:"M3 5h4",key:"nem4j1"}],["path",{d:"M17 19h4",key:"lbex7p"}]]);var sX=t(4963);let sJ=({message:A,formData:e,onReset:t,user:r,onDownloaded:n})=>{let[s,o]=(0,a.useState)(null),[B,l]=(0,a.useState)(!0),[g,w]=(0,a.useState)(null),[Q,u]=(0,a.useState)(!1),[d,h]=(0,a.useState)("00:00:00");(0,a.useEffect)(()=>{let t=!0,n=setTimeout(async()=>{w(null),l(!0);try{if(!A||!r.name)throw Error("Missing data for generation");let n=await sN({width:1080,height:1080,backgroundColor:"#0f766e",textColor:"#ffffff",userName:r.name,topic:e.topic,day:e.day,message:A});if(t){if(!n||n.length<100)throw Error("Generated image is invalid");o(n),l(!1)}}catch(A){t&&(console.error("Preview Generation Error",A),console.error("Error details:",A.message||JSON.stringify(A)),w("Design render failed: "+(A.message||"Unknown error")),l(!1))}},500);return()=>{t=!1,clearTimeout(n)}},[A,e,r]),(0,a.useEffect)(()=>{if(!Q||!r.last_generation_date)return;let A=setInterval(()=>{let e=new Date,t=new Date(new Date(r.last_generation_date).getTime()+864e5).getTime()-e.getTime();if(t<=0)u(!1),h("00:00:00"),clearInterval(A);else{let A=Math.floor(t/36e5),e=Math.floor(t%36e5/6e4),r=Math.floor(t%6e4/1e3);h(`${String(A).padStart(2,"0")}:${String(e).padStart(2,"0")}:${String(r).padStart(2,"0")}`)}},1e3);return()=>clearInterval(A)},[Q,r.last_generation_date]);let C=()=>{s&&(sT(s,`Ramadan_Day_${e.day}_${sG(e.topic)}.png`),u(!0),n&&n(s))},U=()=>`🌙 Ramadan Day ${e.day}: ${e.topic}
+  `;try{await sM(100),await document.fonts.ready;let A=new Promise((A,e)=>{let r;let n=new Image;n.onload=()=>{clearTimeout(r),console.log("✓ Background image loaded successfully"),A()},n.onerror=()=>{clearTimeout(r),console.error("✗ Background image failed to load from:",t),e(Error(`Failed to load from: ${t}`))},r=setTimeout(()=>{console.error("✗ Background image load timeout"),e(Error("Image load timeout - server may be slow"))},8e3),n.crossOrigin="anonymous",n.src=t});try{await A}catch(A){throw console.error("\uD83D\uDCA5 Image loading error:",A),A}let r=new Promise(A=>{let e=setTimeout(()=>{console.warn("⚠️ Fonts: continuing anyway"),A()},3500);document.fonts.ready.then(()=>{clearTimeout(e),console.log("✓ Fonts ready"),A()}).catch(()=>{clearTimeout(e),A()})});await r,await sM(1800);let n=document.getElementById("flyer-canvas");if(!n)throw Error("Flyer element not found");window.getComputedStyle(n),console.log("✓ Canvas ready");try{console.log("\uD83C\uDFA8 Rendering...");let A=(await function(A,e){var t;return void 0===e&&(e={}),t=e,m(void 0,void 0,void 0,function(){var e,r,n,s,o,B,i,a,c,l,g,w,Q,u,d,h,C,U,F,f,m,b,I,v,K,L,D,k,M,S,N,T,G,O,V,R,P;return y(this,function(y){switch(y.label){case 0:if(!A||"object"!=typeof A)return[2,Promise.reject("Invalid element provided as first argument")];if(!(e=A.ownerDocument))throw Error("Element is not attached to a Document");if(!(r=e.defaultView))throw Error("Document is not attached to a Window");if(n={allowTaint:null!==(m=t.allowTaint)&&void 0!==m&&m,imageTimeout:null!==(b=t.imageTimeout)&&void 0!==b?b:15e3,proxy:t.proxy,useCORS:null!==(I=t.useCORS)&&void 0!==I&&I},B=new sD(p({logging:null===(v=t.logging)||void 0===v||v,cache:t.cache},n),o=new H((s={windowWidth:null!==(K=t.windowWidth)&&void 0!==K?K:r.innerWidth,windowHeight:null!==(L=t.windowHeight)&&void 0!==L?L:r.innerHeight,scrollX:null!==(D=t.scrollX)&&void 0!==D?D:r.pageXOffset,scrollY:null!==(k=t.scrollY)&&void 0!==k?k:r.pageYOffset}).scrollX,s.scrollY,s.windowWidth,s.windowHeight)),i=null!==(M=t.foreignObjectRendering)&&void 0!==M&&M,a={allowTaint:null!==(S=t.allowTaint)&&void 0!==S&&S,onclone:t.onclone,ignoreElements:t.ignoreElements,inlineImages:i,copyStyles:i},B.logger.debug("Starting document clone with size "+o.width+"x"+o.height+" scrolled to "+-o.left+","+-o.top),!(l=(c=new nb(B,A,a)).clonedReferenceElement))return[2,Promise.reject("Unable to find element in cloned iframe")];return[4,c.toIFrame(e,o)];case 1:if(g=y.sent(),Q=(w=nt(l)||"HTML"===l.tagName?E(l.ownerDocument):x(B,l)).width,u=w.height,d=w.left,h=w.top,C=sk(B,l,t.backgroundColor),U={canvas:t.canvas,backgroundColor:C,scale:null!==(T=null!==(N=t.scale)&&void 0!==N?N:r.devicePixelRatio)&&void 0!==T?T:1,x:(null!==(G=t.x)&&void 0!==G?G:0)+d,y:(null!==(O=t.y)&&void 0!==O?O:0)+h,width:null!==(V=t.width)&&void 0!==V?V:Math.ceil(Q),height:null!==(R=t.height)&&void 0!==R?R:Math.ceil(u)},!i)return[3,3];return B.logger.debug("Document cloned, using foreign object rendering"),[4,new sv(B,U).render(l)];case 2:return F=y.sent(),[3,5];case 3:return B.logger.debug("Document cloned, element located at "+d+","+h+" with size "+Q+"x"+u+" using computed rendering"),B.logger.debug("Starting DOM parsing"),f=r1(B,l),C===f.styles.backgroundColor&&(f.styles.backgroundColor=eB.TRANSPARENT),B.logger.debug("Starting renderer for element at "+U.x+","+U.y+" with size "+U.width+"x"+U.height),[4,new sy(B,U).render(f)];case 4:F=y.sent(),y.label=5;case 5:return(null===(P=t.removeContainer)||void 0===P||P)&&!nb.destroy(g)&&B.logger.error("Cannot detach cloned iframe as it is not in the DOM anymore"),B.logger.debug("Finished rendering"),[2,F]}})})}(n,{scale:2,useCORS:!0,allowTaint:!0,logging:!1,width:1080,height:1080,windowWidth:1080,windowHeight:1080,imageTimeout:1e4,backgroundColor:null,foreignObjectRendering:!0})).toDataURL("image/png",1),t=(A.length/1024/1024).toFixed(2);return console.log("✓ Success -",t,"MB"),document.body.contains(e)&&document.body.removeChild(e),A}catch(A){throw console.error("\uD83D\uDCA5 Canvas error:",A),A}}catch(e){console.error("CRITICAL Flyer generation error:",e);let A=document.getElementById("flyer-generator-container");throw A&&document.body.contains(A)&&document.body.removeChild(A),e}},sT=(A,e)=>{let t=document.createElement("a");t.href=A,t.download=e,document.body.appendChild(t),t.click(),document.body.removeChild(t)},sG=A=>A.toLowerCase().replace(/[^\w]+/g,"-"),sO=(0,g.Z)("Clock",[["circle",{cx:"12",cy:"12",r:"10",key:"1mglay"}],["polyline",{points:"12 6 12 12 16 14",key:"68esgv"}]]),sV=(0,g.Z)("Download",[["path",{d:"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4",key:"ih7n3h"}],["polyline",{points:"7 10 12 15 17 10",key:"2ggqvy"}],["line",{x1:"12",x2:"12",y1:"15",y2:"3",key:"1vk2je"}]]),sR=(0,g.Z)("Share2",[["circle",{cx:"18",cy:"5",r:"3",key:"gq8acd"}],["circle",{cx:"6",cy:"12",r:"3",key:"w7nqdw"}],["circle",{cx:"18",cy:"19",r:"3",key:"1xt0gg"}],["line",{x1:"8.59",x2:"15.42",y1:"13.51",y2:"17.49",key:"47mynk"}],["line",{x1:"15.41",x2:"8.59",y1:"6.51",y2:"10.49",key:"1n3mei"}]]),sP=(0,g.Z)("XCircle",[["circle",{cx:"12",cy:"12",r:"10",key:"1mglay"}],["path",{d:"m15 9-6 6",key:"1uzhvr"}],["path",{d:"m9 9 6 6",key:"z0biqf"}]]),sj=(0,g.Z)("Sparkles",[["path",{d:"m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z",key:"17u4zn"}],["path",{d:"M5 3v4",key:"bklmnn"}],["path",{d:"M19 17v4",key:"iiml17"}],["path",{d:"M3 5h4",key:"nem4j1"}],["path",{d:"M17 19h4",key:"lbex7p"}]]);var sX=t(4963);let sJ=({message:A,formData:e,onReset:t,user:r,onDownloaded:n})=>{let[s,o]=(0,a.useState)(null),[B,l]=(0,a.useState)(!0),[g,w]=(0,a.useState)(null),[Q,u]=(0,a.useState)(!1),[d,h]=(0,a.useState)("00:00:00");(0,a.useEffect)(()=>{let t=!0,n=setTimeout(async()=>{w(null),l(!0);try{if(!A||!r.name)throw Error("Missing data for generation");let n=await sN({width:1080,height:1080,backgroundColor:"#0f766e",textColor:"#ffffff",userName:r.name,topic:e.topic,day:e.day,message:A});if(t){if(!n||n.length<100)throw Error("Generated image is invalid");o(n),l(!1)}}catch(A){t&&(console.error("Preview Generation Error",A),console.error("Error details:",A.message||JSON.stringify(A)),w("Design render failed: "+(A.message||"Unknown error")),l(!1))}},500);return()=>{t=!1,clearTimeout(n)}},[A,e,r]),(0,a.useEffect)(()=>{if(!Q||!r.last_generation_date)return;let A=setInterval(()=>{let e=new Date,t=new Date(new Date(r.last_generation_date).getTime()+864e5).getTime()-e.getTime();if(t<=0)u(!1),h("00:00:00"),clearInterval(A);else{let A=Math.floor(t/36e5),e=Math.floor(t%36e5/6e4),r=Math.floor(t%6e4/1e3);h(`${String(A).padStart(2,"0")}:${String(e).padStart(2,"0")}:${String(r).padStart(2,"0")}`)}},1e3);return()=>clearInterval(A)},[Q,r.last_generation_date]);let C=()=>{s&&(sT(s,`Ramadan_Day_${e.day}_${sG(e.topic)}.png`),u(!0),n&&n(s))},U=()=>`🌙 Ramadan Day ${e.day}: ${e.topic}
 
 "${A.substring(0,50)}..."
 
-✨ Design by RamadanBot | ${r.name}`,F=async()=>{if(navigator.share&&s)try{let A=await fetch(s),t=await A.blob(),r=new File([t],`Ramadan_Day_${e.day}.png`,{type:"image/png"});await navigator.share({title:"My Ramadan Reflection",text:U(),files:[r]})}catch(A){console.log("Error sharing",A),alert("Share cancelled or failed.")}else C()};return B?(0,i.jsxs)("div",{className:"flex flex-col items-center justify-center min-h-[50vh] animate-fade-in p-6 text-center",children:[i.jsx(c.Z,{size:"lg",color:"text-ios-teal"}),i.jsx("h3",{className:"mt-8 text-xl font-bold text-gray-900 dark:text-white",children:"Designing Masterpiece..."}),i.jsx("p",{className:"text-gray-500 mt-2 text-sm max-w-xs mx-auto",children:"Applying Islamic geometry and typesetting your reflection."})]}):Q?(0,i.jsxs)("div",{className:"flex flex-col items-center justify-center min-h-[50vh] animate-fade-in p-6 text-center space-y-6",children:[i.jsx("div",{className:"w-20 h-20 rounded-full bg-gradient-to-br from-ios-teal to-cyan-500 flex items-center justify-center text-white text-4xl shadow-lg",children:"✨"}),(0,i.jsxs)("div",{children:[i.jsx("h2",{className:"text-2xl font-bold text-gray-900 dark:text-white mb-2",children:"Flyer Generated!"}),i.jsx("p",{className:"text-gray-600 dark:text-gray-400 text-sm mb-4",children:"You've created your reflection for today. Come back after:"})]}),(0,i.jsxs)("div",{className:"bg-gradient-to-r from-ios-teal/10 to-cyan-500/10 border border-ios-teal/30 rounded-2xl p-6 w-full",children:[(0,i.jsxs)("div",{className:"flex items-center justify-center gap-2 mb-2",children:[i.jsx(sO,{size:20,className:"text-ios-teal"}),i.jsx("p",{className:"text-xs font-bold text-ios-teal uppercase tracking-wider",children:"Time Until Next Generation"})]}),i.jsx("p",{className:"text-4xl font-mono font-bold text-gray-900 dark:text-white",children:d}),i.jsx("p",{className:"text-xs text-gray-500 dark:text-gray-400 mt-3",children:"24-hour daily limit resets automatically"})]}),i.jsx("p",{className:"text-sm text-gray-600 dark:text-gray-400",children:"In the meantime, share your flyer with others:"}),(0,i.jsxs)("div",{className:"space-y-2 w-full",children:[(0,i.jsxs)("button",{onClick:()=>{s&&sT(s,`Ramadan_Day_${e.day}_${sG(e.topic)}.png`)},className:"w-full bg-white dark:bg-[#1C1C1E] text-gray-900 dark:text-white border border-gray-200 dark:border-zinc-700 font-bold py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-gray-50 dark:hover:bg-zinc-800 transition-all",children:[i.jsx(sV,{size:20}),i.jsx("span",{children:"Re-download Flyer"})]}),(0,i.jsxs)("button",{onClick:()=>{let t=`🌙 Ramadan Day ${e.day}: ${e.topic}\\n\\n"${A.substring(0,60)}..."\\n\\n✨ Created with RamadanBot`;navigator.share&&navigator.share({title:"My Ramadan Reflection",text:t}).catch(()=>{})},className:"w-full bg-gradient-to-r from-blue-500 to-cyan-600 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 hover:shadow-lg transition-all",children:[i.jsx(sR,{size:20}),i.jsx("span",{children:"Share Message"})]}),i.jsx("button",{onClick:t,className:"w-full text-ios-teal font-bold py-3 rounded-xl hover:bg-ios-teal/10 transition-all",children:"Return to Home"})]})]}):g?(0,i.jsxs)("div",{className:"flex flex-col items-center justify-center min-h-[50vh] p-6 text-center animate-fade-in",children:[i.jsx(sP,{size:64,className:"text-red-500 mb-6"}),i.jsx("h3",{className:"text-xl font-bold text-gray-900 dark:text-white mb-2",children:"Generation Failed"}),i.jsx("p",{className:"text-gray-500 dark:text-gray-400 mb-8",children:g}),i.jsx("button",{onClick:t,className:"bg-gray-900 dark:bg-white text-white dark:text-black px-8 py-3 rounded-xl font-bold",children:"Try Again"})]}):(0,i.jsxs)("div",{className:"flex flex-col h-full animate-fade-in pb-4",children:[(0,i.jsxs)("div",{className:"text-center mb-2",children:[(0,i.jsxs)("div",{className:"inline-flex items-center gap-2 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-3 py-1 rounded-full text-xs font-bold mb-1 border border-green-200 dark:border-green-900",children:[i.jsx(sj,{size:12}),i.jsx("span",{children:"Success"})]}),i.jsx("h2",{className:"text-lg font-bold text-gray-900 dark:text-white",children:"Your Daily Reflection"})]}),i.jsx("div",{className:"flex-1 flex justify-center items-center mb-4 relative px-4 min-h-0",children:i.jsx("div",{className:"relative w-full max-w-[280px] aspect-square",children:s?i.jsx("div",{className:"relative w-full h-full transform transition-transform duration-500",children:i.jsx("img",{src:s,alt:"Ramadan Flyer",className:"w-full h-full object-contain rounded-[20px] shadow-lg border-[3px] border-white dark:border-[#2C2C2E]"})}):i.jsx("div",{className:"w-full h-full bg-gray-200 dark:bg-zinc-800 rounded-[20px] flex items-center justify-center",children:i.jsx("span",{className:"text-gray-400 text-xs",children:"No Image"})})})}),(0,i.jsxs)("div",{className:"space-y-2 px-2 mt-auto",children:[(0,i.jsxs)("button",{onClick:C,className:"w-full bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-black font-extrabold text-base py-3 rounded-xl shadow-md flex items-center justify-center gap-2 transition-all active:scale-[0.98]",children:[i.jsx(sV,{size:20,strokeWidth:2.5}),i.jsx("span",{children:"Download High-Res"})]}),(0,i.jsxs)("div",{className:"grid grid-cols-2 gap-2",children:[(0,i.jsxs)("button",{onClick:F,className:"bg-white dark:bg-[#2C2C2E] text-gray-900 dark:text-white font-bold py-3 rounded-xl shadow-sm border border-gray-100 dark:border-zinc-700 flex items-center justify-center gap-2 active:scale-[0.98] transition-transform",children:[i.jsx(sR,{size:18}),i.jsx("span",{children:"Share"})]}),(0,i.jsxs)("button",{onClick:t,className:"bg-gray-100 dark:bg-black/40 text-gray-600 dark:text-gray-300 font-bold py-3 rounded-xl flex items-center justify-center gap-2 active:scale-[0.98] transition-transform",children:[i.jsx(sX.Z,{size:18}),i.jsx("span",{children:"New"})]})]})]})]})};var sY=t(5786);/**
+✨ Design by RamadanBot | ${r.name}`,F=async()=>{if(navigator.share&&s)try{let A=await fetch(s),t=await A.blob(),r=new File([t],`Ramadan_Day_${e.day}.png`,{type:"image/png"});await navigator.share({title:"My Ramadan Reflection",text:U(),files:[r]})}catch(A){console.log("Error sharing",A),alert("Share cancelled or failed.")}else C()};return B?(0,i.jsxs)("div",{className:"flex flex-col items-center justify-center min-h-[50vh] animate-fade-in p-6 text-center space-y-6",children:[i.jsx(c.Z,{size:"lg",color:"text-ios-teal"}),(0,i.jsxs)("div",{children:[i.jsx("h3",{className:"text-xl font-bold text-gray-900 dark:text-white",children:"Crafting Your Reflection..."}),i.jsx("p",{className:"text-gray-500 mt-3 text-sm max-w-xs mx-auto",children:"Loading background image, positioning text, and rendering your flyer. This takes a moment for perfection."}),i.jsx("p",{className:"text-gray-400 mt-2 text-xs font-mono",children:"Please wait..."})]})]}):Q?(0,i.jsxs)("div",{className:"flex flex-col items-center justify-center min-h-[50vh] animate-fade-in p-6 text-center space-y-6",children:[i.jsx("div",{className:"w-20 h-20 rounded-full bg-gradient-to-br from-ios-teal to-cyan-500 flex items-center justify-center text-white text-4xl shadow-lg",children:"✨"}),(0,i.jsxs)("div",{children:[i.jsx("h2",{className:"text-2xl font-bold text-gray-900 dark:text-white mb-2",children:"Flyer Generated!"}),i.jsx("p",{className:"text-gray-600 dark:text-gray-400 text-sm mb-4",children:"You've created your reflection for today. Come back after:"})]}),(0,i.jsxs)("div",{className:"bg-gradient-to-r from-ios-teal/10 to-cyan-500/10 border border-ios-teal/30 rounded-2xl p-6 w-full",children:[(0,i.jsxs)("div",{className:"flex items-center justify-center gap-2 mb-2",children:[i.jsx(sO,{size:20,className:"text-ios-teal"}),i.jsx("p",{className:"text-xs font-bold text-ios-teal uppercase tracking-wider",children:"Time Until Next Generation"})]}),i.jsx("p",{className:"text-4xl font-mono font-bold text-gray-900 dark:text-white",children:d}),i.jsx("p",{className:"text-xs text-gray-500 dark:text-gray-400 mt-3",children:"24-hour daily limit resets automatically"})]}),i.jsx("p",{className:"text-sm text-gray-600 dark:text-gray-400",children:"In the meantime, share your flyer with others:"}),(0,i.jsxs)("div",{className:"space-y-2 w-full",children:[(0,i.jsxs)("button",{onClick:()=>{s&&sT(s,`Ramadan_Day_${e.day}_${sG(e.topic)}.png`)},className:"w-full bg-white dark:bg-[#1C1C1E] text-gray-900 dark:text-white border border-gray-200 dark:border-zinc-700 font-bold py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-gray-50 dark:hover:bg-zinc-800 transition-all",children:[i.jsx(sV,{size:20}),i.jsx("span",{children:"Re-download Flyer"})]}),(0,i.jsxs)("button",{onClick:()=>{let t=`🌙 Ramadan Day ${e.day}: ${e.topic}\\n\\n"${A.substring(0,60)}..."\\n\\n✨ Created with RamadanBot`;navigator.share&&navigator.share({title:"My Ramadan Reflection",text:t}).catch(()=>{})},className:"w-full bg-gradient-to-r from-blue-500 to-cyan-600 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 hover:shadow-lg transition-all",children:[i.jsx(sR,{size:20}),i.jsx("span",{children:"Share Message"})]}),i.jsx("button",{onClick:t,className:"w-full text-ios-teal font-bold py-3 rounded-xl hover:bg-ios-teal/10 transition-all",children:"Return to Home"})]})]}):g?(0,i.jsxs)("div",{className:"flex flex-col items-center justify-center min-h-[50vh] p-6 text-center animate-fade-in",children:[i.jsx(sP,{size:64,className:"text-red-500 mb-6"}),i.jsx("h3",{className:"text-xl font-bold text-gray-900 dark:text-white mb-2",children:"Generation Failed"}),i.jsx("p",{className:"text-gray-500 dark:text-gray-400 mb-8",children:g}),i.jsx("button",{onClick:t,className:"bg-gray-900 dark:bg-white text-white dark:text-black px-8 py-3 rounded-xl font-bold",children:"Try Again"})]}):(0,i.jsxs)("div",{className:"flex flex-col h-full animate-fade-in pb-4",children:[(0,i.jsxs)("div",{className:"text-center mb-2",children:[(0,i.jsxs)("div",{className:"inline-flex items-center gap-2 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-3 py-1 rounded-full text-xs font-bold mb-1 border border-green-200 dark:border-green-900",children:[i.jsx(sj,{size:12}),i.jsx("span",{children:"Success"})]}),i.jsx("h2",{className:"text-lg font-bold text-gray-900 dark:text-white",children:"Your Daily Reflection"})]}),i.jsx("div",{className:"flex-1 flex justify-center items-center mb-4 relative px-4 min-h-0",children:i.jsx("div",{className:"relative w-full max-w-[280px] aspect-square",children:s?i.jsx("div",{className:"relative w-full h-full transform transition-transform duration-500",children:i.jsx("img",{src:s,alt:"Ramadan Flyer",className:"w-full h-full object-contain rounded-[20px] shadow-lg border-[3px] border-white dark:border-[#2C2C2E]"})}):i.jsx("div",{className:"w-full h-full bg-gray-200 dark:bg-zinc-800 rounded-[20px] flex items-center justify-center",children:i.jsx("span",{className:"text-gray-400 text-xs",children:"No Image"})})})}),(0,i.jsxs)("div",{className:"space-y-2 px-2 mt-auto",children:[(0,i.jsxs)("button",{onClick:C,className:"w-full bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-black font-extrabold text-base py-3 rounded-xl shadow-md flex items-center justify-center gap-2 transition-all active:scale-[0.98]",children:[i.jsx(sV,{size:20,strokeWidth:2.5}),i.jsx("span",{children:"Download High-Res"})]}),(0,i.jsxs)("div",{className:"grid grid-cols-2 gap-2",children:[(0,i.jsxs)("button",{onClick:F,className:"bg-white dark:bg-[#2C2C2E] text-gray-900 dark:text-white font-bold py-3 rounded-xl shadow-sm border border-gray-100 dark:border-zinc-700 flex items-center justify-center gap-2 active:scale-[0.98] transition-transform",children:[i.jsx(sR,{size:18}),i.jsx("span",{children:"Share"})]}),(0,i.jsxs)("button",{onClick:t,className:"bg-gray-100 dark:bg-black/40 text-gray-600 dark:text-gray-300 font-bold py-3 rounded-xl flex items-center justify-center gap-2 active:scale-[0.98] transition-transform",children:[i.jsx(sX.Z,{size:18}),i.jsx("span",{children:"New"})]})]})]})]})};var sY=t(5786);/**
  * @license lucide-react v0.330.0 - ISC
  *
  * This source code is licensed under the ISC license.

@@ -19,42 +19,50 @@ export const generateMessage = async (
 
     const ai = new GoogleGenAI({ apiKey });
 
-    // Authentic Islamic Reflection Prompt - NOT philosophical
-    const prompt = `You are a learned Islamic scholar and Quranic guide crafting profound Ramadan daily reflections.
+    // Authentic Islamic Reflection Prompt - Perfect Grammar and Meaning
+    const prompt = `You are a learned Islamic scholar crafting exquisite Ramadan daily reflections with impeccable grammar and profound meaning.
 
-TOPIC/VIRTUE: "${topic}"
+TOPIC: "${topic}"
 RAMADAN DAY: ${day}
-${hint ? `HADITH/QURAN REFERENCE: ${hint}` : ""}
+${hint ? `REFERENCE: ${hint}` : ""}
 
-CRITICAL REQUIREMENTS:
-1. USE ALLAH - Always reference "Allah" (not "God", "divine", "the Creator", etc.)
-2. GROUNDING: Root the message in authentic Quranic concepts, Prophetic traditions (Sunnah), and Islamic teachings
-3. LANGUAGE: Use Islamic terminology naturally - "Dua", "Taqwa", "Akhirah", "Deen", "Sabr", "Shukr", "Tawhid"
-4. AUTHENTICITY: This is an Islamic reminder for Muslim audience, not secular philosophy
-5. LENGTH: 150-250 characters exactly (1-3 powerful, concise sentences). BRIEF AND IMPACTFUL. NO TRUNCATION.
-6. DEPTH: Deliver ONE core insight about why this virtue matters in Islam and how to embody it
-7. TONE: Solemn, inspirational, reflective. Connect to Ramadan's spiritual essence on day ${day}
-8. NO ADDITIONS: Return ONLY the reflection text - no labels, asterisks, or commentary
+CRITICAL QUALITY STANDARDS:
+1. **GRAMMAR & PUNCTUATION**: Flawless. Every sentence must be grammatically perfect with proper punctuation.
+2. **MEANINGFUL**: Every word carries weight. No filler. Each concept directly connects to the virtue and Ramadan.
+3. **CONNECTED**: Sentences flow naturally. Ideas build upon each other, creating a coherent spiritual message.
+4. **AUTHENTIC ISLAMIC**: Root in Quranic concepts, Prophet's traditions (Sunnah), and Islamic virtues—never philosophical abstraction.
+5. **DIRECT TO ALLAH**: Always reference "Allah"—never "God," "the divine," "higher power," etc.
+6. **VOCABULARY**: Use Islamic terminology naturally: Taqwa, Ihsan, Sabr, Shukr, Dua, Rahmah, Tawhid.
+7. **BREVITY WITH DEPTH**: 150-250 characters exactly. Concise yet substantive (2-3 sentences maximum).
+8. **TONE**: Solemn, inspirational, reflective. Connect to day ${day} of Ramadan's spiritual journey.
 
-FRAMEWORK - Craft ONE powerful sentence:
-- Start with the Islamic essence of "${topic}" grounded in Quran/Sunnah
-- Connect directly to Allah's wisdom and guidance
-- Conclude with inspirational call to action for this blessed month
-- Keep it concise but profoundly meaningful (150-250 chars)
+STRUCTURE (CRITICAL):
+- Opening: Islamic principle rooted in Quran/Sunnah about "${topic}"
+- Middle: Quranic truth or Prophet's wisdom that illuminates this virtue
+- Closing: Actionable call to embody this on day ${day} of Ramadan
+- Flow: Each sentence builds naturally on the previous; no abrupt transitions
 
-AUTHENTIC EXAMPLES (create NEW content, don't copy):
-- Powerful: "In Sabr lies the doorway to Allah's infinite reward. Every moment of patience perfects your Taqwa." (≈100 chars)
-- Powerful: "Shukr transforms the heart—when we thank Allah, we draw nearer to His mercy. Gratitude is the path to abundance." (≈120 chars)
-- Structure: [Islamic Concept] [Quranic Truth/Wisdom] [Ramadan Action]. Keep it under 250 characters.
+GRAMMAR RULES:
+✓ Proper subject-verb agreement
+✓ Correct tense consistency (present tense preferred for timeless truths)
+✓ Proper punctuation (semicolons for related ideas, commas for clarity)
+✓ No run-on sentences
+✓ Clear antecedent references
+✓ Active voice where possible (more powerful)
 
-QUALITY CHECKS:
-✓ Does it mention Allah directly?
-✓ Does it use Islamic concepts (Quran, Sunnah, Islamic virtues)?
-✓ Is it meaningful and substantial (not generic)?
-✓ Would a Muslim find it spiritually nourishing?
-✓ Is it properly complete (not cut off)?
+AUTHENTICITY EXAMPLES (GRAMMAR-PERFECT):
+- "Allah promises in the Quran that those who are patient receive reward without measure; sabr opens the door to His infinite mercy." (115 chars - PERFECT)
+- "Shukr—gratitude to Allah—is the foundation of spiritual growth; when we thank Allah, our hearts draw nearer to His presence and guidance." (125 chars - PERFECT)
+- "The Prophet taught that Taqwa is the adornment of the soul; on this blessed day, let us guard our hearts and intentions for Allah's sake." (130 chars - PERFECT)
 
-Now compose the reflection on "${topic}" for Ramadan Day ${day}:`;
+MEANING CHECK:
+✓ Is there a clear spiritual lesson?
+✓ Does it reference Allah specifically?
+✓ Would this strengthen a Muslim's faith on day ${day}?
+✓ Can a reader immediately understand and act on it?
+✓ Is there no ambiguity or hollow phrases?
+
+Now write ONE reflection on "${topic}" for Ramadan Day ${day}. Perfect grammar. Perfect punctuation. Perfect meaning. Connected sentences:`;
 
     // Using gemini-2.5-flash-lite
     const response = await ai.models.generateContent({

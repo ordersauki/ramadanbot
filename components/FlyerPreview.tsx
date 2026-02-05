@@ -132,10 +132,13 @@ const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset,
 
   if (isGenerating) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[50vh] animate-fade-in p-6 text-center">
+      <div className="flex flex-col items-center justify-center min-h-[50vh] animate-fade-in p-6 text-center space-y-6">
         <LoadingSpinner size="lg" color="text-ios-teal" />
-        <h3 className="mt-8 text-xl font-bold text-gray-900 dark:text-white">Designing Masterpiece...</h3>
-        <p className="text-gray-500 mt-2 text-sm max-w-xs mx-auto">Applying Islamic geometry and typesetting your reflection.</p>
+        <div>
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white">Crafting Your Reflection...</h3>
+          <p className="text-gray-500 mt-3 text-sm max-w-xs mx-auto">Loading background image, positioning text, and rendering your flyer. This takes a moment for perfection.</p>
+          <p className="text-gray-400 mt-2 text-xs font-mono">Please wait...</p>
+        </div>
       </div>
     );
   }
