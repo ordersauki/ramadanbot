@@ -36,11 +36,31 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
 
   document.body.appendChild(container);
 
-  // Build absolute URL for background image - ensure it's from /public
+  // Fetch background image and convert to data URL for reliable rendering
   const backgroundImageUrl = '/ramadan-background.png';
   const absoluteImageUrl = `${window.location.origin}${backgroundImageUrl}`;
   
-  console.log('🖼️ Loading background from:', absoluteImageUrl);
+  console.log('🖼️ Fetching background from:', absoluteImageUrl);
+  
+  let backgroundDataUrl = 'none';
+  try {
+    const response = await fetch(absoluteImageUrl);
+    if (response.ok) {
+      const blob = await response.blob();
+      backgroundDataUrl = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+      console.log('✓ Background fetched as data URL');
+    } else {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+  } catch (err) {
+    console.error('💥 Failed to fetch background:', err);
+    throw new Error(`Background image load failed: ${err instanceof Error ? err.message : 'Unknown error'}`);
+  }
 
   container.innerHTML = `
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Cormorant+Garamond:wght@400;600;700&family=Playfair+Display:wght@600;700&family=Amiri:wght@400;700&display=block" rel="stylesheet">
@@ -53,10 +73,6 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
         width: 1080px; 
         height: 1080px; 
         position: relative; 
-        background-image: url('${absoluteImageUrl}');
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
         font-family: 'Cormorant Garamond', serif;
         overflow: hidden;
         display: flex;
@@ -65,6 +81,17 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
         align-items: center;
         padding: 60px 40px;
     ">
+        <!-- Background Image Layer -->
+        <img src="${backgroundDataUrl}" style="
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            z-index: 1;
+        " alt="Ramadan Background" crossorigin="anonymous" />
         
         <!-- Day (Top Left - Caligraphic) -->
         <div style="
@@ -104,6 +131,7 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
             gap: 16px;
             position: relative;
             padding: 0 30px;
+            z-index: 15;
         ">
             <!-- Opening Quote Mark -->
             <div style="
@@ -150,36 +178,40 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
             ">"</div>
         </div>
 
-        <!-- User Name Section (Bottom) -->
+        <!-- User Name Section (Bottom - Repositioned & Restyled) -->
         <div style="
+            position: absolute;
+            bottom: 140px;
+            left: 0;
+            right: 0;
             text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 8px;
-            position: relative;
-            z-index: 10;
+            gap: 12px;
+            z-index: 16;
         ">
-            <!-- Decorative Divider -->
+            <!-- Decorative Divider Line -->
             <div style="
-                width: 60px;
-                height: 1px;
-                background: linear-gradient(90deg, transparent, rgba(244, 208, 63, 0.6), transparent);
+                width: 80px;
+                height: 2px;
+                background: linear-gradient(90deg, transparent, rgba(244, 208, 63, 0.7), transparent);
                 margin-bottom: 4px;
             "></div>
             
-            <!-- User Name - Stylish and Readable -->
+            <!-- User Name - Elegant Golden Styling -->
             <h2 style="
                 font-family: 'Amiri', serif;
-                font-size: 52px;
+                font-size: 56px;
                 font-weight: 700;
-                color: rgba(255, 255, 255, 0.92);
-                letter-spacing: 1.2px;
+                color: rgba(244, 208, 63, 0.9);
+                letter-spacing: 2px;
                 text-shadow: 
-                    0 3px 12px rgba(0, 0, 0, 0.6),
-                    0 1px 3px rgba(0, 0, 0, 0.4);
+                    0 4px 16px rgba(0, 0, 0, 0.7),
+                    0 1px 4px rgba(0, 0, 0, 0.5);
                 margin: 0;
                 line-height: 1;
+                font-style: italic;
             ">${escapeHtml(config.userName)}</h2>
         </div>
 
@@ -188,66 +220,25 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
 
 
   try {
-    // Wait for DOM
-    await wait(100);
+    // Wait for DOM to settle
+    await wait(200);
     
     // Wait for fonts to load
-    await document.fonts.ready;
-    
-    // Preload and verify background image exists and can be loaded
-    const preloadBackgroundImage = new Promise<void>((resolve, reject) => {
-      const img = new Image();
-      let loadTimeoutId: NodeJS.Timeout;
-      
-      img.onload = () => {
-        clearTimeout(loadTimeoutId);
-        console.log('✓ Background image loaded successfully');
-        resolve();
-      };
-      
-      img.onerror = () => {
-        clearTimeout(loadTimeoutId);
-        console.error('✗ Background image failed to load from:', absoluteImageUrl);
-        reject(new Error(`Failed to load from: ${absoluteImageUrl}`));
-      };
-      
-      // Set a 10-second timeout 
-      loadTimeoutId = setTimeout(() => {
-        console.error('✗ Background image load timeout');
-        reject(new Error('Image load timeout - server may be slow'));
-      }, 8000);
-      
-      img.crossOrigin = 'anonymous';
-      img.src = absoluteImageUrl;
-    });
+    const fontTimeout = setTimeout(() => {
+      console.warn('⚠️ Fonts taking time, proceeding');
+    }, 2500);
     
     try {
-      await preloadBackgroundImage;
-    } catch (imgError) {
-      console.error('💥 Image loading error:', imgError);
-      throw imgError;
+      await document.fonts.ready;
+      clearTimeout(fontTimeout);
+      console.log('✓ Fonts ready');
+    } catch {
+      clearTimeout(fontTimeout);
+      console.warn('⚠️ Fonts: proceeding with fallback');
     }
-
-    // Wait for fonts to be fully loaded - simple non-blocking wait
-    const waitForFonts = new Promise<void>((resolve) => {
-      const timeout = setTimeout(() => {
-        console.warn('⚠️ Fonts: continuing anyway');
-        resolve();
-      }, 3500);
-      document.fonts.ready.then(() => {
-        clearTimeout(timeout);
-        console.log('✓ Fonts ready');
-        resolve();
-      }).catch(() => {
-        clearTimeout(timeout);
-        resolve();
-      });
-    });
     
-    await waitForFonts;
-
-    // Extended render wait to ensure all elements fully render and background loads
-    await wait(1800);
+    // Extended wait for layout and rendering
+    await wait(1500);
 
     const flyerElement = document.getElementById('flyer-canvas');
     if (!flyerElement) throw new Error('Flyer element not found');
