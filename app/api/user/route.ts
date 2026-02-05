@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import pool, { safeUser } from '../../../lib/db';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url);
-    const id = searchParams.get('id');
+    const id = request.nextUrl.searchParams.get('id');
     if (!id) return NextResponse.json({ error: 'Missing id' }, { status: 400 });
 
     const client = await pool.connect();

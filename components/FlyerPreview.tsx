@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FormData, User } from '../types';
 import { generateFlyer, downloadFlyer, slugify } from '../lib/flyerGenerator';
 import LoadingSpinner from './LoadingSpinner';
-import { Download, Share2, RefreshCcw, Sparkles, XCircle, Clock, MessageCircle, Share } from 'lucide-react';
+import { Download, Share2, RefreshCcw, Sparkles, XCircle, MessageCircle, Share } from 'lucide-react';
 
 interface FlyerPreviewProps {
   message: string;
@@ -17,7 +17,6 @@ const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset,
   const [isGenerating, setIsGenerating] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [hasDownloaded, setHasDownloaded] = useState(false);
-  const [countdown, setCountdown] = useState<string>('00:00:00');
   const [notification, setNotification] = useState<{ type: 'success' | 'error' | 'info'; message: string } | null>(null);
 
   // Show notification helper
@@ -68,31 +67,6 @@ const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset,
         clearTimeout(t);
     };
   }, [message, formData, user]);
-
-  // Countdown Timer for Rate Limit
-  useEffect(() => {
-    if (!hasDownloaded || !user.last_generation_date) return;
-
-    const interval = setInterval(() => {
-      const now = new Date();
-      const lastGen = new Date(user.last_generation_date!);
-      const nextAllowed = new Date(lastGen.getTime() + 24 * 60 * 60 * 1000);
-      const diff = nextAllowed.getTime() - now.getTime();
-
-      if (diff <= 0) {
-        setHasDownloaded(false);
-        setCountdown('00:00:00');
-        clearInterval(interval);
-      } else {
-        const hours = Math.floor(diff / (1000 * 60 * 60));
-        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-        setCountdown(`${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`);
-      }
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [hasDownloaded, user.last_generation_date]);
 
   const handleDownload = () => {
     if (flyerUrl) {
@@ -150,7 +124,7 @@ const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset,
     );
   }
 
-  // Show Cooldown Screen After Download
+  // Show Success Screen After Download - No Countdown Here
   if (hasDownloaded) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[50vh] animate-fade-in p-6 text-center space-y-4">
@@ -158,18 +132,10 @@ const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset,
           <Sparkles size={28} />
         </div>
         <div>
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white">Flyer Generated!</h2>
-          <p className="text-gray-600 dark:text-gray-400 text-sm mt-2">Come back after:</p>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white">Flyer Downloaded! ✓</h2>
+          <p className="text-gray-600 dark:text-gray-400 text-sm mt-2">Share it with your loved ones.</p>
         </div>
-        <div className="bg-gradient-to-r from-ios-teal/10 to-cyan-500/10 border border-ios-teal/30 rounded-2xl p-5 w-full">
-          <div className="flex items-center justify-center gap-2 mb-2">
-            <Clock size={18} className="text-ios-teal" />
-            <p className="text-xs font-bold text-ios-teal uppercase tracking-wider">Time Until Next</p>
-          </div>
-          <p className="text-4xl font-mono font-bold text-gray-900 dark:text-white">{countdown}</p>
-          <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">24-hour reset</p>
-        </div>
-        <p className="text-sm text-gray-600 dark:text-gray-400">Share your flyer with family and friends:</p>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mt-4">Don't forget to share on social media:</p>
         <div className="space-y-2 w-full">
           <button
             onClick={handleRedownload}
@@ -195,9 +161,9 @@ const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset,
           </button>
           <button
             onClick={onReset}
-            className="w-full text-ios-teal font-bold py-2 rounded-xl hover:bg-ios-teal/10 transition-all text-sm"
+            className="w-full bg-ios-teal hover:bg-cyan-600 text-white font-bold py-2.5 rounded-xl transition-all text-sm"
           >
-            Return Home
+            ← Return to Home
           </button>
         </div>
       </div>
