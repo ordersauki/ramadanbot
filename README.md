@@ -1,20 +1,63 @@
 <div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+<img width="1200" height="475" alt="RamadanBot Banner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
 </div>
 
-# Run and deploy your AI Studio app
+# 🌙 Ramadan Bot - Your Spiritual Companion
 
-This contains everything you need to run your app locally.
+Welcome to **Ramadan Bot**, an intelligent platform designed to enrich your Ramadan journey with personalized, AI-generated spiritual reflections and beautiful digital flyers you can share with your community.
 
-View your app in AI Studio: https://ai.studio/apps/drive/1YBawdvNZKUXEh3Y7ejQuQ7nZGw3tQz3p
+## What is Ramadan Bot?
 
-## Run Locally
+Ramadan Bot helps you create meaningful spiritual reflections for each day of Ramadan. Simply provide a topic or theme (like "Patience," "Mercy," or "Gratitude"), and our AI generates a thoughtful, Quranic-inspired message. Your reflection is beautifully designed into a shareable flyer featuring your name and the Ramadan day—perfect for social media or personal motivation.
 
-**Prerequisites:**  Node.js
+### Features
 
+✨ **AI-Powered Reflections** - Get personalized messages rooted in Islamic wisdom
+🎨 **Beautiful Flyer Design** - Elegant, Ramadan-themed graphics ready to share  
+📱 **Easy to Share** - Download high-resolution images or share directly on social media
+🔥 **Track Your Streak** - See how many consecutive days you've created reflections
+📊 **Daily Limit Management** - Control how many reflections you can create per day
+⚡ **Zero Setup Required** - Just enter your name and PIN to get started
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## Getting Started
+
+### Installation
+
+1. **Clone or download this app**
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+3. **Set your API key** - Add your API key to `.env.local`:
+   ```
+   GEMINI_API_KEY=your_api_key_here
+   ```
+4. **Run locally:**
+   ```bash
+   npm run dev
+   ```
+
+The app will be available at `http://localhost:3000`
+
+## How to Use
+
+1. **Login** - Enter your name and a 4-digit PIN (creates account on first login)
+2. **Pick a Theme** - Choose a spiritual theme or Quranic virtue
+3. **Generate** - Click "Generate Flyer Image" and watch the AI create your reflection
+4. **Download & Share** - Save the flyer as a high-resolution image and share with others
+5. **Track Progress** - Watch your daily streak and see your contribution count grow
+
+## Daily Limit
+
+By default, you can create **1 reflection per day**. After downloading your flyer for the day, you'll see a countdown timer showing when you can create another one. Come back tomorrow to build your streak!
+
+## Questions or Feedback?
+
+We'd love to hear from you! Get in touch:
+
+📧 **Email:** abdallahnangere@gmail.com  
+💬 **WhatsApp:** [+234 816 413 5836](https://wa.me/2348164135836)
+
+---
+
+**Built with ❤️ for the Ummah** | Developed by Abdallah Nangere 🇳🇬

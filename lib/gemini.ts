@@ -21,18 +21,22 @@ export const generateMessage = async (
 
     // Updated Prompt Strategy as requested
     const prompt = `
-Generate a conscious islamic based reflective moderate English reminder text using the topic: "${topic}".
+  Compose a mature, deeply resonant Islamic reflection in clear English based on the topic: "${topic}".
 
-Context:
-- Ramadan Day: ${day}
-- ${hint ? `Specific Request: ${hint}` : "Focus on spiritual growth and mindfulness."}
+  Context:
+  - Ramadan Day: ${day}
+  - ${hint ? `User note: ${hint}` : "Focus on spiritual growth, mercy, gratitude, and inner renewal."}
 
-Constraints:
-- Keep it under 250 characters.
-- Tone: Elegant, moderate, reflective, and spiritually uplifting.
-- No emojis in the response text (they will be added by the design).
-- Output ONLY the message text.
-`;
+  Guidelines:
+  - Tone: solemn, contemplative, uplifting, and accessible to a general audience.
+  - Ground the message in broad Quranic/Prophetic virtues (mercy, patience, gratitude, forgiveness) without theological argument or sectarian language.
+  - Length: 1–3 short sentences, ideally between 40 and 220 characters.
+  - Avoid emojis, hashtags, quotations of long scripture, or any metadata — keep only the crafted message.
+  - Do not include salutations, sign-offs, or extra commentary; return only the message text.
+
+  Purpose:
+  - The message will be placed on a Ramadan flyer and should read like a short, powerful reminder that encourages reflection and compassionate action.
+  `;
 
     // Using gemini-2.5-flash-lite as requested
     const response = await ai.models.generateContent({

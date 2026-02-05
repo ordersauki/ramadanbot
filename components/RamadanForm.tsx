@@ -70,8 +70,8 @@ const RamadanForm: React.FC<RamadanFormProps> = ({ onSuccess, disabled, initialN
         <div className="flex items-start gap-3 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border border-blue-100 dark:border-blue-900/50">
             <Info className="w-5 h-5 text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
             <div className="text-xs text-blue-800 dark:text-blue-200 leading-relaxed">
-                <span className="font-bold block mb-1">Quick Guide</span>
-                Enter a spiritual topic (e.g., 'Patience') and the current Ramadan day. Our AI will craft a personalized reflection flyer for you.
+                <span className="font-bold block mb-1">✨ How It Works</span>
+                Share a spiritual theme or Quranic virtue (e.g., "Patience," "Gratitude"). We'll craft a personalized Ramadan reflection flyer with an inspiring message for you to share.
             </div>
         </div>
       </div>
@@ -89,7 +89,7 @@ const RamadanForm: React.FC<RamadanFormProps> = ({ onSuccess, disabled, initialN
                 maxLength={50}
                 value={formData.topic}
                 onChange={(e) => handleChange('topic', e.target.value)}
-                className="w-full pl-10 pr-4 py-4 rounded-2xl bg-ios-lightGray dark:bg-zinc-800 dark:text-white text-sm font-medium outline-none focus:bg-white dark:focus:bg-[#2C2C2E] focus:ring-2 ring-ios-teal transition-all placeholder:text-gray-400"
+                className="w-full pl-10 pr-4 py-4 rounded-2xl bg-ios-lightGray dark:bg-zinc-800 text-gray-900 dark:text-white text-sm font-medium outline-none focus:bg-white dark:focus:bg-[#2C2C2E] focus:ring-2 ring-ios-teal transition-all placeholder:text-gray-400 placeholder:dark:text-gray-500"
                 placeholder="e.g. Ihsan"
                 disabled={isLoading}
                 required
@@ -157,7 +157,7 @@ const RamadanForm: React.FC<RamadanFormProps> = ({ onSuccess, disabled, initialN
             <LoadingSpinner size="sm" color="text-white" />
           ) : (
             <>
-              <span className="text-base">Start Generation</span>
+              <span className="text-base">Generate Flyer Image</span>
               <Send size={18} fill="currentColor" />
             </>
           )}

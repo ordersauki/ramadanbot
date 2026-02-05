@@ -1,5 +1,5 @@
-import React from 'react';
-import { X, Settings, LogOut, Shield, Heart, UserCircle } from 'lucide-react';
+import React, { useState } from 'react';
+import { X, Settings, LogOut, Shield, Heart, UserCircle, Mail, MessageCircle } from 'lucide-react';
 import { User } from '../types';
 
 interface SidebarProps {
@@ -12,6 +12,7 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, user, onLogout, onAdmin, onSettings }) => {
+  const [infoTab, setInfoTab] = useState<'about' | 'contact'>('about');
   return (
     <>
       {/* Backdrop */}
@@ -60,16 +61,80 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, user, onLogout, onAd
           </div>
 
           <div className="space-y-1">
-            <h3 className="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">About</h3>
-             <div className="px-3 py-4 bg-white dark:bg-black/20 rounded-xl shadow-sm text-center transition-colors">
-                <div className="text-2xl mb-1">🌙</div>
-                <h4 className="font-bold text-gray-900 dark:text-white">Ramadan Bot</h4>
-                <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">v2.1.0 (iOS Edition)</p>
-                <div className="text-xs text-gray-400">
-                    Built with ❤️ by<br/>
-                    <span className="text-ios-teal font-semibold">Abdallah Nangere</span>
-                </div>
-             </div>
+            <h3 className="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Information</h3>
+            
+            <div className="bg-white dark:bg-black/20 rounded-xl overflow-hidden shadow-sm transition-colors">
+              <div className="flex border-b border-gray-100 dark:border-zinc-800">
+                <button 
+                  onClick={() => setInfoTab('about')}
+                  className={`flex-1 px-3 py-2.5 text-xs font-bold uppercase tracking-wider transition-all ${infoTab === 'about' ? 'bg-ios-teal text-white' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5'}`}
+                >
+                  About
+                </button>
+                <button 
+                  onClick={() => setInfoTab('contact')}
+                  className={`flex-1 px-3 py-2.5 text-xs font-bold uppercase tracking-wider transition-all ${infoTab === 'contact' ? 'bg-ios-teal text-white' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5'}`}
+                >
+                  Contact
+                </button>
+              </div>
+
+              <div className="p-4">
+                {infoTab === 'about' && (
+                  <div className="space-y-3 animate-fade-in">
+                    <div className="text-center">
+                      <div className="text-3xl mb-2">🌙</div>
+                      <h4 className="font-bold text-gray-900 dark:text-white text-sm">Ramadan Bot</h4>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 font-medium">v2.1.0</p>
+                    </div>
+                    <p className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed text-center">
+                      A sophisticated platform for crafting personalized Ramadan reflections and spiritual flyers using AI-powered Islamic messaging. Designed to deepen your spiritual journey during the holy month.
+                    </p>
+                    <div className="pt-2 border-t border-gray-100 dark:border-zinc-700">
+                      <p className="text-[10px] text-gray-500 dark:text-gray-400 text-center">
+                        <span className="block font-bold mb-1 text-gray-700 dark:text-gray-300">Developer</span>
+                        Abdallah Nangere 🇳🇬
+                      </p>
+                    </div>
+                    <p className="text-[10px] text-gray-400 text-center italic">
+                      Built with ❤️ for the Ummah
+                    </p>
+                  </div>
+                )}
+
+                {infoTab === 'contact' && (
+                  <div className="space-y-3 animate-fade-in">
+                    <p className="text-xs text-gray-600 dark:text-gray-300 text-center mb-4">
+                      Have questions or feedback? Reach out today.
+                    </p>
+                    
+                    <a 
+                      href="mailto:abdallahnangere@gmail.com"
+                      className="flex items-center gap-3 px-3 py-3 bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-900/20 dark:to-orange-900/20 rounded-lg hover:shadow-md transition-all group border border-red-200 dark:border-red-900/30"
+                    >
+                      <Mail size={18} className="text-red-600 dark:text-red-400 group-hover:scale-110 transition-transform" />
+                      <div>
+                        <p className="text-xs font-bold text-gray-800 dark:text-gray-200">Email</p>
+                        <p className="text-[10px] text-red-600 dark:text-red-400 font-medium">abdallahnangere@gmail.com</p>
+                      </div>
+                    </a>
+
+                    <a 
+                      href="https://wa.me/2348164135836"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 px-3 py-3 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg hover:shadow-md transition-all group border border-green-200 dark:border-green-900/30"
+                    >
+                      <MessageCircle size={18} className="text-green-600 dark:text-green-400 group-hover:scale-110 transition-transform" />
+                      <div>
+                        <p className="text-xs font-bold text-gray-800 dark:text-gray-200">WhatsApp</p>
+                        <p className="text-[10px] text-green-600 dark:text-green-400 font-medium">+234 816 413 5836</p>
+                      </div>
+                    </a>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
 
         </div>

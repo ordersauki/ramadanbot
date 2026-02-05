@@ -117,16 +117,18 @@ export default function Home() {
                     <Menu size={24} strokeWidth={2.5} />
                 </button>
                 <div className="flex flex-col items-center">
-                    <span className="text-[10px] font-bold text-ios-teal uppercase tracking-widest flex items-center gap-1">
-                        <Sparkles size={10} /> Streak: {user.streak}
+                    <span className="text-[10px] font-bold text-gray-600 dark:text-gray-400 uppercase tracking-widest">
+                        Daily Limit
                     </span>
                     <h1 className="text-lg font-bold text-gray-900 dark:text-white">Ramadan Bot</h1>
                 </div>
-                <div className="w-8" />
+                <div className="w-8 h-8 bg-gradient-to-br from-ios-teal to-cyan-500 rounded-full flex items-center justify-center text-white text-xs font-bold shadow-md">
+                    {user.rate_limit_override || 1}
+                </div>
             </header>
 
             {/* Main Content Area */}
-            <main className="flex-1 overflow-y-auto px-4 py-4 scroll-smooth no-scrollbar">
+            <main className="flex-1 overflow-y-auto px-4 py-4 scroll-smooth no-scrollbar pb-28">
                 {generatedData ? (
                     <FlyerPreview 
                         message={generatedData.text}
@@ -135,7 +137,7 @@ export default function Home() {
                         user={user}
                     />
                 ) : (
-                    <div className="animate-fade-in-up pb-10">
+                    <div className="animate-fade-in-up pb-6">
                          <div className="mb-4">
                             <h2 className="text-2xl font-bold text-gray-900 dark:text-white leading-tight">
                                 Salam, {user.name.split(' ')[0]} 👋
@@ -150,6 +152,29 @@ export default function Home() {
                     </div>
                 )}
             </main>
+
+            {/* Bottom Footer - Streak & Stats */}
+            {!generatedData && (
+                <footer className="absolute bottom-0 left-0 right-0 px-4 py-4 bg-gradient-to-t from-white dark:from-[#1C1C1E] to-transparent">
+                    <div className="bg-white dark:bg-black/30 backdrop-blur-md rounded-2xl p-4 border border-gray-100 dark:border-zinc-800 transition-colors">
+                        <div className="grid grid-cols-2 gap-4">
+                            {/* Streak Card */}
+                            <div className="bg-gradient-to-br from-orange-100 to-red-100 dark:from-orange-900/20 dark:to-red-900/20 rounded-xl p-4 text-center border border-orange-200 dark:border-orange-900/30">
+                                <p className="text-[10px] font-bold text-orange-600 dark:text-orange-400 uppercase tracking-wider">🔥 Streak</p>
+                                <p className="text-3xl font-bold text-orange-700 dark:text-orange-300 mt-1">{user.streak}</p>
+                                <p className="text-[10px] text-orange-600 dark:text-orange-400 mt-1">days</p>
+                            </div>
+
+                            {/* Daily Limit Card */}
+                            <div className="bg-gradient-to-br from-blue-100 to-cyan-100 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-xl p-4 text-center border border-blue-200 dark:border-blue-900/30">
+                                <p className="text-[10px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">📊 Daily Limit</p>
+                                <p className="text-3xl font-bold text-blue-700 dark:text-blue-300 mt-1">{user.rate_limit_override || 1}</p>
+                                <p className="text-[10px] text-blue-600 dark:text-blue-400 mt-1">generation</p>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            )}
         </div>
     );
   };

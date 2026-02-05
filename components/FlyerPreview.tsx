@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FormData, User } from '../types';
 import { generateFlyer, downloadFlyer, slugify } from '../lib/flyerGenerator';
 import LoadingSpinner from './LoadingSpinner';
-import { Download, Share2, RefreshCcw, Sparkles, XCircle } from 'lucide-react';
+import { Download, Share2, RefreshCcw, Sparkles, XCircle, Clock } from 'lucide-react';
 
 interface FlyerPreviewProps {
   message: string;
@@ -15,6 +15,8 @@ const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset,
   const [flyerUrl, setFlyerUrl] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [hasDownloaded, setHasDownloaded] = useState(false);
+  const [countdown, setCountdown] = useState<string>('00:00:00');
 
   useEffect(() => {
     let mounted = true;
@@ -58,7 +60,40 @@ const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset,
     };
   }, [message, formData, user]);
 
+  // Countdown Timer for Rate Limit
+  useEffect(() => {
+    if (!hasDownloaded || !user.last_generation_date) return;
+
+    const interval = setInterval(() => {
+      const now = new Date();
+      const lastGen = new Date(user.last_generation_date!);
+      const nextAllowed = new Date(lastGen.getTime() + 24 * 60 * 60 * 1000);
+      const diff = nextAllowed.getTime() - now.getTime();
+
+      if (diff <= 0) {
+        setHasDownloaded(false);
+        setCountdown('00:00:00');
+        clearInterval(interval);
+      } else {
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+        setCountdown(`${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [hasDownloaded, user.last_generation_date]);
+
   const handleDownload = () => {
+    if (flyerUrl) {
+      const fileName = `Ramadan_Day_${formData.day}_${slugify(formData.topic)}.png`;
+      downloadFlyer(flyerUrl, fileName);
+      setHasDownloaded(true);
+    }
+  };
+
+  const handleRedownload = () => {
     if (flyerUrl) {
       const fileName = `Ramadan_Day_${formData.day}_${slugify(formData.topic)}.png`;
       downloadFlyer(flyerUrl, fileName);
@@ -96,6 +131,60 @@ const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset,
         <LoadingSpinner size="lg" color="text-ios-teal" />
         <h3 className="mt-8 text-xl font-bold text-gray-900 dark:text-white">Designing Masterpiece...</h3>
         <p className="text-gray-500 mt-2 text-sm max-w-xs mx-auto">Applying Islamic geometry and typesetting your reflection.</p>
+      </div>
+    );
+  }
+
+  // Show Cooldown Screen After Download
+  if (hasDownloaded) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[50vh] animate-fade-in p-6 text-center space-y-6">
+        <div className="w-20 h-20 rounded-full bg-gradient-to-br from-ios-teal to-cyan-500 flex items-center justify-center text-white text-4xl shadow-lg">
+          ✨
+        </div>
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Flyer Generated!</h2>
+          <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">You've created your reflection for today. Come back after:</p>
+        </div>
+        <div className="bg-gradient-to-r from-ios-teal/10 to-cyan-500/10 border border-ios-teal/30 rounded-2xl p-6 w-full">
+          <div className="flex items-center justify-center gap-2 mb-2">
+            <Clock size={20} className="text-ios-teal" />
+            <p className="text-xs font-bold text-ios-teal uppercase tracking-wider">Time Until Next Generation</p>
+          </div>
+          <p className="text-4xl font-mono font-bold text-gray-900 dark:text-white">{countdown}</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-3">24-hour daily limit resets automatically</p>
+        </div>
+        <p className="text-sm text-gray-600 dark:text-gray-400">In the meantime, share your flyer with others:</p>
+        <div className="space-y-2 w-full">
+          <button
+            onClick={handleRedownload}
+            className="w-full bg-white dark:bg-[#1C1C1E] text-gray-900 dark:text-white border border-gray-200 dark:border-zinc-700 font-bold py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-gray-50 dark:hover:bg-zinc-800 transition-all"
+          >
+            <Download size={20} />
+            <span>Re-download Flyer</span>
+          </button>
+          <button
+            onClick={() => {
+              const caption = `🌙 Ramadan Day ${formData.day}: ${formData.topic}\\n\\n"${message.substring(0, 60)}..."\\n\\n✨ Created with RamadanBot`;
+              if (navigator.share) {
+                navigator.share({
+                  title: 'My Ramadan Reflection',
+                  text: caption
+                }).catch(() => {});
+              }
+            }}
+            className="w-full bg-gradient-to-r from-blue-500 to-cyan-600 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 hover:shadow-lg transition-all"
+          >
+            <Share2 size={20} />
+            <span>Share Message</span>
+          </button>
+          <button
+            onClick={onReset}
+            className="w-full text-ios-teal font-bold py-3 rounded-xl hover:bg-ios-teal/10 transition-all"
+          >
+            Return to Home
+          </button>
+        </div>
       </div>
     );
   }
