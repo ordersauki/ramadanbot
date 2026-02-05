@@ -123,10 +123,9 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
             </button>
         </form>
 
-        <p className="mt-6 text-center text-xs text-gray-500 leading-relaxed">
-            New here? Enter a name and PIN to 
-            <span className="text-white font-semibold"> create an account</span> instantly.
-            <br/>Existing users will be logged in.
+        <p className="mt-6 text-center text-xs text-gray-300 leading-relaxed">
+            Welcome to RamadanBot. Enter your name and four digits PIN to create account.
+            <br/>If you already have an account, you will be logged in.
         </p>
       </div>
       

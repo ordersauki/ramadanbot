@@ -93,45 +93,60 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
             z-index: 1;
         " alt="Ramadan Background" crossorigin="anonymous" />
         
-        <!-- Day (Top Left - Caligraphic) -->
+        <!-- Elegant Gold Badge (Top Left) -->
         <div style="
-            position: absolute;
-            top: 60px;
-            left: 60px;
-            text-align: left;
-            z-index: 20;
+          position: absolute;
+          top: 40px;
+          left: 40px;
+          z-index: 22;
+          display: flex;
+          align-items: center;
         ">
+          <div style="
+            background: rgba(255, 250, 240, 0.95);
+            border: 3px solid #C9A961;
+            border-radius: 20px;
+            padding: 20px 35px;
+            box-shadow: 0 8px 25px rgba(201, 169, 97, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 6px;
+            min-width: 140px;
+          ">
             <div style="
-                font-family: 'Amiri', serif;
-                font-size: 67px;
-                font-weight: 700;
-                color: rgba(244, 208, 63, 0.95);
-                line-height: 1;
-                letter-spacing: -2px;
-                text-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+              font-family: 'Cinzel', 'Playfair Display', serif;
+              font-size: 16px;
+              font-weight: 700;
+              color: #8B6F47;
+              letter-spacing: 4px;
+              text-transform: uppercase;
+            ">DAY</div>
+
+            <div style="
+              font-family: 'Cinzel', 'Playfair Display', serif;
+              font-size: 72px;
+              font-weight: 800;
+              color: #8B6F47;
+              line-height: 1;
+              -webkit-font-smoothing: antialiased;
             ">${config.day}</div>
-            <div style="
-                font-family: 'Amiri', serif;
-                font-size: 14px;
-                font-weight: 600;
-                color: rgba(255, 255, 255, 0.7);
-                letter-spacing: 2px;
-                text-transform: uppercase;
-                margin-top: 2px;
-            ">رمضان</div>
+          </div>
         </div>
 
         <!-- Message with Quote Marks (Center) -->
         <div style="
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            flex: 1;
-            gap: 16px;
-            position: relative;
-            padding: 0 30px;
-            z-index: 15;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          flex: 1;
+          gap: 12px;
+          position: relative;
+          padding: 0 30px;
+          z-index: 15;
+          max-width: 980px;
+          margin: 0 auto;
         ">
             <!-- Opening Quote Mark -->
             <div style="
@@ -145,7 +160,7 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
                 opacity: 0.9;
             ">"</div>
             
-            <!-- Message Text -->
+            <!-- Closing Quote Mark -->
             <p style="
                 font-family: 'Playfair Display', serif;
                 font-size: 32px;
@@ -156,38 +171,20 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
                 letter-spacing: 0.2px;
                 margin: 0;
                 max-width: 900px;
-                text-shadow: 
-                    0 3px 14px rgba(0, 0, 0, 0.55),
-                    0 1px 4px rgba(0, 0, 0, 0.3);
-                word-wrap: break-word;
-                overflow-wrap: break-word;
-                white-space: normal;
-                opacity: 0.9;
-            ">${config.message}</p>
-            
-            <!-- Closing Quote Mark -->
-            <div style="
-                font-family: 'Playfair Display', serif;
-                font-size: 58px;
-                color: rgba(244, 208, 63, 0.75);
-                line-height: 0.6;
-                font-weight: 700;
-                margin: 0;
-                text-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
-                opacity: 0.9;
-            ">"</div>
-        </div>
-
-        <!-- User Name Section (Bottom - Reserved Space) -->
-        <div style="
-            position: absolute;
-            bottom: 40px;
-            left: 0;
-            right: 0;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            <!-- User Name (Directly After Message) -->
+            <p style="
+              font-family: 'Playfair Display', serif;
+              font-size: 28px;
+              font-weight: 400;
+              color: rgba(255, 255, 255, 0.92);
+              text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+              margin: 0;
+              line-height: 1.4;
+              font-style: italic;
+              letter-spacing: 1px;
+              margin-top: 8px;
+            ">— ${escapeHtml(config.userName)}</p>
+          </div>
             gap: 12px;
             z-index: 16;
             padding: 0 40px;
