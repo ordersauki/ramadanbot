@@ -352,10 +352,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBack }) => {
                                         ) : (
                                             <div className="flex items-center gap-2">
                                                 <span className="font-mono bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/30 dark:to-cyan-900/30 text-blue-600 dark:text-blue-400 px-3 py-1 rounded-lg text-sm font-bold">
-                                                    {user.rate_limit_override || 1} gen/day
+                                                    {user.rate_limit_override || 3} gen/day
                                                 </span>
                                                 <button 
-                                                    onClick={() => { setEditLimitId(user.id); setTempLimit(user.rate_limit_override || 1); }}
+                                                    onClick={() => { setEditLimitId(user.id); setTempLimit(user.rate_limit_override || 3); }}
                                                     className="text-gray-400 hover:text-blue-500 hover:scale-110 transition-all opacity-0 group-hover:opacity-100"
                                                 >
                                                     <Edit3 size={16} />

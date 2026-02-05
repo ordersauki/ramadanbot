@@ -111,21 +111,21 @@ export default function Home() {
     // Fetch latest user state from server to get accurate remaining limits
     try {
       const res = await fetch(`/api/user?id=${appState.currentUser!.id}`);
-      if (res.ok) {
-        const json = await res.json();
-        if (json.user) {
-          setAppState(prev => ({ ...prev, currentUser: json.user }));
+        if (res.ok) {
+                const json = await res.json();
+                if (json.user) {
+                    setAppState(prev => ({ ...prev, currentUser: json.user }));
 
-          // Determine if user has reached limit for today
-          const used = json.user.generation_count || 0;
-          const limit = json.user.rate_limit_override || 1;
-          if (used >= limit && json.user.role !== 'admin') {
-            setHasDownloadedToday(true);
-          } else {
-            setHasDownloadedToday(false);
-          }
-        }
-      }
+                    // Determine if user has reached limit for today (API returns today_generations, remaining, limit)
+                    const usedToday = json.user.today_generations || 0;
+                    const limit = json.user.limit || json.user.rate_limit_override || 3;
+                    if (usedToday >= limit && json.user.role !== 'admin') {
+                        setHasDownloadedToday(true);
+                    } else {
+                        setHasDownloadedToday(false);
+                    }
+                }
+            }
     } catch (e) {
       console.error('Failed to refresh user after download', e);
       // fallback: mark as downloaded
@@ -145,9 +145,12 @@ export default function Home() {
     }
   };
 
-  const handleReset = () => {
-    setGeneratedData(null);
-  };
+    const handleReset = () => {
+        // Return to home and clear transient download/cooldown UI
+        setGeneratedData(null);
+        setHasDownloadedToday(false);
+        setDownloadedFlyerUrl(null);
+    };
 
   // --- RENDER CONTENT BASED ON STATE ---
 
@@ -210,7 +213,7 @@ export default function Home() {
                         </button>
                     )}
                     <div className="w-8 h-8 bg-gradient-to-br from-ios-teal to-cyan-500 rounded-full flex items-center justify-center text-white text-xs font-bold shadow-md">
-                        {user.rate_limit_override || 1}
+                        {user.limit || user.rate_limit_override || 3}
                     </div>
                 </div>
             </header>
@@ -268,7 +271,8 @@ export default function Home() {
                         <RamadanForm 
                             onSuccess={handleSuccess} 
                             initialName={user.name} 
-                            userId={user.id} 
+                            userId={user.id}
+                            disabled={hasDownloadedToday}
                         />
 
                         {/* Streak & Daily Limit Cards (Moved immediately after form) */}
@@ -307,11 +311,11 @@ export default function Home() {
                                                 <p className="text-[10px] text-gray-500 dark:text-gray-300 whitespace-nowrap">Left</p>
                                             </div>
                                         </div>
-                                        <p className="text-xl font-extrabold text-blue-700 dark:text-blue-300 flex-shrink-0">{user.rate_limit_override || 1}</p>
+                                        <p className="text-xl font-extrabold text-blue-700 dark:text-blue-300 flex-shrink-0">{typeof user.remaining !== 'undefined' ? user.remaining : (user.rate_limit_override || 3)}</p>
                                     </div>
                                     <div className="mt-2 w-full">
                                         <div className="w-full bg-blue-100 dark:bg-blue-900/10 rounded-full h-1.5">
-                                            <div className="bg-blue-500 h-1.5 rounded-full" style={{ width: `100%` }} />
+                                            <div className="bg-blue-500 h-1.5 rounded-full" style={{ width: `${Math.round(((user.limit || user.rate_limit_override || 3) - (user.today_generations||0))/ (user.limit || user.rate_limit_override || 3) * 100)}%` }} />
                                         </div>
                                     </div>
                                 </div>

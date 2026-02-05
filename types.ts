@@ -9,6 +9,10 @@ export interface User {
   rate_limit_override: number;
   is_banned: boolean;
   created_at: string;
+  // Optional fields returned by server endpoints
+  today_generations?: number;
+  remaining?: number;
+  limit?: number;
 }
 
 export interface FormData {

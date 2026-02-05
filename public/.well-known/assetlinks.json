@@ -1,12 +1,11 @@
 [
-  {
-    "relation": ["delegate_permission/common.handle_all_urls"],
-    "target": {
-      "namespace": "android_app",
-      "package_name": "com.ramadanbit.app",
-      "sha256_cert_fingerprints": [
-        "49:93:BB:0B:F6:F6:27:05:11:7A:4C:48:AE:5E:3A:79:FC:E2:5D:22:68:A5:B2:7C:04:78:52:79:C1:77:86:22"
-      ]
-    }
-  }
-]
+      {
+            "relation": ["delegate_permission/common.handle_all_urls"],
+                "target": {
+                          "namespace": "android_app",
+                                "package_name": "app.ramadanbot.twa",
+                                      "sha256_cert_fingerprints":
+                                              ["49:93:BB:0B:F6:F6:27:05:11:7A:4C:48:AE:5E:3A:79:FC:E2:5D:22:68:A5:B2:7C:04:78:52:79:C1:77:86:22"]
+                }
+      }
+ ]

@@ -83,13 +83,13 @@ export async function checkLimitAndGenerate(userId: string, topic: string, day: 
     if (user.is_banned) return { success: false, error: "User is banned" };
 
     // 2. Check Rate Limit
-    const limit = user.rate_limit_override || 1;
+    const limit = user.rate_limit_override || 3;
     const now = new Date();
     
     // Count generations today
     const countRes = await client.query(
       `SELECT COUNT(*) FROM generations 
-       WHERE user_id = $1 AND created_at::date = CURRENT_DATE`, 
+       WHERE user_id = $1 AND created_at >= (NOW() - INTERVAL '24 hours')`, 
       [userId]
     );
     const usedToday = parseInt(countRes.rows[0].count);

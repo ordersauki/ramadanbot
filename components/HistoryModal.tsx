@@ -61,17 +61,19 @@ const HistoryModal: React.FC<HistoryModalProps> = ({ isOpen, onClose }) => {
     <>
       {/* Backdrop */}
       <div 
-        className={`fixed inset-0 bg-black/40 backdrop-blur-md z-50 transition-opacity duration-300 ${
+        className={`fixed inset-0 bg-black/40 backdrop-blur-md transition-opacity duration-300 ${
           isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
+        style={{ zIndex: 99999 }}
         onClick={onClose}
       />
 
       {/* Modal */}
       <div 
-        className={`fixed bottom-0 left-0 right-0 w-full max-w-2xl mx-auto bg-white dark:bg-[#1C1C1E] rounded-t-3xl z-50 transform transition-all duration-300 max-h-[80vh] overflow-hidden shadow-2xl ${
+        className={`fixed bottom-0 left-0 right-0 w-full max-w-2xl mx-auto bg-white dark:bg-[#1C1C1E] rounded-t-3xl transform transition-all duration-300 max-h-[80vh] overflow-hidden shadow-2xl ${
           isOpen ? 'translate-y-0' : 'translate-y-full'
         }`}
+        style={{ zIndex: 100000 }}
       >
         {/* Header */}
         <div className="sticky top-0 bg-white dark:bg-[#1C1C1E] border-b border-gray-200 dark:border-zinc-800 p-6 flex items-center justify-between z-10">

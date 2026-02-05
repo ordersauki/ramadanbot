@@ -191,27 +191,72 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
             ">"</div>
 
             <!-- User Name Signature: prominent, styled, full name display -->
-            <p style="
+            <p id="user-signature" style="
               font-family: 'Cormorant Garamond', 'Playfair Display', serif;
               font-size: 48px;
-              font-weight: 700;
-              background: linear-gradient(135deg, #8B6F47 0%, #C9A961 100%);
-              -webkit-background-clip: text;
-              -webkit-text-fill-color: transparent;
-              background-clip: text;
+              font-weight: 800;
+              color: #fff;
               margin: 0;
-              line-height: 1.3;
+              line-height: 1;
               margin-top: 24px;
-              letter-spacing: 0.5px;
+              letter-spacing: 0.2px;
               text-align: center;
-              white-space: normal;
-              word-wrap: break-word;
-              overflow-wrap: break-word;
+              white-space: nowrap;
+              display: inline-block;
               max-width: 920px;
-              text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+              padding: 6px 12px;
+              -webkit-text-stroke: 2px rgba(0,0,0,0.65);
+              text-shadow: 0 2px 6px rgba(0,0,0,0.6), 0 0 18px rgba(0,0,0,0.15);
             ">${escapeHtml(config.userName)}</p>
         </div>
 
+        <!-- Auto-fit script: ensure the user name stays on a single line and scales to fit -->
+        <script>
+          (function(){
+            try {
+              const el = document.getElementById('user-signature');
+              if (!el) return;
+              const parent = el.parentElement || document.body;
+              // start from a large font size and shrink until it fits on one line
+              const maxWidth = Math.min(920, parent.clientWidth - 80);
+              let fontSize = 64;
+              el.style.whiteSpace = 'nowrap';
+              el.style.fontWeight = '800';
+              el.style.display = 'inline-block';
+              el.style.padding = '6px 10px';
+              // apply contrast gradient for good contrast by default
+              const applyContrast = () => {
+                el.style.background = 'linear-gradient(135deg, rgba(139,111,71,0.95) 0%, rgba(201,169,97,0.95) 100%)';
+                el.style.webkitBackgroundClip = 'text';
+                el.style.webkitTextFillColor = 'transparent';
+              };
+
+              // measure and reduce
+              const fits = () => el.scrollWidth <= maxWidth;
+              while (fontSize > 10) {
+                el.style.fontSize = fontSize + 'px';
+                if (fits()) break;
+                fontSize -= 2;
+              }
+
+              // If still overflowing, enable a semi-opaque backdrop to guarantee readability
+              if (!fits()) {
+                el.style.whiteSpace = 'normal';
+                el.style.fontSize = Math.max(12, fontSize) + 'px';
+                el.style.background = 'rgba(0,0,0,0.35)';
+                el.style.color = '#fff';
+                el.style.padding = '8px 12px';
+                el.style.borderRadius = '10px';
+                el.style.webkitTextFillColor = 'unset';
+                el.style.webkitBackgroundClip = 'unset';
+              } else {
+                try { applyContrast(); } catch(e){}
+              }
+            } catch (e) {
+              console.warn('Auto-fit script error', e);
+            }
+          })();
+        </script>
     </div>
   `;
 
