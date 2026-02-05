@@ -190,24 +190,108 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
                 opacity: 0.9;
             ">"</div>
 
-            <!-- User Name Signature: prominent, styled, full name display -->
-            <p id="user-signature" style="
-              font-family: 'Cormorant Garamond', 'Playfair Display', serif;
-              font-size: 48px;
-              font-weight: 800;
-              color: #fff;
-              margin: 0;
-              line-height: 1;
-              margin-top: 24px;
-              letter-spacing: 0.2px;
-              text-align: center;
-              white-space: nowrap;
-              display: inline-block;
-              max-width: 920px;
-              padding: 6px 12px;
-              -webkit-text-stroke: 2px rgba(0,0,0,0.65);
-              text-shadow: 0 2px 6px rgba(0,0,0,0.6), 0 0 18px rgba(0,0,0,0.15);
-            ">${escapeHtml(config.userName)}</p>
+            <!-- Attribution Section: Branded container positioning user as the reflection's author -->
+            <div style="
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              gap: 12px;
+              margin-top: 32px;
+              position: relative;
+              z-index: 20;
+            ">
+              <!-- Decorative Line Above -->
+              <div style="
+                width: 80px;
+                height: 2px;
+                background: linear-gradient(90deg, transparent, #C9A961, transparent);
+                margin-bottom: 4px;
+              "/>
+              
+              <!-- Attribution Label in elegant serif -->
+              <p style="
+                font-family: 'Cormorant Garamond', serif;
+                font-size: 13px;
+                font-weight: 600;
+                color: rgba(201, 169, 97, 0.8);
+                letter-spacing: 3px;
+                text-transform: uppercase;
+                margin: 0;
+                line-height: 1;
+              ">~ Reflection by ~</p>
+
+              <!-- User Name in Branded Container -->
+              <div id="user-signature-container" style="
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+              ">
+                <!-- Background Accent (subtle glow behind name) -->
+                <div style="
+                  position: absolute;
+                  width: 100%;
+                  height: 100%;
+                  background: radial-gradient(ellipse at center, rgba(201,169,97,0.15) 0%, transparent 70%);
+                  border-radius: 20px;
+                  z-index: 1;
+                  pointer-events: none;
+                "/>
+
+                <!-- Name itself -->
+                <p id="user-signature" style="
+                  font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+                  font-size: 48px;
+                  font-weight: 800;
+                  color: #fff;
+                  margin: 0;
+                  line-height: 1;
+                  letter-spacing: 0.2px;
+                  text-align: center;
+                  white-space: nowrap;
+                  display: inline-block;
+                  max-width: 920px;
+                  padding: 6px 12px;
+                  -webkit-text-stroke: 2px rgba(0,0,0,0.65);
+                  text-shadow: 0 2px 6px rgba(0,0,0,0.6), 0 0 18px rgba(0,0,0,0.15);
+                  position: relative;
+                  z-index: 2;
+                ">${escapeHtml(config.userName)}</p>
+
+                <!-- Decorative corner accents (top-left & bottom-right) -->
+                <div style="
+                  position: absolute;
+                  top: -8px;
+                  left: -8px;
+                  width: 16px;
+                  height: 16px;
+                  border-top: 2px solid rgba(201,169,97,0.5);
+                  border-left: 2px solid rgba(201,169,97,0.5);
+                  z-index: 0;
+                  pointer-events: none;
+                "/>
+                <div style="
+                  position: absolute;
+                  bottom: -8px;
+                  right: -8px;
+                  width: 16px;
+                  height: 16px;
+                  border-bottom: 2px solid rgba(201,169,97,0.5);
+                  border-right: 2px solid rgba(201,169,97,0.5);
+                  z-index: 0;
+                  pointer-events: none;
+                "/>
+              </div>
+
+              <!-- Decorative Line Below -->
+              <div style="
+                width: 80px;
+                height: 2px;
+                background: linear-gradient(90deg, transparent, #C9A961, transparent);
+                margin-top: 4px;
+              "/>
+            </div>
         </div>
 
         <!-- Auto-fit script: ensure the user name stays on a single line and scales to fit -->
@@ -215,8 +299,9 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
           (function(){
             try {
               const el = document.getElementById('user-signature');
-              if (!el) return;
-              const parent = el.parentElement || document.body;
+              const container = document.getElementById('user-signature-container');
+              if (!el || !container) return;
+              const parent = container.parentElement || document.body;
               // start from a large font size and shrink until it fits on one line
               const maxWidth = Math.min(920, parent.clientWidth - 80);
               let fontSize = 64;
