@@ -139,8 +139,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, user, onLogout, onAd
 
         </div>
 
-        {/* Footer */}
-        <div className="absolute bottom-0 left-0 right-0 p-6 bg-white dark:bg-[#1C1C1E] border-t border-gray-200 dark:border-zinc-800 transition-colors">
+        {/* Footer (moved up slightly for better spacing) */}
+        <div className="absolute bottom-6 left-0 right-0 p-4 bg-white dark:bg-[#1C1C1E] border-t border-gray-200 dark:border-zinc-800 transition-colors">
           <button 
             onClick={onLogout}
             className="w-full flex items-center justify-center gap-2 text-ios-red font-semibold py-2 bg-ios-red/10 rounded-lg hover:bg-ios-red/20 transition-colors"

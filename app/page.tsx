@@ -242,23 +242,57 @@ export default function Home() {
                 )}
             </main>
 
-            {/* Bottom Footer - Streak & Stats */}
+            {/* Bottom Footer - Streak & Stats (moved up slightly & improved visuals) */}
             {!generatedData && !hasDownloadedToday && (
-                <footer className="absolute bottom-0 left-0 right-0 px-4 py-4 bg-gradient-to-t from-white dark:from-[#1C1C1E] to-transparent">
-                    <div className="bg-white dark:bg-black/30 backdrop-blur-md rounded-2xl p-4 border border-gray-100 dark:border-zinc-800 transition-colors">
-                        <div className="grid grid-cols-2 gap-4">
-                            {/* Streak Card */}
-                            <div className="bg-gradient-to-br from-orange-100 to-red-100 dark:from-orange-900/20 dark:to-red-900/20 rounded-xl p-4 text-center border border-orange-200 dark:border-orange-900/30">
-                                <p className="text-[10px] font-bold text-orange-600 dark:text-orange-400 uppercase tracking-wider">🔥 Streak</p>
-                                <p className="text-3xl font-bold text-orange-700 dark:text-orange-300 mt-1">{user.streak}</p>
-                                <p className="text-[10px] text-orange-600 dark:text-orange-400 mt-1">days</p>
+                <footer className="absolute bottom-6 left-4 right-4 px-2 py-3 bg-transparent pointer-events-auto z-20">
+                    <div className="bg-white dark:bg-black/30 backdrop-blur-md rounded-2xl p-3 border border-gray-100 dark:border-zinc-800 shadow-lg transition-colors">
+                        <div className="grid grid-cols-2 gap-3">
+                            {/* Streak Card - improved */}
+                            <div className="flex flex-col items-start gap-3 rounded-xl p-4 bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/15 dark:to-orange-900/10 border border-orange-200 dark:border-orange-900/30 shadow-md">
+                                <div className="flex items-center justify-between w-full">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-10 h-10 rounded-lg bg-white/60 dark:bg-black/20 flex items-center justify-center text-orange-600 shadow-sm">
+                                            <Sparkles size={18} className="text-orange-600" />
+                                        </div>
+                                        <div>
+                                            <p className="text-[10px] font-bold text-orange-600 dark:text-orange-400 uppercase tracking-wider">Streak</p>
+                                            <p className="text-xs text-gray-500 dark:text-gray-300">Consistency</p>
+                                        </div>
+                                    </div>
+                                    <div className="text-right">
+                                        <p className="text-2xl font-extrabold text-orange-700 dark:text-orange-300">{user.streak}</p>
+                                        <p className="text-[10px] text-orange-600 dark:text-orange-400">days</p>
+                                    </div>
+                                </div>
+                                <div className="w-full">
+                                    <div className="w-full bg-orange-100 dark:bg-orange-900/10 rounded-full h-2">
+                                        <div className="bg-orange-500 h-2 rounded-full" style={{ width: `${Math.min(100, Math.round((user.streak/30)*100))}%` }} />
+                                    </div>
+                                </div>
                             </div>
 
-                            {/* Daily Limit Card */}
-                            <div className="bg-gradient-to-br from-blue-100 to-cyan-100 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-xl p-4 text-center border border-blue-200 dark:border-blue-900/30">
-                                <p className="text-[10px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">📊 Daily Limit</p>
-                                <p className="text-3xl font-bold text-blue-700 dark:text-blue-300 mt-1">{user.rate_limit_override || 1}</p>
-                                <p className="text-[10px] text-blue-600 dark:text-blue-400 mt-1">generation</p>
+                            {/* Daily Limit Card - improved */}
+                            <div className="flex flex-col items-start gap-3 rounded-xl p-4 bg-gradient-to-br from-cyan-50 to-blue-50 dark:from-blue-900/10 dark:to-cyan-900/10 border border-blue-200 dark:border-blue-900/30 shadow-md">
+                                <div className="flex items-center justify-between w-full">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-10 h-10 rounded-lg bg-white/60 dark:bg-black/20 flex items-center justify-center text-blue-600 shadow-sm">
+                                            <Download size={18} className="text-blue-600" />
+                                        </div>
+                                        <div>
+                                            <p className="text-[10px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">Daily Limit</p>
+                                            <p className="text-xs text-gray-500 dark:text-gray-300">Remaining</p>
+                                        </div>
+                                    </div>
+                                    <div className="text-right">
+                                        <p className="text-2xl font-extrabold text-blue-700 dark:text-blue-300">{user.rate_limit_override || 1}</p>
+                                        <p className="text-[10px] text-blue-600 dark:text-blue-400">generation</p>
+                                    </div>
+                                </div>
+                                <div className="w-full">
+                                    <div className="w-full bg-blue-100 dark:bg-blue-900/10 rounded-full h-2">
+                                        <div className="bg-blue-500 h-2 rounded-full" style={{ width: `${Math.min(100, Math.round(((user.rate_limit_override||1)/ (user.rate_limit_override||1))*100))}%` }} />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
