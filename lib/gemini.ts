@@ -31,20 +31,21 @@ CRITICAL REQUIREMENTS:
 2. GROUNDING: Root the message in authentic Quranic concepts, Prophetic traditions (Sunnah), and Islamic teachings
 3. LANGUAGE: Use Islamic terminology naturally - "Dua", "Taqwa", "Akhirah", "Deen", "Sabr", "Shukr", "Tawhid"
 4. AUTHENTICITY: This is an Islamic reminder for Muslim audience, not secular philosophy
-5. LENGTH: 300-600 characters minimum (3-5 substantive sentences). NO TRUNCATION OR "..."
-6. DEPTH: Explain WHY this virtue matters in Islam, HOW to practice it, WHAT Allah teaches about it
+5. LENGTH: 150-250 characters exactly (1-3 powerful, concise sentences). BRIEF AND IMPACTFUL. NO TRUNCATION.
+6. DEPTH: Deliver ONE core insight about why this virtue matters in Islam and how to embody it
 7. TONE: Solemn, inspirational, reflective. Connect to Ramadan's spiritual essence on day ${day}
 8. NO ADDITIONS: Return ONLY the reflection text - no labels, asterisks, or commentary
 
-FRAMEWORK - Use this approach:
-- Open with Quranic principle or Prophetic wisdom about "${topic}"
-- Explain the spiritual benefit through Islamic lens (not secular)
-- Connect to Allah's guidance and the goal of the Akhirah
-- Inspire righteous action during this blessed month
+FRAMEWORK - Craft ONE powerful sentence:
+- Start with the Islamic essence of "${topic}" grounded in Quran/Sunnah
+- Connect directly to Allah's wisdom and guidance
+- Conclude with inspirational call to action for this blessed month
+- Keep it concise but profoundly meaningful (150-250 chars)
 
 AUTHENTIC EXAMPLES (create NEW content, don't copy):
-- Instead of: "Patience is inner strength" → "Allah says 'Inna sallabeena udju ajarohum bi ghayri hisaab' - those who are patient, Allah grants them reward without measure. Sabr is not weakness; it is submission to Allah's wisdom."
-- Instead of: "Be grateful" → "Shukr (gratitude) is the testimony of the heart that Allah alone deserves praise. When we thank Allah in Ramadan, we acknowledge His blessings and draw closer to His mercy."
+- Powerful: "In Sabr lies the doorway to Allah's infinite reward. Every moment of patience perfects your Taqwa." (≈100 chars)
+- Powerful: "Shukr transforms the heart—when we thank Allah, we draw nearer to His mercy. Gratitude is the path to abundance." (≈120 chars)
+- Structure: [Islamic Concept] [Quranic Truth/Wisdom] [Ramadan Action]. Keep it under 250 characters.
 
 QUALITY CHECKS:
 ✓ Does it mention Allah directly?

@@ -46,7 +46,7 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
   document.body.appendChild(preloadImg);
 
   container.innerHTML = `
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Cormorant+Garamond:wght@400;600;700&family=Playfair+Display:wght@600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     
     <div id="flyer-canvas" style="
         width: 1080px; 
@@ -58,162 +58,134 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
         background-repeat: no-repeat;
         font-family: 'Cormorant Garamond', serif;
         overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        padding: 60px 40px;
     ">
         
-        <!-- Content Overlay -->
+        <!-- Day Circle (Top) -->
         <div style="
-            position: relative;
-            width: 100%;
-            height: 100%;
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.9) 0%, rgba(244, 208, 63, 0.9) 100%);
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
             align-items: center;
-            padding: 50px 40px 100px;
-            z-index: 10;
+            justify-content: center;
+            box-shadow: 0 12px 40px rgba(212, 175, 55, 0.5), inset 0 2px 8px rgba(255, 255, 255, 0.4);
+            border: 3px solid rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
         ">
-
-            <!-- Day Badge (Top Left) -->
             <div style="
-                position: absolute;
-                top: 50px;
-                left: 50px;
-                background: linear-gradient(135deg, rgba(212, 175, 55, 0.95) 0%, rgba(244, 208, 63, 0.95) 100%);
-                padding: 20px 35px;
-                border-radius: 20px;
-                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
+                font-family: 'Cinzel', serif;
+                font-size: 72px;
+                font-weight: 800;
+                color: #0A4D3C;
+                line-height: 1;
+                letter-spacing: 2px;
+                text-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+            ">${config.day}</div>
+            <div style="
+                font-family: 'Cinzel', serif;
+                font-size: 14px;
+                font-weight: 700;
+                color: #0A4D3C;
+                letter-spacing: 3px;
+                text-transform: uppercase;
+                margin-top: 8px;
+                opacity: 0.9;
+            ">RAMADAN</div>
+        </div>
+
+        <!-- Message with Quote Marks (Center) -->
+        <div style="
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            gap: 20px;
+            position: relative;
+        ">
+            <!-- Opening Quote -->
+            <div style="
+                font-family: 'Playfair Display', serif;
+                font-size: 80px;
+                color: rgba(244, 208, 63, 0.8);
+                line-height: 0.8;
+                font-weight: 700;
+                margin: 0;
+                text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            ">"</div>
+            
+            <!-- Message Text -->
+            <p style="
+                font-family: 'Playfair Display', serif;
+                font-size: 42px;
+                line-height: 1.6;
+                color: rgba(255, 255, 255, 0.95);
                 text-align: center;
-                border: 2px solid rgba(255, 255, 255, 0.3);
-            ">
-                <div style="
-                    font-family: 'Cinzel', serif;
-                    font-size: 68px;
-                    font-weight: 800;
-                    color: #0A4D3C;
-                    line-height: 1;
-                    letter-spacing: 2px;
-                    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-                ">${config.day}</div>
-                <div style="
-                    font-family: 'Cinzel', serif;
-                    font-size: 16px;
-                    font-weight: 700;
-                    color: #0A4D3C;
-                    letter-spacing: 4px;
-                    text-transform: uppercase;
-                    margin-top: 5px;
-                ">DAY</div>
-            </div>
-
-            <!-- Spacer to push content to center -->
-            <div style="flex: 0.3;"></div>
-
-            <!-- Message Card (Center) -->
+                font-weight: 600;
+                letter-spacing: 0.5px;
+                margin: 0 20px;
+                max-width: 850px;
+                text-shadow: 
+                    0 3px 12px rgba(0, 0, 0, 0.5),
+                    0 1px 3px rgba(0, 0, 0, 0.3);
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+                white-space: normal;
+            ">${escapeHtml(config.message)}</p>
+            
+            <!-- Closing Quote -->
             <div style="
-                background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.95) 100%);
-                border-radius: 35px;
-                padding: 50px 45px;
-                width: 880px;
-                max-width: 90%;
-                min-height: 350px;
-                max-height: 550px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
-                border: 3px solid rgba(212, 175, 55, 0.4);
-                position: relative;
-                margin: 0 auto;
-                overflow-y: auto;
-            ">
-                <!-- Corner Decorations -->
-                <div style="
-                    position: absolute;
-                    top: -3px;
-                    left: -3px;
-                    width: 60px;
-                    height: 60px;
-                    border-left: 3px solid #D4AF37;
-                    border-top: 3px solid #D4AF37;
-                    border-top-left-radius: 35px;
-                "></div>
-                <div style="
-                    position: absolute;
-                    bottom: -3px;
-                    right: -3px;
-                    width: 60px;
-                    height: 60px;
-                    border-right: 3px solid #D4AF37;
-                    border-bottom: 3px solid #D4AF37;
-                    border-bottom-right-radius: 35px;
-                "></div>
-                
-                <p style="
-                    font-family: 'Cormorant Garamond', serif;
-                    font-size: 32px;
-                    line-height: 1.7;
-                    color: #0F766E;
-                    text-align: center;
-                    font-weight: 600;
-                    letter-spacing: 0.3px;
-                    margin: 0;
-                    overflow-wrap: break-word;
-                    word-wrap: break-word;
-                    white-space: normal;
-                ">${escapeHtml(config.message)}</p>
-            </div>
+                font-family: 'Playfair Display', serif;
+                font-size: 80px;
+                color: rgba(244, 208, 63, 0.8);
+                line-height: 0.8;
+                font-weight: 700;
+                margin: 0;
+                text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+                transform: scaleY(-1);
+            ">"</div>
+        </div>
 
-            <!-- Spacer -->
-            <div style="flex: 0.15;"></div>
-
-            <!-- User Name Section -->
-            <div style="
-                text-align: center;
-                margin-top: 35px;
-            ">
-                <!-- Decorative Line -->
-                <div style="
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 18px;
-                    margin-bottom: 15px;
-                ">
-                    <div style="
-                        width: 100px;
-                        height: 2px;
-                        background: linear-gradient(90deg, transparent, rgba(244, 208, 63, 0.8), transparent);
-                    "></div>
-                    <span style="
-                        color: #F4D03F;
-                        font-size: 22px;
-                        filter: drop-shadow(0 2px 8px rgba(244, 208, 63, 0.6));
-                    ">✦</span>
-                    <div style="
-                        width: 100px;
-                        height: 2px;
-                        background: linear-gradient(90deg, transparent, rgba(244, 208, 63, 0.8), transparent);
-                    "></div>
-                </div>
-                
-                <h2 style="
-                    font-family: 'Cinzel', serif;
-                    font-size: 48px;
-                    font-weight: 700;
-                    color: #FFFFFF;
-                    letter-spacing: 2px;
-                    text-shadow: 
-                        0 4px 12px rgba(0, 0, 0, 0.6),
-                        0 2px 4px rgba(0, 0, 0, 0.4);
-                    margin: 0;
-                    line-height: 1.2;
-                ">${escapeHtml(config.userName)}</h2>
-            </div>
-
+        <!-- User Name Section (Bottom) -->
+        <div style="
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        ">
+            <!-- Decorative Star -->
+            <span style="
+                color: rgba(244, 208, 63, 0.7);
+                font-size: 24px;
+                text-shadow: 0 2px 6px rgba(244, 208, 63, 0.4);
+            ">✦</span>
+            
+            <!-- User Name with Calligraphy Font -->
+            <h2 style="
+                font-family: 'Amiri', serif;
+                font-size: 56px;
+                font-weight: 700;
+                color: rgba(244, 208, 63, 0.95);
+                letter-spacing: 1px;
+                text-shadow: 
+                    0 4px 12px rgba(0, 0, 0, 0.6),
+                    0 2px 4px rgba(0, 0, 0, 0.4);
+                margin: 0;
+                line-height: 1.1;
+            ">${escapeHtml(config.userName)}</h2>
         </div>
 
     </div>
   `;
+
 
   try {
     // Wait for DOM
