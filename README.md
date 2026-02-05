@@ -1,12 +1,12 @@
 # 🌙 Ramadan Bot - Your Spiritual Companion
 
-Welcome to **Ramadan Bot**, an intelligent platform designed to enrich your Ramadan journey with personalized, AI-generated spiritual reflections and beautiful digital flyers you can share with your community.
+**Ramadan Bot** is an intelligent platform designed to enrich your Ramadan journey with personalized, AI-generated spiritual reflections and beautiful digital flyers you can share with your community.
 
 ## What is Ramadan Bot?
 
-Ramadan Bot helps you create meaningful spiritual reflections for each day of Ramadan. Simply provide a topic or theme (like "Patience," "Mercy," or "Gratitude"), and our AI generates a thoughtful, Quranic-inspired message. Your reflection is beautifully designed into a shareable flyer featuring your name and the Ramadan day—perfect for social media or personal motivation.
+Ramadan Bot helps you create meaningful spiritual reflections for each day of Ramadan. Simply provide a topic or theme—like "Patience," "Mercy," or "Gratitude"—and the AI generates a thoughtful, Quranic-inspired message. Your reflection is beautifully designed into a shareable flyer featuring your name and the Ramadan day, perfect for social media or personal motivation.
 
-### Features
+## Features
 
 ✨ **AI-Powered Reflections** - Get personalized messages rooted in Islamic wisdom
 🎨 **Beautiful Flyer Design** - Elegant, Ramadan-themed graphics ready to share  
@@ -15,11 +15,9 @@ Ramadan Bot helps you create meaningful spiritual reflections for each day of Ra
 📊 **Daily Limit Management** - Control how many reflections you can create per day
 ⚡ **Zero Setup Required** - Just enter your name and PIN to get started
 
-## Getting Started
-
 ## How to Use
 
-1. **Login** - Enter your name and a 4-digit PIN (creates account on first login)
+1. **Login** - Enter your name and a 4-digit PIN (creates your account on first login)
 2. **Pick a Theme** - Choose a spiritual theme or Quranic virtue
 3. **Generate** - Click "Generate Flyer Image" and watch the AI create your reflection
 4. **Download & Share** - Save the flyer as a high-resolution image and share with others
