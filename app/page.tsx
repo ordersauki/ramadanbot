@@ -184,7 +184,7 @@ export default function Home() {
             </header>
 
             {/* Main Content Area */}
-            <main className="flex-1 overflow-y-auto px-4 py-4 scroll-smooth pb-4">
+            <main className="flex-1 overflow-y-auto px-4 py-4 scroll-smooth pb-4" style={{ touchAction: 'pan-y', WebkitOverflowScrolling: 'touch' }}>
                 {generatedData ? (
                     <FlyerPreview 
                         message={generatedData.text}

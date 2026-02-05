@@ -42,7 +42,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, user, onLogout, onAd
         </div>
 
         {/* Menu Items (scrollable) */}
-        <div className="p-4 space-y-6 max-h-[calc(100vh-300px)] overflow-y-auto">
+        <div className="p-4 space-y-6 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 380px)', touchAction: 'pan-y', WebkitOverflowScrolling: 'touch' }}>
           
           <div className="space-y-1">
             <h3 className="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">App</h3>

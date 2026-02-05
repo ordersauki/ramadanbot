@@ -18,6 +18,13 @@ const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset,
   const [error, setError] = useState<string | null>(null);
   const [hasDownloaded, setHasDownloaded] = useState(false);
   const [countdown, setCountdown] = useState<string>('00:00:00');
+  const [notification, setNotification] = useState<{ type: 'success' | 'error' | 'info'; message: string } | null>(null);
+
+  // Show notification helper
+  const showNotification = (type: 'success' | 'error' | 'info', message: string) => {
+    setNotification({ type, message });
+    setTimeout(() => setNotification(null), 3000);
+  };
 
   useEffect(() => {
     let mounted = true;
@@ -123,7 +130,7 @@ const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset,
             });
         } catch (e) {
             console.log("Error sharing", e);
-            alert("Share cancelled or failed.");
+            showNotification('error', 'Share cancelled or failed.');
         }
     } else {
         handleDownload();
@@ -216,6 +223,20 @@ const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset,
   return (
     <div className="flex flex-col h-full animate-fade-in pb-4">
       
+      {/* In-App Notification */}
+      {notification && (
+        <div className={`mb-3 p-3 rounded-lg flex items-center gap-2 text-sm font-medium animate-fade-in ${
+          notification.type === 'success' ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-900' :
+          notification.type === 'error' ? 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-900' :
+          'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-900'
+        }`}>
+          {notification.type === 'success' && <span>✓</span>}
+          {notification.type === 'error' && <span>✕</span>}
+          {notification.type === 'info' && <span>ℹ</span>}
+          {notification.message}
+        </div>
+      )}
+      
       {/* Header - Compact */}
       <div className="text-center mb-3">
         <div className="inline-flex items-center gap-1.5 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-3 py-1 rounded-full text-xs font-bold mb-1 border border-green-200 dark:border-green-900">
@@ -261,18 +282,35 @@ const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset,
           <div className="grid grid-cols-4 gap-1.5">
             {/* WhatsApp */}
             <button
-              onClick={() => {
+              onClick={async () => {
                 if (flyerUrl) {
-                  const caption = `🌙 Day ${formData.day} Ramadan Reminder\n\n"${message}"\n\n✨ My Streak: ${user.streak} days\n\nCreate your own at RamadanBot 🤍`;
-                  const text = encodeURIComponent(caption);
-                  // WhatsApp Web on desktop, WhatsApp app on mobile
-                  window.open(`https://wa.me/?text=${text}`, '_blank');
+                  try {
+                    const response = await fetch(flyerUrl);
+                    const blob = await response.blob();
+                    const file = new File([blob], `Ramadan_Day_${formData.day}.png`, { type: 'image/png' });
+                    const caption = `🌙 Day ${formData.day} Ramadan Reminder\n\n"${message}"\n\n✨ My Streak: ${user.streak} days\n\nCreate your own at RamadanBot 🤍`;
+                    
+                    // Use native share if available, otherwise fallback
+                    if (navigator.share) {
+                      await navigator.share({
+                        title: 'My Ramadan Reflection',
+                        text: caption,
+                        files: [file]
+                      });
+                    } else {
+                      // Fallback: copy to clipboard and open WhatsApp
+                      await navigator.clipboard?.writeText(caption);
+                      window.open(`https://wa.me/?text=${encodeURIComponent(caption)}`, '_blank');
+                    }
+                  } catch (e) {
+                    console.log('Share error:', e);
+                  }
                 }
               }}
               className="bg-[#25D366] hover:bg-[#20BA5A] text-white font-bold py-2 rounded-lg flex items-center justify-center transition-all active:scale-[0.95]"
               title="Share on WhatsApp"
             >
-              <img src="/icons/whatsapp-teal.svg" alt="WhatsApp" className="w-5 h-5" />
+              <img src="/whatsapp.png" alt="WhatsApp" className="w-5 h-5" />
             </button>
 
             {/* X (Twitter) - Now with image support */}
@@ -284,10 +322,8 @@ const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset,
                   const text = encodeURIComponent(caption);
                   // Note: Twitter web intent doesn't support image in URL, but users can paste
                   window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
-                  // Show a note about image
-                  setTimeout(() => {
-                    alert('💡 Tip: Upload the flyer image in the Twitter compose window for maximum engagement!');
-                  }, 500);
+                  // Show a tip instead of alert
+                  showNotification('info', '💡 Upload the flyer image in Twitter for max engagement!');
                 }
               }}
               className="bg-black hover:bg-gray-900 text-white font-bold py-2 rounded-lg flex items-center justify-center transition-all active:scale-[0.95]"
@@ -317,17 +353,32 @@ const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset,
 
             {/* Snapchat - Fixed with proper icon */}
             <button
-              onClick={() => {
+              onClick={async () => {
                 if (flyerUrl) {
-                  // Snapchat doesn't have direct web sharing, so we show download/manual share option
-                  alert(`📸 Share on Snapchat!\n\nDay ${formData.day} Ramadan\nStreak: ${user.streak} days 🔥\n\nDownload the flyer and share it via Snapchat camera!`);
-                  handleRedownload();
+                  try {
+                    const response = await fetch(flyerUrl);
+                    const blob = await response.blob();
+                    const file = new File([blob], `Ramadan_Day_${formData.day}.png`, { type: 'image/png' });
+                    const caption = `📸 Day ${formData.day}\n\nRamadan Reflection\n\nStreak: ${user.streak} days 🔥`;
+                    
+                    if (navigator.share) {
+                      await navigator.share({
+                        title: 'My Ramadan Flyer',
+                        text: caption,
+                        files: [file]
+                      });
+                    } else {
+                      handleRedownload();
+                    }
+                  } catch (e) {
+                    console.log('Share error:', e);
+                  }
                 }
               }}
               className="bg-[#FFFC00] hover:bg-[#F0F000] text-black font-bold py-2 rounded-lg flex items-center justify-center transition-all active:scale-[0.95]"
               title="Share on Snapchat"
             >
-              <img src="/icons/snapchat-teal.svg" alt="Snapchat" className="w-5 h-5" />
+              <img src="/snap.png" alt="Snapchat" className="w-5 h-5" />
             </button>
           </div>
         </div>

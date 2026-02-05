@@ -54,6 +54,26 @@ async function main() {
   );
   fs.renameSync(bgTemp, '/workspaces/ramadanbot/public/ramadan-background.png');
   
+  // Compress WhatsApp icon
+  const waTemp = '/workspaces/ramadanbot/public/whatsapp-temp.png';
+  await compressImage(
+    '/workspaces/ramadanbot/public/whatsapp.png',
+    waTemp,
+    90,
+    { width: 256, height: 256 }
+  );
+  fs.renameSync(waTemp, '/workspaces/ramadanbot/public/whatsapp.png');
+  
+  // Compress Snapchat icon
+  const snapTemp = '/workspaces/ramadanbot/public/snap-temp.png';
+  await compressImage(
+    '/workspaces/ramadanbot/public/snap.png',
+    snapTemp,
+    90,
+    { width: 256, height: 256 }
+  );
+  fs.renameSync(snapTemp, '/workspaces/ramadanbot/public/snap.png');
+  
   console.log('✓ All images compressed successfully!');
   console.log('Images should now load much faster.');
 }

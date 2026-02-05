@@ -134,6 +134,36 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
           </div>
         </div>
 
+        <!-- Ramadan Kareem Header (Top Center) -->
+        <div style="
+          position: absolute;
+          top: 80px;
+          left: 50%;
+          transform: translateX(-50%);
+          z-index: 20;
+          text-align: center;
+        ">
+          <div style="
+            font-family: 'Amiri', serif;
+            font-size: 42px;
+            font-weight: 700;
+            color: #5D4037;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            margin: 0;
+            line-height: 1.2;
+          ">رمضان كريم</div>
+          <div style="
+            font-family: 'Playfair Display', serif;
+            font-size: 14px;
+            color: #8B6F47;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-top: 4px;
+            font-weight: 600;
+          ">Ramadan Kareem</div>
+        </div>
+
         <!-- Message with Quote Marks (Center) -->
         <div style="
           display: flex;
@@ -143,7 +173,7 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
           flex: 1;
           gap: 12px;
           position: relative;
-          padding: 0 30px;
+          padding: 60px 40px 0 40px;
           z-index: 15;
           max-width: 900px;
           margin: 0 auto;
@@ -156,22 +186,22 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
                 line-height: 0.6;
                 font-weight: 700;
                 margin: 0;
-                text-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+                text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
                 opacity: 0.9;
             ">"</div>
             
-            <!-- Message Text -->
+            <!-- Message Text (Dark Brown) -->
             <p style="
                 font-family: 'Playfair Display', serif;
                 font-size: 32px;
                 line-height: 1.7;
-                color: rgba(255, 255, 255, 0.98);
+                color: #4E342E;
                 text-align: center;
                 font-weight: 500;
                 letter-spacing: 0.2px;
                 margin: 0;
                 max-width: 850px;
-                text-shadow: 0 3px 14px rgba(0, 0, 0, 0.55), 0 1px 4px rgba(0, 0, 0, 0.3);
+                text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
                 word-wrap: break-word;
                 overflow-wrap: break-word;
                 white-space: normal;
@@ -185,23 +215,22 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
                 line-height: 0.6;
                 font-weight: 700;
                 margin: 0;
-                text-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+                text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
                 opacity: 0.9;
             ">"</div>
 
-            <!-- User Name (Directly After Message) -->
+            <!-- User Name Signature with Sparkles -->
             <p style="
               font-family: 'Playfair Display', serif;
               font-size: 28px;
-              font-weight: 400;
-              color: rgba(255, 255, 255, 0.92);
-              text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+              font-weight: 600;
+              color: #4E342E;
+              text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
               margin: 0;
               line-height: 1.4;
-              font-style: italic;
               letter-spacing: 1px;
-              margin-top: 8px;
-            ">— ${escapeHtml(config.userName)}</p>
+              margin-top: 12px;
+            ">✨ ${escapeHtml(config.userName)} ✨</p>
         </div>
 
     </div>
