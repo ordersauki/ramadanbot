@@ -22,3 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Next.js build output
+.next
+
+# Original screenshots (keeping optimized versions only)
+public/screenshot1.png
+public/screenshot\ 2.png
+public/screenshot3.png
