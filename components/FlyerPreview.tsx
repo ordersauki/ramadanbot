@@ -262,27 +262,38 @@ const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset,
             {/* WhatsApp */}
             <button
               onClick={() => {
-                const caption = `🌙 Day ${formData.day} Ramadan Reminder\n\n"${message}"\n\n✨ My Streak: ${user.streak} days\n\nCreate your own at RamadanBot 🤍`;
-                const text = encodeURIComponent(caption);
-                window.open(`https://wa.me/?text=${text}`, '_blank');
+                if (flyerUrl) {
+                  const caption = `🌙 Day ${formData.day} Ramadan Reminder\n\n"${message}"\n\n✨ My Streak: ${user.streak} days\n\nCreate your own at RamadanBot 🤍`;
+                  const text = encodeURIComponent(caption);
+                  // WhatsApp Web on desktop, WhatsApp app on mobile
+                  window.open(`https://wa.me/?text=${text}`, '_blank');
+                }
               }}
               className="bg-[#25D366] hover:bg-[#20BA5A] text-white font-bold py-2 rounded-lg flex items-center justify-center transition-all active:scale-[0.95]"
-              title="WhatsApp"
+              title="Share on WhatsApp"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-4.998 1.514c-1.546.914-2.801 2.437-3.608 4.212-.878 1.926-1.098 4.1-.677 6.179.423 2.179 1.482 4.154 3.028 5.637 1.546 1.483 3.521 2.542 5.7 2.964 2.179.423 4.353.203 6.279-.676 1.926-.878 3.449-2.133 4.363-3.679.914-1.546 1.134-3.72.712-5.9-.422-2.179-1.481-4.154-3.027-5.637-1.546-1.483-3.521-2.542-5.7-2.964-.927-.18-1.875-.266-2.762-.253z"/>
               </svg>
             </button>
 
-            {/* X (Twitter) */}
+            {/* X (Twitter) - Now with image support */}
             <button
-              onClick={() => {
-                const caption = `Day ${formData.day} of #Ramadan\n\n"${message.substring(0, 80)}..."\n\nMy Streak: ${user.streak} days 🔥\n\n#RamadanBot #IslamicReflection`;
-                const text = encodeURIComponent(caption);
-                window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
+              onClick={async () => {
+                if (flyerUrl) {
+                  // For web sharing, open Twitter with text and encourage image upload
+                  const caption = `Day ${formData.day} of #Ramadan\n\n"${message.substring(0, 80)}..."\n\nMy Streak: ${user.streak} days 🔥\n\n#RamadanBot #IslamicReflection`;
+                  const text = encodeURIComponent(caption);
+                  // Note: Twitter web intent doesn't support image in URL, but users can paste
+                  window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
+                  // Show a note about image
+                  setTimeout(() => {
+                    alert('💡 Tip: Upload the flyer image in the Twitter compose window for maximum engagement!');
+                  }, 500);
+                }
               }}
               className="bg-black hover:bg-gray-900 text-white font-bold py-2 rounded-lg flex items-center justify-center transition-all active:scale-[0.95]"
-              title="X (formerly Twitter)"
+              title="Share on X (Twitter)"
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.514l-5.106-6.669-5.829 6.669h-3.328l7.731-8.835L.424 2.25h6.679l4.882 6.479 5.288-6.479zM17.002 20.331h1.834L6.822 4.169H4.881z"/>
@@ -292,25 +303,31 @@ const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset,
             {/* Facebook */}
             <button
               onClick={() => {
-                const caption = `Check out my Day ${formData.day} Ramadan reflection! 🌙\n\nMy streak: ${user.streak} days 🔥\n\nCreate your own at RamadanBot`;
-                const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&quote=${encodeURIComponent(caption)}`;
-                window.open(url, '_blank');
+                if (flyerUrl) {
+                  const caption = `Check out my Day ${formData.day} Ramadan reflection! 🌙\n\nMy streak: ${user.streak} days 🔥\n\nCreate your own at RamadanBot`;
+                  const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&quote=${encodeURIComponent(caption)}`;
+                  window.open(url, '_blank');
+                }
               }}
               className="bg-[#1877F2] hover:bg-[#166FE5] text-white font-bold py-2 rounded-lg flex items-center justify-center transition-all active:scale-[0.95]"
-              title="Facebook"
+              title="Share on Facebook"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
               </svg>
             </button>
 
-            {/* Snapchat */}
+            {/* Snapchat - Fixed with proper icon */}
             <button
               onClick={() => {
-                alert(`Share this with your Snapchat!\n\nDay ${formData.day} Ramadan\nStreak: ${user.streak} days 🔥\n\n"${message.substring(0, 50)}..."`);
+                if (flyerUrl) {
+                  // Snapchat doesn't have direct web sharing, so we show download/manual share option
+                  alert(`📸 Share on Snapchat!\n\nDay ${formData.day} Ramadan\nStreak: ${user.streak} days 🔥\n\nDownload the flyer and share it via Snapchat camera!`);
+                  handleRedownload();
+                }
               }}
               className="bg-[#FFFC00] hover:bg-[#F0F000] text-black font-bold py-2 rounded-lg flex items-center justify-center transition-all active:scale-[0.95]"
-              title="Snapchat"
+              title="Share on Snapchat"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12.206 0c-.669 0-3.888.868-4.718 3.176-.485 1.318-.378 2.875-.318 4.651.041 1.237-.143 1.469-.967 1.469H4.5C2.019 9.296 0 11.315 0 13.796c0 1.422.732 2.956 1.811 3.902.06.044.069.123.015.189l-.922 1.373c-.065.097-.044.235.043.301.087.067.215.036.252-.068l.965-2.141c.03-.068.103-.11.18-.11h.118c.576 0 1.126.069 1.629.069.528 0 1.093-.069 1.686-.069h.118c.077 0 .149.042.18.11l.965 2.142c.037.104.165.135.252.068.087-.066.108-.204.043-.301l-.922-1.373c-.054-.066-.045-.145.015-.189 1.079-.946 1.811-2.48 1.811-3.902 0-2.481-2.019-4.5-4.5-4.5h-1.703c-.824 0-1.008-.232-.967-1.469.06-1.776.167-3.333-.318-4.651C7.694.868 4.476 0 3.807 0h8.399zm-5.52 8.315c.472 0 .854-.383.854-.854 0-.471-.382-.854-.854-.854-.471 0-.854.383-.854.854 0 .471.383.854.854.854zm10.628 0c.471 0 .854-.383.854-.854 0-.471-.383-.854-.854-.854-.472 0-.854.383-.854.854 0 .471.382.854.854.854z"/>

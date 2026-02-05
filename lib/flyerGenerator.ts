@@ -96,8 +96,8 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
         <!-- Day (Top Left - Caligraphic) -->
         <div style="
             position: absolute;
-            top: 90px;
-            left: 50px;
+            top: 80px;
+            left: 70px;
             text-align: left;
             z-index: 20;
         ">
@@ -162,26 +162,14 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
                 word-wrap: break-word;
                 overflow-wrap: break-word;
                 white-space: normal;
-            ">${escapeHtml(config.message)}</p>
-            
-            <!-- Closing Quote Mark -->
-            <div style="
-                font-family: 'Playfair Display', serif;
-                font-size: 72px;
-                color: rgba(244, 208, 63, 0.75);
-                line-height: 0.6;
-                font-weight: 700;
-                margin: 0;
-                text-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
                 opacity: 0.9;
-                transform: scaleY(-1);
             ">"</div>
         </div>
 
-        <!-- User Name Section (Bottom - Repositioned & Restyled) -->
+        <!-- User Name Section (Bottom - Reserved Space) -->
         <div style="
             position: absolute;
-            bottom: 180px;
+            bottom: 40px;
             left: 0;
             right: 0;
             text-align: center;
@@ -190,25 +178,24 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
             align-items: center;
             gap: 12px;
             z-index: 16;
+            padding: 0 40px;
+            min-height: 100px;
+            justify-content: center;
         ">
             <!-- Decorative Divider Line -->
             <div style="
-                width: 80px;
+                width: 80%;
                 height: 2px;
                 background: linear-gradient(90deg, transparent, rgba(244, 208, 63, 0.7), transparent);
-                margin-bottom: 4px;
+                margin-bottom: 8px;
             "></div>
-            
-            <!-- User Name - Elegant Golden Styling -->
+            <!-- User Name -->
             <h2 style="
-                font-family: 'Amiri', serif;
+                font-family: 'Playfair Display', serif;
                 font-size: 44px;
                 font-weight: 700;
-                color: rgba(244, 208, 63, 0.9);
-                letter-spacing: 2px;
-                text-shadow: 
-                    0 4px 16px rgba(0, 0, 0, 0.7),
-                    0 1px 4px rgba(0, 0, 0, 0.5);
+                color: rgba(255, 255, 255, 0.95);
+                text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7), 0 1px 4px rgba(0, 0, 0, 0.5);
                 margin: 0;
                 line-height: 1;
                 font-style: italic;
