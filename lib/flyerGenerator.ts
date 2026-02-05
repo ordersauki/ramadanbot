@@ -53,6 +53,7 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
         reader.onerror = reject;
         reader.readAsDataURL(blob);
       });
+      console.log('✓ Background fetched as data URL');
     } else {
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     }
