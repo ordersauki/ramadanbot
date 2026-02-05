@@ -48,7 +48,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
         {/* Header / Logo Area */}
         <div className="text-center mb-12 space-y-6">
             <div className="relative inline-block">
-                <div className="w-24 h-24 bg-gradient-to-tr from-ios-blue to-cyan-400 rounded-[28px] shadow-[0_20px_40px_-10px_rgba(0,122,255,0.4)] flex items-center justify-center relative z-10 overflow-hidden">
+                <div className="w-24 h-24 bg-gradient-to-tr from-ios-blue to-cyan-400 rounded-full shadow-[0_20px_40px_-10px_rgba(0,122,255,0.4)] flex items-center justify-center relative z-10 overflow-hidden">
                     <img 
                         src="/logo.png" 
                         alt="Ramadan Bot Logo" 

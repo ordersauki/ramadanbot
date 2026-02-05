@@ -8,7 +8,7 @@ import LoginScreen from '../components/LoginScreen';
 import AdminDashboard from '../components/AdminDashboard';
 import Sidebar from '../components/Sidebar';
 import SettingsScreen from '../components/SettingsScreen';
-import { Menu, Sparkles } from 'lucide-react';
+import { Menu, Sparkles, Download } from 'lucide-react';
 
 export default function Home() {
   const [appState, setAppState] = useState<AppState>({ 
@@ -167,8 +167,19 @@ export default function Home() {
                     </span>
                     <h1 className="text-lg font-bold text-gray-900 dark:text-white">Ramadan Bot</h1>
                 </div>
-                <div className="w-8 h-8 bg-gradient-to-br from-ios-teal to-cyan-500 rounded-full flex items-center justify-center text-white text-xs font-bold shadow-md">
-                    {user.rate_limit_override || 1}
+                <div className="flex items-center gap-2">
+                    {downloadedFlyerUrl && !generatedData && (
+                        <button
+                            onClick={handleRedownload}
+                            className="p-2 text-ios-teal hover:bg-ios-teal/10 dark:hover:bg-ios-teal/20 rounded-full transition-colors"
+                            title="Re-download recent flyer"
+                        >
+                            <Download size={20} strokeWidth={2.5} />
+                        </button>
+                    )}
+                    <div className="w-8 h-8 bg-gradient-to-br from-ios-teal to-cyan-500 rounded-full flex items-center justify-center text-white text-xs font-bold shadow-md">
+                        {user.rate_limit_override || 1}
+                    </div>
                 </div>
             </header>
 
