@@ -22,6 +22,7 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
   const width = 1080;
   const height = 1080;
 
+  // Ensure it's rendered but hidden from user view
   Object.assign(container.style, {
     position: 'fixed',
     top: '0',
@@ -35,7 +36,7 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
 
   document.body.appendChild(container);
 
-  // Background image URL
+  // Background image URL - Ensure this file exists in public/ folder
   const backgroundImageUrl = '/ramadan-background.png';
 
   container.innerHTML = `
@@ -45,6 +46,7 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
         width: 1080px; 
         height: 1080px; 
         position: relative; 
+        background-color: #0F766E; /* Fallback color */
         background-image: url('${backgroundImageUrl}');
         background-size: cover;
         background-position: center;
@@ -207,20 +209,33 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
   `;
 
   try {
+    // Wait for DOM
+    await wait(100);
+    
     // Wait for fonts to load
     await document.fonts.ready;
     
-    // Wait for background image to load
-    const img = new Image();
-    img.crossOrigin = 'anonymous';
-    await new Promise((resolve, reject) => {
-      img.onload = resolve;
-      img.onerror = reject;
-      img.src = backgroundImageUrl;
-    });
+    // Robust image loading with fallback
+    try {
+        const img = new Image();
+        img.crossOrigin = 'anonymous'; // Important for html2canvas
+        const imgLoadPromise = new Promise((resolve, reject) => {
+          img.onload = resolve;
+          img.onerror = () => {
+             console.warn(`Could not load ${backgroundImageUrl}, using fallback color.`);
+             resolve(null); // Resolve anyway so we generate *something*
+          };
+          // Timeout to prevent hanging if image is stalled
+          setTimeout(() => resolve(null), 3000); 
+        });
+        img.src = backgroundImageUrl;
+        await imgLoadPromise;
+    } catch (e) {
+        console.warn("Image load check failed", e);
+    }
 
-    // Additional wait for rendering
-    await wait(1200);
+    // Additional wait for rendering layout
+    await wait(800);
 
     const flyerElement = document.getElementById('flyer-canvas');
     if (!flyerElement) throw new Error('Flyer element not found');
@@ -229,7 +244,7 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
       scale: 2,
       useCORS: true,
       allowTaint: true,
-      backgroundColor: null,
+      backgroundColor: '#0F766E', // Matches fallback
       logging: false,
       width: 1080,
       height: 1080,

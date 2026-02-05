@@ -2,9 +2,9 @@ import { Pool } from 'pg';
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false // Required for Neon in some environments
-  }
+  ssl: process.env.NODE_ENV === 'production' || process.env.DATABASE_URL?.includes('sslmode=require') 
+    ? { rejectUnauthorized: false } 
+    : undefined
 });
 
 export default pool;
