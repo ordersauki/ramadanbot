@@ -9,9 +9,10 @@ interface FlyerPreviewProps {
   formData: FormData;
   onReset: () => void;
   user: User;
+  onDownloaded?: (url: string) => void;
 }
 
-const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset, user }) => {
+const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset, user, onDownloaded }) => {
   const [flyerUrl, setFlyerUrl] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -90,6 +91,9 @@ const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset,
       const fileName = `Ramadan_Day_${formData.day}_${slugify(formData.topic)}.png`;
       downloadFlyer(flyerUrl, fileName);
       setHasDownloaded(true);
+      if (onDownloaded) {
+        onDownloaded(flyerUrl);
+      }
     }
   };
 

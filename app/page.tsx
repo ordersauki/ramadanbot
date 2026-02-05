@@ -18,6 +18,9 @@ export default function Home() {
   });
   const [generatedData, setGeneratedData] = useState<GeneratedData | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [downloadedFlyerUrl, setDownloadedFlyerUrl] = useState<string | null>(null);
+  const [hasDownloadedToday, setHasDownloadedToday] = useState(false);
+  const [countdownTime, setCountdownTime] = useState<string>('00:00:00');
   
   // Persist login session and Theme
   useEffect(() => {
@@ -31,6 +34,31 @@ export default function Home() {
         }
     }
   }, []);
+
+  // Countdown timer for daily limit
+  useEffect(() => {
+    if (!hasDownloadedToday || !appState.currentUser?.last_generation_date) return;
+
+    const interval = setInterval(() => {
+      const now = new Date();
+      const lastGen = new Date(appState.currentUser!.last_generation_date!);
+      const nextAllowed = new Date(lastGen.getTime() + 24 * 60 * 60 * 1000);
+      const diff = nextAllowed.getTime() - now.getTime();
+
+      if (diff <= 0) {
+        setHasDownloadedToday(false);
+        setCountdownTime('00:00:00');
+        clearInterval(interval);
+      } else {
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+        setCountdownTime(`${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [hasDownloadedToday, appState.currentUser?.last_generation_date]);
 
   const handleLogin = (user: User) => {
     setAppState(prev => ({ ...prev, view: 'app', currentUser: user }));
@@ -65,6 +93,23 @@ export default function Home() {
            ...prev, 
            currentUser: { ...u, generation_count: u.generation_count + 1 } 
        }));
+    }
+  };
+
+  const handleFlyerDownloaded = (flyerUrl: string) => {
+    setDownloadedFlyerUrl(flyerUrl);
+    setHasDownloadedToday(true);
+  };
+
+  const handleRedownload = () => {
+    if (downloadedFlyerUrl) {
+      const fileName = `Ramadan_Daily_Flyer.png`;
+      const link = document.createElement('a');
+      link.href = downloadedFlyerUrl;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
   };
 
@@ -135,7 +180,40 @@ export default function Home() {
                         formData={generatedData.formData}
                         onReset={handleReset}
                         user={user}
+                        onDownloaded={handleFlyerDownloaded}
                     />
+                ) : hasDownloadedToday ? (
+                    // Limit Reached Screen
+                    <div className="flex flex-col items-center justify-center min-h-[50vh] animate-fade-in p-6 text-center space-y-6">
+                        <div className="w-20 h-20 rounded-full bg-gradient-to-br from-ios-teal to-cyan-500 flex items-center justify-center text-white text-4xl shadow-lg">
+                            ✨
+                        </div>
+                        <div>
+                            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Daily Limit Reached!</h2>
+                            <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">You've already created your reflection for today. Come back after:</p>
+                        </div>
+                        <div className="bg-gradient-to-r from-ios-teal/10 to-cyan-500/10 border border-ios-teal/30 rounded-2xl p-6 w-full">
+                            <div className="flex items-center justify-center gap-2 mb-2">
+                                <span className="text-xs font-bold text-ios-teal uppercase tracking-wider">⏱️ Time Until Next Generation</span>
+                            </div>
+                            <p className="text-4xl font-mono font-bold text-gray-900 dark:text-white">{countdownTime}</p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400 mt-3">24-hour daily limit resets automatically</p>
+                        </div>
+                        <div className="space-y-2 w-full">
+                            <button
+                                onClick={handleRedownload}
+                                className="w-full bg-white dark:bg-[#1C1C1E] text-gray-900 dark:text-white border border-gray-200 dark:border-zinc-700 font-bold py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-gray-50 dark:hover:bg-zinc-800 transition-all"
+                            >
+                                <span>⬇️ Re-download Flyer</span>
+                            </button>
+                            <button
+                                onClick={() => setHasDownloadedToday(false)}
+                                className="w-full text-ios-teal font-bold py-3 rounded-xl hover:bg-ios-teal/10 transition-all"
+                            >
+                                Continue to Home
+                            </button>
+                        </div>
+                    </div>
                 ) : (
                     <div className="animate-fade-in-up pb-6">
                          <div className="mb-4">
@@ -154,7 +232,7 @@ export default function Home() {
             </main>
 
             {/* Bottom Footer - Streak & Stats */}
-            {!generatedData && (
+            {!generatedData && !hasDownloadedToday && (
                 <footer className="absolute bottom-0 left-0 right-0 px-4 py-4 bg-gradient-to-t from-white dark:from-[#1C1C1E] to-transparent">
                     <div className="bg-white dark:bg-black/30 backdrop-blur-md rounded-2xl p-4 border border-gray-100 dark:border-zinc-800 transition-colors">
                         <div className="grid grid-cols-2 gap-4">

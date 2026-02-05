@@ -36,8 +36,14 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
 
   document.body.appendChild(container);
 
-  // Background image URL - Ensure this file exists in public/ folder
-  const backgroundImageUrl = '/ramadan-background.png';
+  // Preload the background image with absolute path
+  const backgroundImageUrl = `${typeof window !== 'undefined' ? window.location.origin : ''}/ramadan-background.png`;
+
+  // Create hidden image element to preload
+  const preloadImg = new Image();
+  preloadImg.src = backgroundImageUrl;
+  preloadImg.style.display = 'none';
+  document.body.appendChild(preloadImg);
 
   container.innerHTML = `
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
@@ -215,51 +221,72 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
     // Wait for fonts to load
     await document.fonts.ready;
     
-    // Robust image loading with fallback
-    try {
-        const img = new Image();
-        img.crossOrigin = 'anonymous'; // Important for html2canvas
-        const imgLoadPromise = new Promise((resolve, reject) => {
-          img.onload = resolve;
-          img.onerror = () => {
-             console.warn(`Could not load ${backgroundImageUrl}, using fallback color.`);
-             resolve(null); // Resolve anyway so we generate *something*
-          };
-          // Timeout to prevent hanging if image is stalled
-          setTimeout(() => resolve(null), 3000); 
-        });
-        img.src = backgroundImageUrl;
-        await imgLoadPromise;
-    } catch (e) {
-        console.warn("Image load check failed", e);
-    }
+    // Ensure background image is fully loaded before rendering
+    const backgorundLoadedPromise = new Promise<void>((resolve) => {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      
+      img.onload = () => {
+        console.log('Background image loaded successfully');
+        resolve();
+      };
+      
+      img.onerror = () => {
+        console.warn(`Could not load background image, using fallback color`);
+        resolve(); // Resolve anyway so we generate something
+      };
+      
+      // Set a timeout to prevent indefinite waiting
+      setTimeout(() => {
+        console.warn('Background image load timeout, proceeding with fallback');
+        resolve();
+      }, 2500);
+      
+      img.src = backgroundImageUrl;
+    });
+    
+    await backgorundLoadedPromise;
 
-    // Additional wait for rendering layout
-    await wait(800);
+    // Additional wait for rendering layout with the image
+    await wait(1000);
 
     const flyerElement = document.getElementById('flyer-canvas');
     if (!flyerElement) throw new Error('Flyer element not found');
 
+    // Ensure the background is visible before rendering
+    const computedStyle = window.getComputedStyle(flyerElement);
+    console.log('Flyer background image:', computedStyle.backgroundImage);
+
     const canvas = await html2canvas(flyerElement, {
       scale: 2,
       useCORS: true,
-      allowTaint: true,
-      backgroundColor: '#0F766E', // Matches fallback
+      allowTaint: false,
+      backgroundColor: '#0F766E',
       logging: false,
       width: 1080,
       height: 1080,
       windowWidth: 1080,
       windowHeight: 1080,
+      imageTimeout: 0,
     });
 
     const dataUrl = canvas.toDataURL('image/png', 1.0);
+    
+    // Clean up
+    if (document.body.contains(preloadImg)) {
+      document.body.removeChild(preloadImg);
+    }
     document.body.removeChild(container);
+    
     return dataUrl;
   } catch (error) {
     console.error('Flyer generation error:', error);
     const existingContainer = document.getElementById('flyer-generator-container');
-    if (existingContainer) {
+    if (existingContainer && document.body.contains(existingContainer)) {
       document.body.removeChild(existingContainer);
+    }
+    if (document.body.contains(preloadImg)) {
+      document.body.removeChild(preloadImg);
     }
     throw error;
   }

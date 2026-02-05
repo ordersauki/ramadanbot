@@ -19,26 +19,33 @@ export const generateMessage = async (
 
     const ai = new GoogleGenAI({ apiKey });
 
-    // Updated Prompt Strategy as requested
-    const prompt = `
-  Compose a mature, deeply resonant Islamic reflection in clear English based on the topic: "${topic}".
+    // Enhanced Deep Islamic Reflection Prompt
+    const prompt = `You are a profound Islamic scholar and spiritual guide crafting daily Ramadan reflections.
 
-  Context:
-  - Ramadan Day: ${day}
-  - ${hint ? `User note: ${hint}` : "Focus on spiritual growth, mercy, gratitude, and inner renewal."}
+TOPIC: "${topic}"
+RAMADAN DAY: ${day}
+${hint ? `ADDITIONAL CONTEXT: ${hint}` : ""}
 
-  Guidelines:
-  - Tone: solemn, contemplative, uplifting, and accessible to a general audience.
-  - Ground the message in broad Quranic/Prophetic virtues (mercy, patience, gratitude, forgiveness) without theological argument or sectarian language.
-  - Length: 1–3 short sentences, ideally between 40 and 220 characters.
-  - Avoid emojis, hashtags, quotations of long scripture, or any metadata — keep only the crafted message.
-  - Do not include salutations, sign-offs, or extra commentary; return only the message text.
+TASK:
+Create a deep, rich, and meaningful Islamic reflection that demonstrates profound spiritual insight. This reflection will inspire people during Ramadan to connect with Islamic virtues and teachings.
 
-  Purpose:
-  - The message will be placed on a Ramadan flyer and should read like a short, powerful reminder that encourages reflection and compassionate action.
-  `;
+REQUIREMENTS:
+1. LENGTH: 2-4 substantive sentences (aim for 180-400 characters - this allows depth, not brevity)
+2. DEPTH: Draw from Quranic principles, hadith wisdom, and Islamic philosophy without direct quotations
+3. SUBSTANCE: Go beyond platitudes. Explore the "why" and "how" of the virtue of "${topic}"
+4. RELEVANCE: Connect the theme to Ramadan's spiritual significance on day ${day}
+5. LANGUAGE: Eloquent, poetic, yet accessible English. Use metaphor and vivid imagery when appropriate
+6. VIRTUE FOUNDATION: Ground in Islamic virtues like: Taqwa (God-consciousness), Ihsan (excellence), Sabr (patience), Rahmah (mercy), 'Ilm (knowledge), Shukr (gratitude), Tawbah (repentance), Tawhid (divine unity)
+7. EMOTIONAL RESONANCE: Inspire introspection, motivate righteous action, uplift the heart
+8. NO ADDITIONS: Return ONLY the reflection text - no labels, no attribution, no extra commentary
 
-    // Using gemini-2.5-flash-lite as requested
+EXAMPLES OF DEPTH (These are templates - create original content):
+- Instead of "Be patient" → "Patience is not mere silence; it is the quiet strength that rebuilds broken spirits and transforms suffering into wisdom."
+- Instead of "Be grateful" → "Gratitude rewires the soul to see blessings where others see only trials, turning the ordinary into the sacred."
+
+Now compose a rich, profound Islamic reflection on the topic "${topic}" for Ramadan Day ${day}:`;
+
+    // Using gemini-2.5-flash-lite
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash-lite",
       contents: prompt,
