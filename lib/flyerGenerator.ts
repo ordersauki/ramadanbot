@@ -191,17 +191,21 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
                 opacity: 0.9;
             ">"</div>
 
-            <!-- User Name Signature: simple, modern, placed immediately below the message -->
+            <!-- User Name Signature: prominent, single-line centered and ellipsized if too long -->
             <p style="
               font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-              font-size: 20px;
-              font-weight: 600;
+              font-size: 34px;
+              font-weight: 800;
               color: #3B2F2B;
               margin: 0;
-              line-height: 1.2;
-              margin-top: 12px;
-              letter-spacing: 0.4px;
+              line-height: 1.1;
+              margin-top: 18px;
+              letter-spacing: 0.2px;
               text-align: center;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              max-width: 920px;
             ">${escapeHtml(config.userName)}</p>
         </div>
 

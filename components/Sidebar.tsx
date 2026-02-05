@@ -135,6 +135,30 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, user, onLogout, onAd
                 )}
               </div>
             </div>
+
+            {/* Generation History (from localStorage) */}
+            <div className="mt-4 p-3">
+              <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Your History</h4>
+              <div className="space-y-2 max-h-40 overflow-y-auto pr-2">
+                {(() => {
+                  try {
+                    const raw = typeof window !== 'undefined' ? localStorage.getItem('generationHistory') : null;
+                    const items = raw ? JSON.parse(raw) : [];
+                    if (!items || items.length === 0) return <p className="text-[11px] text-gray-400">No recent generations yet.</p>;
+                    return items.slice(0,10).map((it:any,idx:number) => (
+                      <div key={idx} className="flex items-center justify-between text-[12px]">
+                        <div className="min-w-0">
+                          <div className="font-semibold truncate">{it.topic}</div>
+                          <div className="text-xs text-gray-400">Day {it.day} • {new Date(it.date).toLocaleDateString()}</div>
+                        </div>
+                      </div>
+                    ));
+                  } catch {
+                    return <p className="text-[11px] text-gray-400">No recent generations yet.</p>;
+                  }
+                })()}
+              </div>
+            </div>
           </div>
 
         </div>

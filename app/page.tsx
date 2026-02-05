@@ -86,19 +86,51 @@ export default function Home() {
 
   const handleSuccess = (data: GeneratedData) => {
     setGeneratedData(data);
-    // Optimistic update of streak locally
+    // Optimistic update of generation_count locally
     if (appState.currentUser) {
        const u = appState.currentUser;
-       setAppState(prev => ({ 
-           ...prev, 
-           currentUser: { ...u, generation_count: u.generation_count + 1 } 
-       }));
+       const updatedUser = { ...u, generation_count: u.generation_count + 1 };
+       setAppState(prev => ({ ...prev, currentUser: updatedUser }));
+
+       // Persist generation history to localStorage for sidebar (topic + day)
+       try {
+         const key = 'generationHistory';
+         const raw = localStorage.getItem(key);
+         const history = raw ? JSON.parse(raw) : [];
+         history.unshift({ topic: data.formData.topic, day: data.formData.day, date: new Date().toISOString() });
+         localStorage.setItem(key, JSON.stringify(history.slice(0, 50)));
+       } catch (e) {
+         // ignore storage errors
+       }
     }
   };
 
-  const handleFlyerDownloaded = (flyerUrl: string) => {
+  const handleFlyerDownloaded = async (flyerUrl: string) => {
     setDownloadedFlyerUrl(flyerUrl);
-    setHasDownloadedToday(true);
+
+    // Fetch latest user state from server to get accurate remaining limits
+    try {
+      const res = await fetch(`/api/user?id=${appState.currentUser!.id}`);
+      if (res.ok) {
+        const json = await res.json();
+        if (json.user) {
+          setAppState(prev => ({ ...prev, currentUser: json.user }));
+
+          // Determine if user has reached limit for today
+          const used = json.user.generation_count || 0;
+          const limit = json.user.rate_limit_override || 1;
+          if (used >= limit && json.user.role !== 'admin') {
+            setHasDownloadedToday(true);
+          } else {
+            setHasDownloadedToday(false);
+          }
+        }
+      }
+    } catch (e) {
+      console.error('Failed to refresh user after download', e);
+      // fallback: mark as downloaded
+      setHasDownloadedToday(true);
+    }
   };
 
   const handleRedownload = () => {
