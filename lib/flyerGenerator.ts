@@ -36,14 +36,11 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
 
   document.body.appendChild(container);
 
-  // Preload the background image with absolute path
-  const backgroundImageUrl = `${typeof window !== 'undefined' ? window.location.origin : ''}/ramadan-background.png`;
-
-  // Preload the background image - NO fallbacks, must load
-  const preloadImg = new Image();
-  preloadImg.src = backgroundImageUrl;
-  preloadImg.style.display = 'none';
-  document.body.appendChild(preloadImg);
+  // Build absolute URL for background image - ensure it's from /public
+  const backgroundImageUrl = '/ramadan-background.png';
+  const absoluteImageUrl = `${window.location.origin}${backgroundImageUrl}`;
+  
+  console.log('🖼️ Loading background from:', absoluteImageUrl);
 
   container.innerHTML = `
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Cormorant+Garamond:wght@400;600;700&family=Playfair+Display:wght@600;700&family=Amiri:wght@400;700&display=block" rel="stylesheet">
@@ -59,10 +56,11 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
         background-image: url('${backgroundImageUrl}');
         background-size: cover;
         background-position: center;
+        background-repeat: no-repabsoluteImageUrl}');
+        background-size: cover;
+        background-position: center;
         background-repeat: no-repeat;
-        font-family: 'Cormorant Garamond', serif;
-        overflow: hidden;
-        display: flex;
+        background-attachment: fixed
         flex-direction: column;
         justify-content: space-between;
         align-items: center;
@@ -198,101 +196,103 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
     // Wait for fonts to load
     await document.fonts.ready;
     
-    // Ensure background image is fully loaded BEFORE rendering
-    const backgroundLoadPromise = new Promise<void>((resolve, reject) => {
+    // Preload and verify background image exists and can be loaded
+    const preloadBackgroundImage = new Promise<void>((resolve, reject) => {
       const img = new Image();
+      let loadTimeoutId: NodeJS.Timeout;
       
       img.onload = () => {
+        clearTimeout(loadTimeoutId);
         console.log('✓ Background image loaded successfully');
         resolve();
       };
       
-      img.onerror = (error) => {
-        console.error('✗ CRITICAL: Background image failed to load', error);
-        reject(new Error(`Failed to load background: ${backgroundImageUrl}`));
+      img.onerror = () => {
+        clearTimeout(loadTimeoutId);
+        console.error('✗ Background image failed to load from:', absoluteImageUrl);
+        reject(new Error(`Failed to load from: ${absoluteImageUrl}`));
       };
       
-      // 5 second timeout before rejecting
-      const timeout = setTimeout(() => {
-        reject(new Error('Background image load timeout'));
-      }, 5000);
+      // Set a 10-second timeout 
+      loadTimeoutId = setTimeout(() => {
+        console.error('✗ Background image load timeout');
+        reject(new Error('Image load timeout - server may be slow'));
+      }, 10000);
       
-      img.src = backgroundImageUrl;
-      
-      // Clean up timeout if image loads
-      img.addEventListener('load', () => clearTimeout(timeout));
+      img.crossOrigin = 'anonymous';
+      img.src = absoluteImageUrl;
     });
     
     try {
-      await backgroundLoadPromise;
+      await preloadBackgroundImage;
     } catch (imgError) {
-      console.error('Background image loading error:', imgError);
-      throw new Error('Background image is required - cannot proceed without it');
+      console.error('💥 Image loading error:', imgError);
+      throw imgError;
     }
 
-    // Wait for fonts to be fully loaded - this is critical for custom fonts
-    try {
-      await new Promise((resolve, reject) => {
-        const fontTimeout = setTimeout(() => reject(new Error('Font loading timeout')), 5000);
-        document.fonts.ready.then(() => {
-          clearTimeout(fontTimeout);
-          resolve(true);
-        }).catch(reject);
+    // Wait for fonts to be fully loaded - simple non-blocking wait
+    const waitForFonts = new Promise<void>((resolve) => {
+      const timeout = setTimeout(() => {
+        console.warn('⚠️ Fonts: continuing anyway');
+        resolve();
+      }, 2000);
+      document.fonts.ready.then(() => {
+        clearTimeout(timeout);
+        console.log('✓ Fonts ready');
+        resolve();
+      }).catch(() => {
+        clearTimeout(timeout);
+        resolve();
       });
-    } catch (fontError) {
-      console.warn('Font loading issue:', fontError);
-      // Continue anyway - use fallbacks
-    }
+    });
+    
+    await waitForFonts;
 
-    // Extended wait for rendering layout and fonts
-    await wait(2000);
+    // Quick render wait
+    await wait(600);
 
     const flyerElement = document.getElementById('flyer-canvas');
     if (!flyerElement) throw new Error('Flyer element not found');
 
     // Verify the background is applied
     const computedStyle = window.getComputedStyle(flyerElement);
-    console.log('✓ Flyer background applied:', !!computedStyle.backgroundImage);
+    console.log('✓ Canvas ready');
 
     try {
+      console.log('🎨 Rendering...');
       const canvas = await html2canvas(flyerElement, {
         scale: 2,
         useCORS: true,
         allowTaint: true,
-        logging: true,
+        logging: false,
         width: 1080,
         height: 1080,
         windowWidth: 1080,
         windowHeight: 1080,
-        imageTimeout: 5000,
+        imageTimeout: 10000,
         backgroundColor: null,
         foreignObjectRendering: true,
       });
 
       const dataUrl = canvas.toDataURL('image/png', 1.0);
-      console.log('✓ Flyer generated successfully');
+      const sizeMB = (dataUrl.length / 1024 / 1024).toFixed(2);
+      console.log('✓ Success -', sizeMB, 'MB');
       
       // Clean up
-      if (document.body.contains(preloadImg)) {
-        document.body.removeChild(preloadImg);
-      }
       if (document.body.contains(container)) {
         document.body.removeChild(container);
       }
       
       return dataUrl;
     } catch (canvasError) {
-      console.error('html2canvas rendering error:', canvasError);
-      throw new Error(`Canvas rendering failed: ${canvasError instanceof Error ? canvasError.message : 'Unknown error'}`);
+      console.error('💥 Canvas error:', canvasError);
+      throw canvasError;
     }
   } catch (error) {
     console.error('CRITICAL Flyer generation error:', error);
     const existingContainer = document.getElementById('flyer-generator-container');
     if (existingContainer && document.body.contains(existingContainer)) {
       document.body.removeChild(existingContainer);
-    }
-    if (document.body.contains(preloadImg)) {
-      document.body.removeChild(preloadImg);
     }
     throw error;
   }
