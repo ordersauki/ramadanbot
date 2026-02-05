@@ -82,14 +82,16 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
                     <div className="relative">
                         <input 
                             type="password"
+                            inputMode="numeric"
+                            pattern="\d*"
                             value={pin}
                             onChange={(e) => {
-                                if (e.target.value.length <= 4 && /^\d*$/.test(e.target.value)) {
-                                    setPin(e.target.value);
-                                }
+                                const value = e.target.value.replace(/[^0-9]/g, '').slice(0, 4);
+                                setPin(value);
                             }}
                             className="w-full bg-[#1C1C1E] border border-gray-800 text-white px-5 py-4 rounded-2xl text-lg outline-none focus:border-ios-blue focus:ring-1 focus:ring-ios-blue transition-all tracking-[0.5em] placeholder:tracking-normal placeholder:text-gray-600 font-mono"
                             placeholder="••••"
+                            maxLength={4}
                             required
                             style={{ backgroundColor: '#1C1C1E', color: 'white' }}
                         />

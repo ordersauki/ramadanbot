@@ -53,14 +53,14 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
         width: 1080px; 
         height: 1080px; 
         position: relative; 
-        background-image: url('${backgroundImageUrl}');
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repabsoluteImageUrl}');
+        background-image: url('${absoluteImageUrl}');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        background-attachment: fixed
+        background-attachment: fixed;
+        font-family: 'Cormorant Garamond', serif;
+        overflow: hidden;
+        display: flex;
         flex-direction: column;
         justify-content: space-between;
         align-items: center;
