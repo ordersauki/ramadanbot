@@ -113,7 +113,7 @@ const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset,
   };
 
   const getShareCaption = () => {
-    return `🌙 Ramadan Day ${formData.day}: ${formData.topic}\n\n"${message.substring(0, 50)}..."\n\n✨ Design by RamadanBot | ${user.name}`;
+    return `Ramadan Day ${formData.day}: ${formData.topic}\n\n"${message.substring(0, 50)}..."\n\nDesign by RamadanBot | ${user.name}`;
   };
 
   const handleShare = async () => {
@@ -155,7 +155,7 @@ const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset,
     return (
       <div className="flex flex-col items-center justify-center min-h-[50vh] animate-fade-in p-6 text-center space-y-4">
         <div className="w-16 h-16 rounded-full bg-gradient-to-br from-ios-teal to-cyan-500 flex items-center justify-center text-white text-3xl shadow-lg">
-          ✨
+          <Sparkles size={28} />
         </div>
         <div>
           <h2 className="text-xl font-bold text-gray-900 dark:text-white">Flyer Generated!</h2>
@@ -180,7 +180,7 @@ const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset,
           </button>
           <button
             onClick={() => {
-              const caption = `🌙 Ramadan Day ${formData.day}: ${formData.topic}\\n\\n"${message.substring(0, 60)}..."\\n\\n✨ Created with RamadanBot`;
+              const caption = `Ramadan Day ${formData.day}: ${formData.topic}\\n\\n"${message.substring(0, 60)}..."\\n\\nCreated with RamadanBot`;
               if (navigator.share) {
                 navigator.share({
                   title: 'My Ramadan Reflection',
@@ -288,7 +288,7 @@ const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset,
                     const response = await fetch(flyerUrl);
                     const blob = await response.blob();
                     const file = new File([blob], `Ramadan_Day_${formData.day}.png`, { type: 'image/png' });
-                    const caption = `🌙 Day ${formData.day} Ramadan Reminder\n\n"${message}"\n\n✨ My Streak: ${user.streak} days\n\nCreate your own at RamadanBot 🤍`;
+                    const caption = `Day ${formData.day} | Streak: ${user.streak} days | RamadanBot`;
                     
                     // Use native share if available, otherwise fallback
                     if (navigator.share) {
@@ -318,7 +318,7 @@ const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset,
               onClick={async () => {
                 if (flyerUrl) {
                   // For web sharing, open Twitter with text and encourage image upload
-                  const caption = `Day ${formData.day} of #Ramadan\n\n"${message.substring(0, 80)}..."\n\nMy Streak: ${user.streak} days 🔥\n\n#RamadanBot #IslamicReflection`;
+                    const caption = `Day ${formData.day} of #Ramadan\n\n"${message.substring(0, 80)}..."\n\nMy Streak: ${user.streak} days 🔥\n\n#RamadanBot #IslamicReflection`;
                   const text = encodeURIComponent(caption);
                   // Note: Twitter web intent doesn't support image in URL, but users can paste
                   window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
@@ -338,7 +338,7 @@ const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset,
             <button
               onClick={() => {
                 if (flyerUrl) {
-                  const caption = `Check out my Day ${formData.day} Ramadan reflection! 🌙\n\nMy streak: ${user.streak} days 🔥\n\nCreate your own at RamadanBot`;
+                  const caption = `Check out my Day ${formData.day} Ramadan reflection!\n\nMy streak: ${user.streak} days\n\nCreate your own at RamadanBot`;
                   const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&quote=${encodeURIComponent(caption)}`;
                   window.open(url, '_blank');
                 }
@@ -359,7 +359,7 @@ const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset,
                     const response = await fetch(flyerUrl);
                     const blob = await response.blob();
                     const file = new File([blob], `Ramadan_Day_${formData.day}.png`, { type: 'image/png' });
-                    const caption = `📸 Day ${formData.day}\n\nRamadan Reflection\n\nStreak: ${user.streak} days 🔥`;
+                    const caption = `Day ${formData.day}\n\nRamadan Reflection\n\nStreak: ${user.streak} days`;
                     
                     if (navigator.share) {
                       await navigator.share({

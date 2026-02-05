@@ -134,35 +134,7 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
           </div>
         </div>
 
-        <!-- Ramadan Kareem Header (Top Center) -->
-        <div style="
-          position: absolute;
-          top: 80px;
-          left: 50%;
-          transform: translateX(-50%);
-          z-index: 20;
-          text-align: center;
-        ">
-          <div style="
-            font-family: 'Amiri', serif;
-            font-size: 42px;
-            font-weight: 700;
-            color: #5D4037;
-            letter-spacing: 2px;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-            margin: 0;
-            line-height: 1.2;
-          ">رمضان كريم</div>
-          <div style="
-            font-family: 'Playfair Display', serif;
-            font-size: 14px;
-            color: #8B6F47;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            margin-top: 4px;
-            font-weight: 600;
-          ">Ramadan Kareem</div>
-        </div>
+        <!-- Ramadan header intentionally omitted (background contains caligraphy) -->
 
         <!-- Message with Quote Marks (Center) -->
         <div style="
@@ -219,18 +191,18 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
                 opacity: 0.9;
             ">"</div>
 
-            <!-- User Name Signature with Sparkles -->
+            <!-- User Name Signature: simple, modern, placed immediately below the message -->
             <p style="
-              font-family: 'Playfair Display', serif;
-              font-size: 28px;
+              font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+              font-size: 20px;
               font-weight: 600;
-              color: #4E342E;
-              text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+              color: #3B2F2B;
               margin: 0;
-              line-height: 1.4;
-              letter-spacing: 1px;
+              line-height: 1.2;
               margin-top: 12px;
-            ">✨ ${escapeHtml(config.userName)} ✨</p>
+              letter-spacing: 0.4px;
+              text-align: center;
+            ">${escapeHtml(config.userName)}</p>
         </div>
 
     </div>
