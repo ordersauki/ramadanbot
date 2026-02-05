@@ -1,7 +1,7 @@
 {
-  "name": "Ramadan Bit. AI Flyer Generator for Ramadan",
-  "short_name": "Ramadan Bit",
-  "description": "Generate personalized daily Ramadan reflections with AI. Create beautiful shareable flyers, AI-powered spiritual guidance, and track your Ramadan journey with authentic Islamic teachings.",
+  "name": "Ramadan Bot: AI POWERED religious flyer generator",
+  "short_name": "Ramadan Bot",
+  "description": "AI-powered Ramadan flyer generator. Create beautiful, personalized daily Ramadan reflections and shareable Islamic flyers.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

@@ -10,25 +10,25 @@ const cinzel = Cinzel({ subsets: ["latin"], variable: '--font-cinzel' });
 const cormorant = Cormorant_Garamond({ weight: ['300', '400', '600'], subsets: ["latin"], variable: '--font-cormorant' });
 
 export const metadata: Metadata = {
-  title: "Ramadan Bit. AI Flyer Generator for Ramadan & Islamic Reflections",
-  description: "Generate personalized daily Ramadan reflections with AI. Create beautiful shareable flyers, AI-powered spiritual guidance, and track your Ramadan journey with authentic Islamic teachings.",
+  title: "Ramadan Bot: AI POWERED religious flyer generator",
+  description: "AI-powered Ramadan flyer generator. Create beautiful, personalized daily Ramadan reflections and shareable Islamic flyers. Generate religious content grounded in authentic Islamic teachings.",
   manifest: "/manifest.json",
   keywords: ["Ramadan", "Islamic", "Reflection", "AI Flyer", "Ramadan Bot", "Muslim", "Spirituality", "AI Generator", "Ramadan Generator", "Islamic Learning"],
-  authors: [{ name: "Ramadan Bit Team" }],
-  creator: "Ramadan Bit",
+  authors: [{ name: "Ramadan Bot" }],
+  creator: "Ramadan Bot",
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "https://ramadanbot.com",
-    siteName: "Ramadan Bit",
-    title: "Ramadan Bit. AI Flyer Generator for Ramadan & Islamic Reflections",
+    siteName: "Ramadan Bot",
+    title: "Ramadan Bot: AI POWERED religious flyer generator",
     description: "Generate personalized daily Ramadan reflections with AI. Create beautiful shareable flyers and track your spiritual journey.",
     images: [
       {
         url: "/icon-512x512.png",
         width: 512,
         height: 512,
-        alt: "Ramadan Bit Logo",
+        alt: "Ramadan Bot Logo",
       },
       {
         url: "/ramadan-background.png",
@@ -41,14 +41,14 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     creator: "@RamadanBot",
-    title: "Ramadan Bit. AI Flyer Generator",
-    description: "AI-powered Ramadan reflections and beautiful shareable flyers",
+    title: "Ramadan Bot: AI POWERED religious flyer generator",
+    description: "AI-powered Ramadan reflections and beautiful shareable Islamic flyers",
     images: ["/icon-512x512.png", "/ramadan-background.png"],
   },
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "Ramadan Bit",
+    title: "Ramadan Bot",
   },
   formatDetection: {
     telephone: false,

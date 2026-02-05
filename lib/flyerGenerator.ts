@@ -96,7 +96,7 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
         <!-- Day (Top Left - Caligraphic) -->
         <div style="
             position: absolute;
-            top: 80px;
+I'm            top: 80px;
             left: 70px;
             text-align: left;
             z-index: 20;
@@ -145,7 +145,7 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
                 opacity: 0.9;
             ">"</div>
             
-            <!-- Message Text - Perfectly Fitted Quote -->
+            <!-- Message Text -->
             <p style="
                 font-family: 'Playfair Display', serif;
                 font-size: 40px;
@@ -162,6 +162,18 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
                 word-wrap: break-word;
                 overflow-wrap: break-word;
                 white-space: normal;
+                opacity: 0.9;
+            ">${config.message}</p>
+            
+            <!-- Closing Quote Mark -->
+            <div style="
+                font-family: 'Playfair Display', serif;
+                font-size: 72px;
+                color: rgba(244, 208, 63, 0.75);
+                line-height: 0.6;
+                font-weight: 700;
+                margin: 0;
+                text-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
                 opacity: 0.9;
             ">"</div>
         </div>
