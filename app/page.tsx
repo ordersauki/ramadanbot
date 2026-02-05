@@ -154,7 +154,7 @@ export default function Home() {
             />
 
             {/* Header */}
-            <header className="pt-12 pb-2 px-5 flex items-center justify-between bg-white/80 dark:bg-[#1C1C1E]/80 backdrop-blur-md sticky top-0 z-10 border-b border-gray-200 dark:border-zinc-800 transition-colors">
+            <header className="pt-3 pb-2 px-5 flex items-center justify-between bg-white/80 dark:bg-[#1C1C1E]/80 backdrop-blur-md sticky top-0 z-10 border-b border-gray-200 dark:border-zinc-800 transition-colors">
                 <button 
                     onClick={() => setIsSidebarOpen(true)}
                     className="p-2 -ml-2 text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-full transition-colors"
@@ -184,7 +184,7 @@ export default function Home() {
             </header>
 
             {/* Main Content Area */}
-            <main className="flex-1 overflow-y-auto px-4 py-4 scroll-smooth no-scrollbar pb-28">
+            <main className="flex-1 overflow-y-auto px-4 py-4 scroll-smooth pb-4">
                 {generatedData ? (
                     <FlyerPreview 
                         message={generatedData.text}
@@ -226,7 +226,7 @@ export default function Home() {
                         </div>
                     </div>
                 ) : (
-                    <div className="animate-fade-in-up pb-6">
+                    <div className="animate-fade-in-up space-y-4">
                          <div className="mb-4">
                             <h2 className="text-2xl font-bold text-gray-900 dark:text-white leading-tight">
                                 Salam, {user.name.split(' ')[0]} 👋
@@ -238,66 +238,58 @@ export default function Home() {
                             initialName={user.name} 
                             userId={user.id} 
                         />
-                    </div>
-                )}
-            </main>
 
-            {/* Bottom Footer - Streak & Stats (moved up slightly & improved visuals) */}
-            {!generatedData && !hasDownloadedToday && (
-                <footer className="absolute bottom-6 left-4 right-4 px-2 py-3 bg-transparent pointer-events-auto z-20">
-                    <div className="bg-white dark:bg-black/30 backdrop-blur-md rounded-2xl p-3 border border-gray-100 dark:border-zinc-800 shadow-lg transition-colors">
-                        <div className="grid grid-cols-2 gap-3">
-                            {/* Streak Card - improved */}
-                            <div className="flex flex-col items-start gap-3 rounded-xl p-4 bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/15 dark:to-orange-900/10 border border-orange-200 dark:border-orange-900/30 shadow-md">
-                                <div className="flex items-center justify-between w-full">
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-lg bg-white/60 dark:bg-black/20 flex items-center justify-center text-orange-600 shadow-sm">
-                                            <Sparkles size={18} className="text-orange-600" />
+                        {/* Streak & Daily Limit Cards (Moved immediately after form) */}
+                        <div className="bg-white dark:bg-black/30 backdrop-blur-md rounded-2xl p-3 border border-gray-100 dark:border-zinc-800 shadow-lg transition-colors mt-6">
+                            <div className="grid grid-cols-2 gap-3">
+                                {/* Streak Card */}
+                                <div className="flex flex-col justify-between rounded-xl p-3 bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/15 dark:to-orange-900/10 border border-orange-200 dark:border-orange-900/30 shadow-md">
+                                    <div className="flex items-center justify-between gap-2">
+                                        <div className="flex items-center gap-2 flex-shrink-0">
+                                            <div className="w-9 h-9 rounded-lg bg-white/60 dark:bg-black/20 flex items-center justify-center text-orange-600 shadow-sm flex-shrink-0">
+                                                <Sparkles size={16} className="text-orange-600" />
+                                            </div>
+                                            <div className="min-w-0">
+                                                <p className="text-[9px] font-bold text-orange-600 dark:text-orange-400 uppercase tracking-wider whitespace-nowrap">Streak</p>
+                                                <p className="text-[10px] text-gray-500 dark:text-gray-300 whitespace-nowrap">Days</p>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <p className="text-[10px] font-bold text-orange-600 dark:text-orange-400 uppercase tracking-wider">Streak</p>
-                                            <p className="text-xs text-gray-500 dark:text-gray-300">Consistency</p>
-                                        </div>
+                                        <p className="text-xl font-extrabold text-orange-700 dark:text-orange-300 flex-shrink-0">{user.streak}</p>
                                     </div>
-                                    <div className="text-right">
-                                        <p className="text-2xl font-extrabold text-orange-700 dark:text-orange-300">{user.streak}</p>
-                                        <p className="text-[10px] text-orange-600 dark:text-orange-400">days</p>
+                                    <div className="mt-2 w-full">
+                                        <div className="w-full bg-orange-100 dark:bg-orange-900/10 rounded-full h-1.5">
+                                            <div className="bg-orange-500 h-1.5 rounded-full" style={{ width: `${Math.min(100, Math.round((user.streak/30)*100))}%` }} />
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="w-full">
-                                    <div className="w-full bg-orange-100 dark:bg-orange-900/10 rounded-full h-2">
-                                        <div className="bg-orange-500 h-2 rounded-full" style={{ width: `${Math.min(100, Math.round((user.streak/30)*100))}%` }} />
-                                    </div>
-                                </div>
-                            </div>
 
-                            {/* Daily Limit Card - improved */}
-                            <div className="flex flex-col items-start gap-3 rounded-xl p-4 bg-gradient-to-br from-cyan-50 to-blue-50 dark:from-blue-900/10 dark:to-cyan-900/10 border border-blue-200 dark:border-blue-900/30 shadow-md">
-                                <div className="flex items-center justify-between w-full">
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-lg bg-white/60 dark:bg-black/20 flex items-center justify-center text-blue-600 shadow-sm">
-                                            <Download size={18} className="text-blue-600" />
+                                {/* Daily Limit Card */}
+                                <div className="flex flex-col justify-between rounded-xl p-3 bg-gradient-to-br from-cyan-50 to-blue-50 dark:from-blue-900/10 dark:to-cyan-900/10 border border-blue-200 dark:border-blue-900/30 shadow-md">
+                                    <div className="flex items-center justify-between gap-2">
+                                        <div className="flex items-center gap-2 flex-shrink-0">
+                                            <div className="w-9 h-9 rounded-lg bg-white/60 dark:bg-black/20 flex items-center justify-center text-blue-600 shadow-sm flex-shrink-0">
+                                                <Download size={16} className="text-blue-600" />
+                                            </div>
+                                            <div className="min-w-0">
+                                                <p className="text-[9px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider whitespace-nowrap">Daily Limit</p>
+                                                <p className="text-[10px] text-gray-500 dark:text-gray-300 whitespace-nowrap">Left</p>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <p className="text-[10px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">Daily Limit</p>
-                                            <p className="text-xs text-gray-500 dark:text-gray-300">Remaining</p>
+                                        <p className="text-xl font-extrabold text-blue-700 dark:text-blue-300 flex-shrink-0">{user.rate_limit_override || 1}</p>
+                                    </div>
+                                    <div className="mt-2 w-full">
+                                        <div className="w-full bg-blue-100 dark:bg-blue-900/10 rounded-full h-1.5">
+                                            <div className="bg-blue-500 h-1.5 rounded-full" style={{ width: `100%` }} />
                                         </div>
-                                    </div>
-                                    <div className="text-right">
-                                        <p className="text-2xl font-extrabold text-blue-700 dark:text-blue-300">{user.rate_limit_override || 1}</p>
-                                        <p className="text-[10px] text-blue-600 dark:text-blue-400">generation</p>
-                                    </div>
-                                </div>
-                                <div className="w-full">
-                                    <div className="w-full bg-blue-100 dark:bg-blue-900/10 rounded-full h-2">
-                                        <div className="bg-blue-500 h-2 rounded-full" style={{ width: `${Math.min(100, Math.round(((user.rate_limit_override||1)/ (user.rate_limit_override||1))*100))}%` }} />
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </footer>
-            )}
+                )}
+            </main>
+
+
         </div>
     );
   };

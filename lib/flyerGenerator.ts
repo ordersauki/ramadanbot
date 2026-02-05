@@ -145,7 +145,7 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
           position: relative;
           padding: 0 30px;
           z-index: 15;
-          max-width: 980px;
+          max-width: 900px;
           margin: 0 auto;
         ">
             <!-- Opening Quote Mark -->
@@ -160,7 +160,7 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
                 opacity: 0.9;
             ">"</div>
             
-            <!-- Closing Quote Mark -->
+            <!-- Message Text -->
             <p style="
                 font-family: 'Playfair Display', serif;
                 font-size: 32px;
@@ -170,7 +170,25 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
                 font-weight: 500;
                 letter-spacing: 0.2px;
                 margin: 0;
-                max-width: 900px;
+                max-width: 850px;
+                text-shadow: 0 3px 14px rgba(0, 0, 0, 0.55), 0 1px 4px rgba(0, 0, 0, 0.3);
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+                white-space: normal;
+            ">${config.message}</p>
+            
+            <!-- Closing Quote Mark -->
+            <div style="
+                font-family: 'Playfair Display', serif;
+                font-size: 58px;
+                color: rgba(244, 208, 63, 0.75);
+                line-height: 0.6;
+                font-weight: 700;
+                margin: 0;
+                text-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+                opacity: 0.9;
+            ">"</div>
+
             <!-- User Name (Directly After Message) -->
             <p style="
               font-family: 'Playfair Display', serif;
@@ -183,25 +201,6 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
               font-style: italic;
               letter-spacing: 1px;
               margin-top: 8px;
-            ">— ${escapeHtml(config.userName)}</p>
-          </div>
-            gap: 12px;
-            z-index: 16;
-            padding: 0 40px;
-            min-height: 100px;
-            justify-content: center;
-        ">
-            <!-- User Name Attribution -->
-            <p style="
-                font-family: 'Playfair Display', serif;
-                font-size: 28px;
-                font-weight: 400;
-                color: rgba(255, 255, 255, 0.85);
-                text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
-                margin: 0;
-                line-height: 1.4;
-                font-style: italic;
-                letter-spacing: 1px;
             ">— ${escapeHtml(config.userName)}</p>
         </div>
 
