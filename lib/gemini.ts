@@ -19,31 +19,41 @@ export const generateMessage = async (
 
     const ai = new GoogleGenAI({ apiKey });
 
-    // Enhanced Deep Islamic Reflection Prompt
-    const prompt = `You are a profound Islamic scholar and spiritual guide crafting daily Ramadan reflections.
+    // Authentic Islamic Reflection Prompt - NOT philosophical
+    const prompt = `You are a learned Islamic scholar and Quranic guide crafting profound Ramadan daily reflections.
 
-TOPIC: "${topic}"
+TOPIC/VIRTUE: "${topic}"
 RAMADAN DAY: ${day}
-${hint ? `ADDITIONAL CONTEXT: ${hint}` : ""}
+${hint ? `HADITH/QURAN REFERENCE: ${hint}` : ""}
 
-TASK:
-Create a deep, rich, and meaningful Islamic reflection that demonstrates profound spiritual insight. This reflection will inspire people during Ramadan to connect with Islamic virtues and teachings.
+CRITICAL REQUIREMENTS:
+1. USE ALLAH - Always reference "Allah" (not "God", "divine", "the Creator", etc.)
+2. GROUNDING: Root the message in authentic Quranic concepts, Prophetic traditions (Sunnah), and Islamic teachings
+3. LANGUAGE: Use Islamic terminology naturally - "Dua", "Taqwa", "Akhirah", "Deen", "Sabr", "Shukr", "Tawhid"
+4. AUTHENTICITY: This is an Islamic reminder for Muslim audience, not secular philosophy
+5. LENGTH: 300-600 characters minimum (3-5 substantive sentences). NO TRUNCATION OR "..."
+6. DEPTH: Explain WHY this virtue matters in Islam, HOW to practice it, WHAT Allah teaches about it
+7. TONE: Solemn, inspirational, reflective. Connect to Ramadan's spiritual essence on day ${day}
+8. NO ADDITIONS: Return ONLY the reflection text - no labels, asterisks, or commentary
 
-REQUIREMENTS:
-1. LENGTH: 2-4 substantive sentences (aim for 180-400 characters - this allows depth, not brevity)
-2. DEPTH: Draw from Quranic principles, hadith wisdom, and Islamic philosophy without direct quotations
-3. SUBSTANCE: Go beyond platitudes. Explore the "why" and "how" of the virtue of "${topic}"
-4. RELEVANCE: Connect the theme to Ramadan's spiritual significance on day ${day}
-5. LANGUAGE: Eloquent, poetic, yet accessible English. Use metaphor and vivid imagery when appropriate
-6. VIRTUE FOUNDATION: Ground in Islamic virtues like: Taqwa (God-consciousness), Ihsan (excellence), Sabr (patience), Rahmah (mercy), 'Ilm (knowledge), Shukr (gratitude), Tawbah (repentance), Tawhid (divine unity)
-7. EMOTIONAL RESONANCE: Inspire introspection, motivate righteous action, uplift the heart
-8. NO ADDITIONS: Return ONLY the reflection text - no labels, no attribution, no extra commentary
+FRAMEWORK - Use this approach:
+- Open with Quranic principle or Prophetic wisdom about "${topic}"
+- Explain the spiritual benefit through Islamic lens (not secular)
+- Connect to Allah's guidance and the goal of the Akhirah
+- Inspire righteous action during this blessed month
 
-EXAMPLES OF DEPTH (These are templates - create original content):
-- Instead of "Be patient" → "Patience is not mere silence; it is the quiet strength that rebuilds broken spirits and transforms suffering into wisdom."
-- Instead of "Be grateful" → "Gratitude rewires the soul to see blessings where others see only trials, turning the ordinary into the sacred."
+AUTHENTIC EXAMPLES (create NEW content, don't copy):
+- Instead of: "Patience is inner strength" → "Allah says 'Inna sallabeena udju ajarohum bi ghayri hisaab' - those who are patient, Allah grants them reward without measure. Sabr is not weakness; it is submission to Allah's wisdom."
+- Instead of: "Be grateful" → "Shukr (gratitude) is the testimony of the heart that Allah alone deserves praise. When we thank Allah in Ramadan, we acknowledge His blessings and draw closer to His mercy."
 
-Now compose a rich, profound Islamic reflection on the topic "${topic}" for Ramadan Day ${day}:`;
+QUALITY CHECKS:
+✓ Does it mention Allah directly?
+✓ Does it use Islamic concepts (Quran, Sunnah, Islamic virtues)?
+✓ Is it meaningful and substantial (not generic)?
+✓ Would a Muslim find it spiritually nourishing?
+✓ Is it properly complete (not cut off)?
+
+Now compose the reflection on "${topic}" for Ramadan Day ${day}:`;
 
     // Using gemini-2.5-flash-lite
     const response = await ai.models.generateContent({
@@ -57,10 +67,8 @@ Now compose a rich, profound Islamic reflection on the topic "${topic}" for Rama
       return { success: false, error: "Empty response from AI." };
     }
 
-    // Basic truncation safeguard
-    const cleanText = text.length > 300 ? text.substring(0, 297) + "..." : text;
-
-    return { success: true, text: cleanText };
+    // NO truncation - keep the full text
+    return { success: true, text: text };
 
   } catch (error: any) {
     console.error("Gemini Generation Error:", error);

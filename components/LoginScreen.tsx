@@ -53,13 +53,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
                         src="/logo.png" 
                         alt="Ramadan Bot Logo" 
                         className="w-20 h-20 object-contain" 
-                        onError={(e) => { 
-                            e.currentTarget.style.display = 'none';
-                            const fallback = document.getElementById('fallback-moon');
-                            if (fallback) fallback.style.display = 'block';
-                        }} 
                     />
-                    <span className="text-5xl drop-shadow-md" id="fallback-moon">🌙</span>
                 </div>
                 {/* Glow behind logo */}
                 <div className="absolute inset-0 bg-blue-500 blur-2xl opacity-40 rounded-full"></div>

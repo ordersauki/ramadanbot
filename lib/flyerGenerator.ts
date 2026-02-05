@@ -39,7 +39,7 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
   // Preload the background image with absolute path
   const backgroundImageUrl = `${typeof window !== 'undefined' ? window.location.origin : ''}/ramadan-background.png`;
 
-  // Create hidden image element to preload
+  // Preload the background image - NO fallbacks, must load
   const preloadImg = new Image();
   preloadImg.src = backgroundImageUrl;
   preloadImg.style.display = 'none';
@@ -52,7 +52,6 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
         width: 1080px; 
         height: 1080px; 
         position: relative; 
-        background-color: #0F766E; /* Fallback color */
         background-image: url('${backgroundImageUrl}');
         background-size: cover;
         background-position: center;
@@ -113,11 +112,11 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
             <div style="
                 background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.95) 100%);
                 border-radius: 35px;
-                padding: 55px 50px;
+                padding: 50px 45px;
                 width: 880px;
                 max-width: 90%;
-                min-height: 320px;
-                max-height: 480px;
+                min-height: 350px;
+                max-height: 550px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -125,6 +124,7 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
                 border: 3px solid rgba(212, 175, 55, 0.4);
                 position: relative;
                 margin: 0 auto;
+                overflow-y: auto;
             ">
                 <!-- Corner Decorations -->
                 <div style="
@@ -150,8 +150,8 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
                 
                 <p style="
                     font-family: 'Cormorant Garamond', serif;
-                    font-size: 38px;
-                    line-height: 1.65;
+                    font-size: 32px;
+                    line-height: 1.7;
                     color: #0F766E;
                     text-align: center;
                     font-weight: 600;
@@ -159,6 +159,7 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
                     margin: 0;
                     overflow-wrap: break-word;
                     word-wrap: break-word;
+                    white-space: normal;
                 ">${escapeHtml(config.message)}</p>
             </div>
 
@@ -221,53 +222,59 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
     // Wait for fonts to load
     await document.fonts.ready;
     
-    // Ensure background image is fully loaded before rendering
-    const backgorundLoadedPromise = new Promise<void>((resolve) => {
+    // Ensure background image is fully loaded BEFORE rendering
+    const backgroundLoadPromise = new Promise<void>((resolve, reject) => {
       const img = new Image();
-      img.crossOrigin = 'anonymous';
       
       img.onload = () => {
-        console.log('Background image loaded successfully');
+        console.log('✓ Background image loaded successfully');
         resolve();
       };
       
-      img.onerror = () => {
-        console.warn(`Could not load background image, using fallback color`);
-        resolve(); // Resolve anyway so we generate something
+      img.onerror = (error) => {
+        console.error('✗ CRITICAL: Background image failed to load', error);
+        reject(new Error(`Failed to load background: ${backgroundImageUrl}`));
       };
       
-      // Set a timeout to prevent indefinite waiting
-      setTimeout(() => {
-        console.warn('Background image load timeout, proceeding with fallback');
-        resolve();
-      }, 2500);
+      // 5 second timeout before rejecting
+      const timeout = setTimeout(() => {
+        reject(new Error('Background image load timeout'));
+      }, 5000);
       
       img.src = backgroundImageUrl;
+      
+      // Clean up timeout if image loads
+      img.addEventListener('load', () => clearTimeout(timeout));
     });
     
-    await backgorundLoadedPromise;
+    try {
+      await backgroundLoadPromise;
+    } catch (imgError) {
+      console.error('Background image loading error:', imgError);
+      throw new Error('Background image is required - cannot proceed without it');
+    }
 
-    // Additional wait for rendering layout with the image
-    await wait(1000);
+    // Extended wait for rendering layout
+    await wait(1500);
 
     const flyerElement = document.getElementById('flyer-canvas');
     if (!flyerElement) throw new Error('Flyer element not found');
 
-    // Ensure the background is visible before rendering
+    // Verify the background is applied
     const computedStyle = window.getComputedStyle(flyerElement);
-    console.log('Flyer background image:', computedStyle.backgroundImage);
+    console.log('Flyer background applied:', computedStyle.backgroundImage);
 
     const canvas = await html2canvas(flyerElement, {
       scale: 2,
       useCORS: true,
-      allowTaint: false,
-      backgroundColor: '#0F766E',
+      allowTaint: true,
       logging: false,
       width: 1080,
       height: 1080,
       windowWidth: 1080,
       windowHeight: 1080,
       imageTimeout: 0,
+      backgroundColor: null,
     });
 
     const dataUrl = canvas.toDataURL('image/png', 1.0);
@@ -276,11 +283,13 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
     if (document.body.contains(preloadImg)) {
       document.body.removeChild(preloadImg);
     }
-    document.body.removeChild(container);
+    if (document.body.contains(container)) {
+      document.body.removeChild(container);
+    }
     
     return dataUrl;
   } catch (error) {
-    console.error('Flyer generation error:', error);
+    console.error('CRITICAL Flyer generation error:', error);
     const existingContainer = document.getElementById('flyer-generator-container');
     if (existingContainer && document.body.contains(existingContainer)) {
       document.body.removeChild(existingContainer);
