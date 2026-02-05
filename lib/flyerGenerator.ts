@@ -217,7 +217,7 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
       loadTimeoutId = setTimeout(() => {
         console.error('✗ Background image load timeout');
         reject(new Error('Image load timeout - server may be slow'));
-      }, 10000);
+      }, 8000);
       
       img.crossOrigin = 'anonymous';
       img.src = absoluteImageUrl;
