@@ -96,14 +96,14 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
         <!-- Day (Top Left - Caligraphic) -->
         <div style="
             position: absolute;
-I'm            top: 80px;
-            left: 70px;
+            top: 60px;
+            left: 60px;
             text-align: left;
             z-index: 20;
         ">
             <div style="
                 font-family: 'Amiri', serif;
-                font-size: 84px;
+                font-size: 67px;
                 font-weight: 700;
                 color: rgba(244, 208, 63, 0.95);
                 line-height: 1;
@@ -111,14 +111,14 @@ I'm            top: 80px;
                 text-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
             ">${config.day}</div>
             <div style="
-                font-family: 'Playfair Display', serif;
-                font-size: 16px;
+                font-family: 'Amiri', serif;
+                font-size: 14px;
                 font-weight: 600;
-                color: rgba(255, 255, 255, 0.8);
-                letter-spacing: 3px;
+                color: rgba(255, 255, 255, 0.7);
+                letter-spacing: 2px;
                 text-transform: uppercase;
-                margin-top: 4px;
-            ">RAMADAN</div>
+                margin-top: 2px;
+            ">رمضان</div>
         </div>
 
         <!-- Message with Quote Marks (Center) -->
@@ -136,7 +136,7 @@ I'm            top: 80px;
             <!-- Opening Quote Mark -->
             <div style="
                 font-family: 'Playfair Display', serif;
-                font-size: 72px;
+                font-size: 58px;
                 color: rgba(244, 208, 63, 0.75);
                 line-height: 0.6;
                 font-weight: 700;
@@ -148,7 +148,7 @@ I'm            top: 80px;
             <!-- Message Text -->
             <p style="
                 font-family: 'Playfair Display', serif;
-                font-size: 40px;
+                font-size: 32px;
                 line-height: 1.7;
                 color: rgba(255, 255, 255, 0.98);
                 text-align: center;
@@ -168,7 +168,7 @@ I'm            top: 80px;
             <!-- Closing Quote Mark -->
             <div style="
                 font-family: 'Playfair Display', serif;
-                font-size: 72px;
+                font-size: 58px;
                 color: rgba(244, 208, 63, 0.75);
                 line-height: 0.6;
                 font-weight: 700;
@@ -194,24 +194,18 @@ I'm            top: 80px;
             min-height: 100px;
             justify-content: center;
         ">
-            <!-- Decorative Divider Line -->
-            <div style="
-                width: 80%;
-                height: 2px;
-                background: linear-gradient(90deg, transparent, rgba(244, 208, 63, 0.7), transparent);
-                margin-bottom: 8px;
-            "></div>
-            <!-- User Name -->
-            <h2 style="
+            <!-- User Name Attribution -->
+            <p style="
                 font-family: 'Playfair Display', serif;
-                font-size: 44px;
-                font-weight: 700;
-                color: rgba(255, 255, 255, 0.95);
-                text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7), 0 1px 4px rgba(0, 0, 0, 0.5);
+                font-size: 28px;
+                font-weight: 400;
+                color: rgba(255, 255, 255, 0.85);
+                text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
                 margin: 0;
-                line-height: 1;
+                line-height: 1.4;
                 font-style: italic;
-            ">${escapeHtml(config.userName)}</h2>
+                letter-spacing: 1px;
+            ">— ${escapeHtml(config.userName)}</p>
         </div>
 
     </div>
