@@ -1,7 +1,3 @@
-<div align="center">
-<img width="1200" height="475" alt="RamadanBot Banner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
-
 # 🌙 Ramadan Bot - Your Spiritual Companion
 
 Welcome to **Ramadan Bot**, an intelligent platform designed to enrich your Ramadan journey with personalized, AI-generated spiritual reflections and beautiful digital flyers you can share with your community.
@@ -20,24 +16,6 @@ Ramadan Bot helps you create meaningful spiritual reflections for each day of Ra
 ⚡ **Zero Setup Required** - Just enter your name and PIN to get started
 
 ## Getting Started
-
-### Installation
-
-1. **Clone or download this app**
-2. **Install dependencies:**
-   ```bash
-   npm install
-   ```
-3. **Set your API key** - Add your API key to `.env.local`:
-   ```
-   GEMINI_API_KEY=your_api_key_here
-   ```
-4. **Run locally:**
-   ```bash
-   npm run dev
-   ```
-
-The app will be available at `http://localhost:3000`
 
 ## How to Use
 
