@@ -190,153 +190,135 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
                 opacity: 0.9;
             ">"</div>
 
-            <!-- Attribution Section: Branded container positioning user as the reflection's author -->
+            <!-- Attribution Section: Single line with label, name, and decorative symbols -->
             <div style="
               display: flex;
               flex-direction: column;
               align-items: center;
               justify-content: center;
-              gap: 12px;
+              gap: 16px;
               margin-top: 32px;
               position: relative;
               z-index: 20;
+              width: 100%;
+              padding: 0 20px;
             ">
               <!-- Decorative Line Above -->
               <div style="
-                width: 80px;
+                width: 100px;
                 height: 2px;
-                background: linear-gradient(90deg, transparent, #C9A961, transparent);
-                margin-bottom: 4px;
+                background: linear-gradient(90deg, transparent, #C9A961, #F4D03F, transparent);
+                margin-bottom: 8px;
               "/>
               
-              <!-- Attribution Label in elegant serif -->
-              <p style="
-                font-family: 'Cormorant Garamond', serif;
-                font-size: 13px;
-                font-weight: 600;
-                color: rgba(201, 169, 97, 0.8);
-                letter-spacing: 3px;
-                text-transform: uppercase;
-                margin: 0;
-                line-height: 1;
-              ">~ Reflection by ~</p>
-
-              <!-- User Name in Branded Container -->
+              <!-- Attribution Line: Symbol + Label + Name + Symbol (All on one line, centered) -->
               <div id="user-signature-container" style="
-                display: inline-flex;
+                display: flex;
                 align-items: center;
                 justify-content: center;
+                gap: 12px;
                 position: relative;
+                flex-wrap: wrap;
+                max-width: 95%;
+                margin: 0 auto;
               ">
-                <!-- Background Accent (subtle glow behind name) -->
-                <div style="
-                  position: absolute;
-                  width: 100%;
-                  height: 100%;
-                  background: radial-gradient(ellipse at center, rgba(201,169,97,0.15) 0%, transparent 70%);
-                  border-radius: 20px;
-                  z-index: 1;
-                  pointer-events: none;
-                "/>
+                <!-- Left Decorative Symbol (Star) -->
+                <svg width="28" height="28" viewBox="0 0 28 28" style="
+                  flex-shrink: 0;
+                  fill: #F4D03F;
+                  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
+                " xmlns="http://www.w3.org/2000/svg">
+                  <polygon points="14,2 18,12 28,12 21,18 24,28 14,22 4,28 7,18 0,12 10,12"/>
+                </svg>
 
-                <!-- Name itself -->
-                <p id="user-signature" style="
+                <!-- Reflection By Label -->
+                <span style="
+                  font-family: 'Cinzel', 'Playfair Display', serif;
+                  font-size: 16px;
+                  font-weight: 700;
+                  color: #F4D03F;
+                  letter-spacing: 2px;
+                  text-transform: uppercase;
+                  margin: 0;
+                  line-height: 1;
+                  text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+                  flex-shrink: 0;
+                ">Reflection by</span>
+
+                <!-- User Name on same line -->
+                <span id="user-signature" style="
                   font-family: 'Cormorant Garamond', 'Playfair Display', serif;
-                  font-size: 48px;
+                  font-size: 36px;
                   font-weight: 800;
                   color: #fff;
                   margin: 0;
                   line-height: 1;
-                  letter-spacing: 0.2px;
-                  text-align: center;
-                  white-space: nowrap;
-                  display: inline-block;
-                  max-width: 920px;
-                  padding: 6px 12px;
+                  letter-spacing: 0.5px;
+                  display: inline;
+                  padding: 0 6px;
                   -webkit-text-stroke: 2px rgba(0,0,0,0.65);
                   text-shadow: 0 2px 6px rgba(0,0,0,0.6), 0 0 18px rgba(0,0,0,0.15);
                   position: relative;
                   z-index: 2;
-                ">${escapeHtml(config.userName)}</p>
+                  white-space: normal;
+                  word-break: break-word;
+                  max-width: 500px;
+                ">${escapeHtml(config.userName)}</span>
 
-                <!-- Decorative corner accents (top-left & bottom-right) -->
-                <div style="
-                  position: absolute;
-                  top: -8px;
-                  left: -8px;
-                  width: 16px;
-                  height: 16px;
-                  border-top: 2px solid rgba(201,169,97,0.5);
-                  border-left: 2px solid rgba(201,169,97,0.5);
-                  z-index: 0;
-                  pointer-events: none;
-                "/>
-                <div style="
-                  position: absolute;
-                  bottom: -8px;
-                  right: -8px;
-                  width: 16px;
-                  height: 16px;
-                  border-bottom: 2px solid rgba(201,169,97,0.5);
-                  border-right: 2px solid rgba(201,169,97,0.5);
-                  z-index: 0;
-                  pointer-events: none;
-                "/>
+                <!-- Right Decorative Symbol (Star) -->
+                <svg width="28" height="28" viewBox="0 0 28 28" style="
+                  flex-shrink: 0;
+                  fill: #F4D03F;
+                  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
+                " xmlns="http://www.w3.org/2000/svg">
+                  <polygon points="14,2 18,12 28,12 21,18 24,28 14,22 4,28 7,18 0,12 10,12"/>
+                </svg>
               </div>
 
               <!-- Decorative Line Below -->
               <div style="
-                width: 80px;
+                width: 100px;
                 height: 2px;
-                background: linear-gradient(90deg, transparent, #C9A961, transparent);
-                margin-top: 4px;
+                background: linear-gradient(90deg, transparent, #F4D03F, #C9A961, transparent);
+                margin-top: 8px;
               "/>
             </div>
         </div>
 
-        <!-- Auto-fit script: ensure the user name stays on a single line and scales to fit -->
+        <!-- Auto-fit script: ensure the user name stays properly sized and centered on same line -->
         <script>
           (function(){
             try {
               const el = document.getElementById('user-signature');
               const container = document.getElementById('user-signature-container');
               if (!el || !container) return;
-              const parent = container.parentElement || document.body;
-              // start from a large font size and shrink until it fits on one line
-              const maxWidth = Math.min(920, parent.clientWidth - 80);
-              let fontSize = 64;
-              el.style.whiteSpace = 'nowrap';
-              el.style.fontWeight = '800';
-              el.style.display = 'inline-block';
-              el.style.padding = '6px 10px';
-              // apply contrast gradient for good contrast by default
-              const applyContrast = () => {
-                el.style.background = 'linear-gradient(135deg, rgba(139,111,71,0.95) 0%, rgba(201,169,97,0.95) 100%)';
-                el.style.webkitBackgroundClip = 'text';
-                el.style.webkitTextFillColor = 'transparent';
-              };
-
-              // measure and reduce
-              const fits = () => el.scrollWidth <= maxWidth;
-              while (fontSize > 10) {
+              
+              // start from base font size and shrink if needed
+              let fontSize = 36;
+              el.style.display = 'inline';
+              el.style.whiteSpace = 'normal';
+              el.style.wordBreak = 'break-word';
+              
+              // Parent width constraint (accounting for padding and other elements in flex)
+              const maxWidth = 500;
+              const fits = () => el.scrollWidth <= maxWidth && container.scrollWidth <= 950;
+              
+              // measure and reduce if needed
+              while (fontSize > 14) {
                 el.style.fontSize = fontSize + 'px';
                 if (fits()) break;
                 fontSize -= 2;
               }
 
-              // If still overflowing, enable a semi-opaque backdrop to guarantee readability
+              // If still overflowing, continue reducing
               if (!fits()) {
-                el.style.whiteSpace = 'normal';
                 el.style.fontSize = Math.max(12, fontSize) + 'px';
-                el.style.background = 'rgba(0,0,0,0.35)';
-                el.style.color = '#fff';
-                el.style.padding = '8px 12px';
-                el.style.borderRadius = '10px';
-                el.style.webkitTextFillColor = 'unset';
-                el.style.webkitBackgroundClip = 'unset';
-              } else {
-                try { applyContrast(); } catch(e){}
               }
+              
+              // apply text contrast
+              try {
+                el.style.webkitTextStroke = '2px rgba(0,0,0,0.65)';
+              } catch(e){}
             } catch (e) {
               console.warn('Auto-fit script error', e);
             }
