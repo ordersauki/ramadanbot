@@ -46,7 +46,11 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
   document.body.appendChild(preloadImg);
 
   container.innerHTML = `
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Cormorant+Garamond:wght@400;600;700&family=Playfair+Display:wght@600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Cormorant+Garamond:wght@400;600;700&family=Playfair+Display:wght@600;700&family=Amiri:wght@400;700&display=block" rel="stylesheet">
+    <style>
+      * { margin: 0; padding: 0; }
+      body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+    </style>
     
     <div id="flyer-canvas" style="
         width: 1080px; 
@@ -226,40 +230,61 @@ export const generateFlyer = async (config: FlyerConfig): Promise<string> => {
       throw new Error('Background image is required - cannot proceed without it');
     }
 
-    // Extended wait for rendering layout
-    await wait(1500);
+    // Wait for fonts to be fully loaded - this is critical for custom fonts
+    try {
+      await new Promise((resolve, reject) => {
+        const fontTimeout = setTimeout(() => reject(new Error('Font loading timeout')), 5000);
+        document.fonts.ready.then(() => {
+          clearTimeout(fontTimeout);
+          resolve(true);
+        }).catch(reject);
+      });
+    } catch (fontError) {
+      console.warn('Font loading issue:', fontError);
+      // Continue anyway - use fallbacks
+    }
+
+    // Extended wait for rendering layout and fonts
+    await wait(2000);
 
     const flyerElement = document.getElementById('flyer-canvas');
     if (!flyerElement) throw new Error('Flyer element not found');
 
     // Verify the background is applied
     const computedStyle = window.getComputedStyle(flyerElement);
-    console.log('Flyer background applied:', computedStyle.backgroundImage);
+    console.log('✓ Flyer background applied:', !!computedStyle.backgroundImage);
 
-    const canvas = await html2canvas(flyerElement, {
-      scale: 2,
-      useCORS: true,
-      allowTaint: true,
-      logging: false,
-      width: 1080,
-      height: 1080,
-      windowWidth: 1080,
-      windowHeight: 1080,
-      imageTimeout: 0,
-      backgroundColor: null,
-    });
+    try {
+      const canvas = await html2canvas(flyerElement, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        logging: true,
+        width: 1080,
+        height: 1080,
+        windowWidth: 1080,
+        windowHeight: 1080,
+        imageTimeout: 5000,
+        backgroundColor: null,
+        foreignObjectRendering: true,
+      });
 
-    const dataUrl = canvas.toDataURL('image/png', 1.0);
-    
-    // Clean up
-    if (document.body.contains(preloadImg)) {
-      document.body.removeChild(preloadImg);
+      const dataUrl = canvas.toDataURL('image/png', 1.0);
+      console.log('✓ Flyer generated successfully');
+      
+      // Clean up
+      if (document.body.contains(preloadImg)) {
+        document.body.removeChild(preloadImg);
+      }
+      if (document.body.contains(container)) {
+        document.body.removeChild(container);
+      }
+      
+      return dataUrl;
+    } catch (canvasError) {
+      console.error('html2canvas rendering error:', canvasError);
+      throw new Error(`Canvas rendering failed: ${canvasError instanceof Error ? canvasError.message : 'Unknown error'}`);
     }
-    if (document.body.contains(container)) {
-      document.body.removeChild(container);
-    }
-    
-    return dataUrl;
   } catch (error) {
     console.error('CRITICAL Flyer generation error:', error);
     const existingContainer = document.getElementById('flyer-generator-container');

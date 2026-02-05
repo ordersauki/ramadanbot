@@ -48,7 +48,8 @@ const FlyerPreview: React.FC<FlyerPreviewProps> = ({ message, formData, onReset,
       } catch (err: any) {
         if (mounted) {
           console.error("Preview Generation Error", err);
-          setError("Could not render the design. Please try again.");
+          console.error("Error details:", err.message || JSON.stringify(err));
+          setError("Design render failed: " + (err.message || "Unknown error"));
           setIsGenerating(false);
         }
       }
